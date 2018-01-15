@@ -2,13 +2,13 @@
 #define __SPI_H
 #include "sys.hpp"
 
-#define SPI_LEN			1024//最大接收字节数
+#define SPI_LEN			80 //最大接收字节数
 
 class spi{
 	public:
 		SPI_TypeDef* the;
-		char  TX_BUF[USART_LEN];
-		char  RX_BUF[USART_LEN];
+		//char  TX_BUF[SPI_LEN];
+		//char  RX_BUF[SPI_LEN];
 		
 		spi(u8 t);
 		void (*funRx)();

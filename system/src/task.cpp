@@ -5,7 +5,7 @@
 u32 RunTime;//单位秒
 
 namespace task{
-	static task_TypeDef* task_Type[256];
+	static task_TypeDef* task_Type[TASK_MAXNUM];
 	
 	void init(void){
 		SysTick->CTRL = 0;//复位

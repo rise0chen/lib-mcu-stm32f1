@@ -2,6 +2,7 @@
 C++函数库 for STM32F1系列mcu
 
 ## 使用
+参考文档[https://gitee.com/rise0chen/lib-mcu-stm32f1/wikis/pages](https://gitee.com/rise0chen/lib-mcu-stm32f1/wikis/pages)
 ``` bash
 cd <project_dir>
 git submodule add git@gitee.com:rise0chen/lib-mcu-stm32f1.git ./lib
@@ -14,4 +15,5 @@ git submodule add git@gitee.com:rise0chen/lib-mcu-stm32f1.git ./lib
 MIT
 
 ## 相关链接
+[wiki文档](https://gitee.com/rise0chen/lib-mcu-stm32f1/wikis/pages)
 [我的博客](http://blog.crise.cn/)  

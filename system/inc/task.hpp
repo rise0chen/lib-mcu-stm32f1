@@ -5,7 +5,8 @@
 extern u32 RunTime;
 
 namespace task{
-	#define TASK_READY 0x64
+	#define TASK_MAXNUM 128  //最大任务数(uid从0到TASK_MAXNUM)
+	#define TASK_READY  0x64
 	#define TASK_FINISH 0x65
 	typedef struct{
 		u8 uid;//唯一ID

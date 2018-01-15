@@ -1,6 +1,7 @@
 #ifndef __USART_H
 #define __USART_H
 #include "sys.hpp"
+#include "dma.hpp"
 
 class usart{
 	#define USART_LEN			1024//最大接收字节数
