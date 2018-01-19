@@ -1,14 +1,13 @@
 #include "InfraRed.hpp"
 
 namespace InfraRed{
-	gpio DQ=gpio(PG, 15);
+	gpio &DQ=gpio_default;
 	u32	IR_DATA;	//定义一个32位数据变量，保存接收码
 	u8	IR_IRQ;		//定义一个8位数据的变量，用于指示接收标志
 
 	void Init(void){
 		DQ.Config(P_UIN);
 		DQ.ExConfig(FTI);//下降沿中断
-		nvic::Init(EXTI15_10_IRQn, 0, 0);
 	}
 	u8 Tim(void){
 		u8 t=0;

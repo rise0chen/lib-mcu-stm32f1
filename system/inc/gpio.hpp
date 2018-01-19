@@ -36,10 +36,10 @@ class gpio{
     vu32* O;
     vu32* I;
   private:
-    u8    Px;//GPIO
     GPIO_TypeDef* GPIOx;
+    u8    Px;//GPIO
     u8    Pn;//Pin
-    u16   GPIOn;
 };
+extern gpio gpio_default;
 
 #endif //__GPIO_H

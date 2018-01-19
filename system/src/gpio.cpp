@@ -1,10 +1,11 @@
 #include "gpio.hpp"
 
+gpio gpio_default(PC, 13);
+
 gpio::gpio(u8 x, u8 n){
 	Px = x;
 	GPIOx = (GPIO_TypeDef*)(GPIOA_BASE+(x<<10));
 	Pn = n;
-	GPIOn = (1<<n);
 	O = BITBAND((int)&GPIOx->ODR, n);
 	I = BITBAND((int)&GPIOx->IDR, n);
 }
@@ -31,9 +32,9 @@ void	gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
 			GPIOx->CRH = tmpreg;//write
 		}
 		if(Mode == P_DIN)
-			GPIOx->BRR	= GPIOn;
+			GPIOx->BRR	= (1<<Pn);
 		if(Mode == P_UIN)
-			GPIOx->BSRR = GPIOn;
+			GPIOx->BSRR = (1<<Pn);
 		if((Mode & 0x10) != 0)
 			*this->O = data;
 	}else{
@@ -46,13 +47,13 @@ void	gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
 }
 void	gpio::Output(s8 data){
 	switch(data){
-		case 1 :GPIOx->BSRR = GPIOn;break;//置1
-		case 0 :GPIOx->BRR = GPIOn; break;//置0
-		case -1:(GPIOx->ODR & GPIOn) ? (GPIOx->BRR = GPIOn) : (GPIOx->BSRR = GPIOn);break;//翻转
+		case 1 :GPIOx->BSRR = (1<<Pn);break;//置1
+		case 0 :GPIOx->BRR = (1<<Pn); break;//置0
+		case -1:(GPIOx->ODR & (1<<Pn)) ? (GPIOx->BRR = (1<<Pn)) : (GPIOx->BSRR = (1<<Pn));break;//翻转
 	}
 }
 u8		gpio::Input(){
-	return (GPIOx->IDR & GPIOn) ? 1 : 0;
+	return (GPIOx->IDR & (1<<Pn)) ? 1 : 0;
 }
 void	gpio::ExConfig(u8 TRIM){
 //外部中断配置函数
@@ -84,9 +85,9 @@ void	gpio::ExConfig(u8 TRIM){
 }
 void	gpio::Lock(){
 	u32 tmp = 0x00010000;
-	tmp |= GPIOn;
+	tmp |= (1<<Pn);
 	GPIOx->LCKR = tmp;//1
-	GPIOx->LCKR = GPIOn;//0
+	GPIOx->LCKR = (1<<Pn);//0
 	GPIOx->LCKR = tmp;//1
 	tmp = GPIOx->LCKR;
 	tmp = GPIOx->LCKR;

@@ -1,8 +1,8 @@
 #include "wifi.hpp"
 
-namespace wifi{
-	gpio Power=gpio(PG, 7);
-	usart& com=usart2;
+namespace WIFI{
+	gpio &Power = gpio_default;
+	usart &com=usart2;
 
 	void On(void){
 	//com初始化
@@ -25,17 +25,17 @@ namespace wifi{
 		delay(200);
 	}
 	u8   TCP_Send(char* cmd, char* req, u8 s){
-		u8  rt;
+		u8  rt = 0;
+		u32 EndTime;
 		com.printf("AT+CIPSEND\r\n");
 		delay(200);
 		com.printf("%s\r\n",cmd);
 		if(req[0]!='\0'){
-			delay_ms(s*1000, 0);
-			while(!std::strstr(com.RX_BUF,req) && delay_n);
-			rt = delay_n ? 0 : 1;
+			EndTime = RunTime + s;
+			while(!std::strstr(com.RX_BUF,req) && (RunTime<=EndTime));
+			if(RunTime<EndTime){rt=1;}
 		}else{
 			delay(1000);
-			rt = 0;
 		}
 		com.printf("+++");
 		delay(1000);

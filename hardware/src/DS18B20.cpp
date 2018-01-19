@@ -1,7 +1,7 @@
 #include "DS18B20.hpp"
 
 namespace DS18B20{
-	gpio DQ=gpio(PB, 8);
+	gpio &DQ=gpio_default;
 	
 	void Init(void){
 		DQ.Config(P_PPO);

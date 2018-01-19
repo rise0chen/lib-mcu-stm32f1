@@ -2,10 +2,8 @@
 
 namespace RFID{
 	spi &com = spi2;
-	gpio RST_default=gpio(PB, 0);
-	gpio CS_default=gpio(PB, 12);
-	gpio &RST=RST_default;
-	gpio &CS=CS_default;
+	gpio &RST=gpio_default;
+	gpio &CS=gpio_default;
 	u8 type[2];
 	u8 pSnr[4];//IC卡ID
 
