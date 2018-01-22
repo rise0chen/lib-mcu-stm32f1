@@ -3,20 +3,20 @@
 #include "sys.hpp"
 
 class i2c{
-	#define I2C_LEN			80	  //最大接收字节数
-	#define I2C_SOFE		1			//I2C软件操控
+	#define I2C_LEN   80 //最大接收字节数
+	#define I2C_SOFE  1  //I2C软件操控
 	public:
-		//char  TX_BUF[I2C_LEN];
-		//char  RX_BUF[I2C_LEN];
+		//char TX_BUF[I2C_LEN];
+		//char RX_BUF[I2C_LEN];
 		
 		i2c(u8 t);
-		void	Config(void);
-		void	Start(void);
-		void	Stop(void);
-		void	Ack(u8 en=1);
-		ErrorStatus	WaitAck(void);
-		ErrorStatus		Write(u8 data);
-		u8		Read(u8 ack);
+		void Config(void);
+		void Start(void);
+		void Stop(void);
+		void Ack(u8 en=1);
+		ErrorStatus WaitAck(void);
+		ErrorStatus Write(u8 data);
+		u8 Read(u8 ack);
 	
 	private:
 		I2C_TypeDef* the;

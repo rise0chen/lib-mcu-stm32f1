@@ -9,7 +9,7 @@ class dac{
 		dac(u8 t);
 		void Init(void);
 	private:
-		u32		RCC_The;
+		u32 RCC_The;
 		
 };
 extern dac dac1;

@@ -2,19 +2,19 @@
 #define __SPI_H
 #include "sys.hpp"
 
-#define SPI_LEN			80 //最大接收字节数
+#define SPI_LEN  80 //最大接收字节数
 
 class spi{
 	public:
 		SPI_TypeDef* the;
-		//char  TX_BUF[SPI_LEN];
-		//char  RX_BUF[SPI_LEN];
+		//char TX_BUF[SPI_LEN];
+		//char RX_BUF[SPI_LEN];
 		
 		spi(u8 t);
 		void (*funRx)();
-		void  Config();
-		void  SetSpeed(u8 SpeedSet);
-		u8		ReadWriteByte(u8 TxData);
+		void Config();
+		void SetSpeed(u8 SpeedSet);
+		u8   ReadWriteByte(u8 TxData);
 	
 	private:
 		u16 RCC_GPIO;

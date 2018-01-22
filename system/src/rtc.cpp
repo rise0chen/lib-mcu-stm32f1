@@ -49,7 +49,7 @@ int8_t RTC_Config(RTC_TimeTypeDef *time){
 		RCC->BDCR |= 1 << 15;//RTC时钟使能
 		while(!(RTC->CRL & (1 << 5)));//等待RTC寄存器操作完成
 		while(!(RTC->CRL & (1 << 3)));//等待RTC寄存器同步
-		RTC->CRH |= 0x01;  		//允许秒中断
+		RTC->CRH |= 0x01;  //允许秒中断
 		while(!(RTC->CRL & (1 << 5)));//等待RTC寄存器操作完成
 		RTC->CRL |= 1 << 4;//允许配置
 		RTC->PRLH = 0x0000;

@@ -9,7 +9,7 @@ namespace task{
 	
 	void init(void){
 		SysTick->CTRL = 0;//复位
-		SysTick->VAL	= 0x00;//清空
+		SysTick->VAL  = 0x00;//清空
 		SysTick->LOAD = 1000*fac_ms;//1s心跳
 		SysTick->CTRL = 3;//8分频 中断 使能
 	}

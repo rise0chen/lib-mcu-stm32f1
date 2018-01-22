@@ -5,15 +5,15 @@
 #define ASCII8x16
 
 typedef struct{
-  const uint8_t *table;
-  uint8_t width;
-  uint8_t height;
+	const uint8_t *table;
+	uint8_t width;
+	uint8_t height;
 	uint16_t size;
 }font_TypeDef;
 typedef struct{
-  uint8_t *data;
-  uint8_t width;
-  uint8_t height;
+	uint8_t *data;
+	uint8_t width;
+	uint8_t height;
 }canvas_TypeDef;
 
 #ifdef ASCII8x16

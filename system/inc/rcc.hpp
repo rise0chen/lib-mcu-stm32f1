@@ -54,8 +54,8 @@ extern u32 apb1clk;
 extern u32 apb2clk;
 
 namespace rcc{
-  void Cmd(u8 bus, u32 periph, FunctionalState state);
-  void Reset(u8 bus, u32 periph);
-  void Init(u8 PLL);//时钟初始化
+	void Cmd(u8 bus, u32 periph, FunctionalState state);
+	void Reset(u8 bus, u32 periph);
+	void Init(u8 PLL);//时钟初始化
 }
 #endif //__RCC_H

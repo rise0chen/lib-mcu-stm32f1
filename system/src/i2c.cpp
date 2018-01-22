@@ -7,8 +7,8 @@ i2c::i2c(u8 t){
 	if(t==1){
 		the = I2C1;
 		RCC_GPIO = APB2_GPIOB;
-		RCC_The	= APB1_I2C1;
-		Px	= PB;
+		RCC_The = APB1_I2C1;
+		Px = PB;
 		PSCL = 6;
 		PSDA = 7;
 		IRQn = I2C1_EV_IRQn;
@@ -16,8 +16,8 @@ i2c::i2c(u8 t){
 	if(t==2){
 		the = I2C2;
 		RCC_GPIO = APB2_GPIOB;
-		RCC_The	= APB1_I2C2;
-		Px	= PB;
+		RCC_The = APB1_I2C2;
+		Px = PB;
 		PSCL = 10;
 		PSDA = 11;
 		IRQn = I2C2_EV_IRQn;
@@ -36,11 +36,11 @@ void i2c::Config(void){
 void i2c::Start(void){
 	#if I2C_SOFE//软件I2C
 	gpio(Px, PSDA).Config(P_ODO);
-	*gpio(Px, PSCL).O=1;	//起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
+	*gpio(Px, PSCL).O=1; //起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
 	*gpio(Px, PSDA).O=1;
-	delay_us(5);	//需要大于4.7us
+	delay_us(5); //需要大于4.7us
 	*gpio(Px, PSDA).O=0;
-	delay_us(5);	//需要大于4us
+	delay_us(5); //需要大于4us
 	*gpio(Px, PSCL).O=0;
 	delay_us(1);
 	#else//硬件I2C外设
@@ -83,9 +83,9 @@ ErrorStatus i2c::WaitAck(void){
 	*gpio(Px, PSCL).O=1;
 	delay_us(1);
 	
-	reTry	=	250;
+	reTry = 250;
 	while(*gpio(Px, PSDA).I){
-		if(reTry--	<=	0){Stop();return OVERTIME;}
+		if(reTry-- <= 0){Stop();return OVERTIME;}
 	}
 	*gpio(Px, PSCL).O=0;
 	return SUCCESS;

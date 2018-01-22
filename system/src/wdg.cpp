@@ -20,8 +20,8 @@ void IWDG_Feed(void){//喂独立看门狗
 void WWDG_Config(u8 tr,u8 wr,u8 fprer){
 //初始化窗口看门狗
 //例：WWDG_Config(0X7F,0X5F,3);
-//tr	 :T[6:0],计数器值
-//wr	 :W[6:0],窗口值
+//tr   :T[6:0],计数器值
+//wr   :W[6:0],窗口值
 //fprer:分频系数（WDGTB）,仅最低2位有效
 //Fwwdg=PCLK1/(4096*2^fprer).
 	rcc::Cmd(1, APB1_WWDG, ENABLE);//使能wwdg时钟

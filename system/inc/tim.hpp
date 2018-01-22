@@ -7,14 +7,14 @@ class tim{
 		TIM_TypeDef* the;
 		
 		tim(u8 t);
-		void  BaseConfig(u16 div, u16 Period, u8 TI=0);
-		void  OCConfig(u8 Pin, u16 DutyFactor, u8 DTime=0);
-		void  ICConfig(u16 Channel_x, u16 ICPSC_DIVx);
-		void  BDConfig(u8 DTime);
-		void	Cmd(FunctionalState state);
-		void	Clear();
+		void BaseConfig(u16 div, u16 Period, u8 TI=0);
+		void OCConfig(u8 Pin, u16 DutyFactor, u8 DTime=0);
+		void ICConfig(u16 Channel_x, u16 ICPSC_DIVx);
+		void BDConfig(u8 DTime);
+		void Cmd(FunctionalState state);
+		void Clear();
 	private:
-		u8		IRQn;
+		u8 IRQn;
 
 };
 extern tim tim1;//high

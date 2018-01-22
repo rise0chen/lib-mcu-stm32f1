@@ -59,10 +59,10 @@ namespace crc{
 	};
 
 	u16 Get16(char *pBuffer, uint32_t BufferLength){
-		u8 uchCRCHi=0xFF; 	//高CRC 字节初始化
-		u8 uchCRCLo=0xFF; 	//低CRC 字节初始化
-		u32 uIndex; 		//CRC 循环中的索引
-		while(BufferLength--) 	//传输消息缓冲区
+		u8 uchCRCHi=0xFF; //高CRC 字节初始化
+		u8 uchCRCLo=0xFF; //低CRC 字节初始化
+		u32 uIndex; //CRC 循环中的索引
+		while(BufferLength--) //传输消息缓冲区
 		{
 			uIndex=uchCRCHi^*pBuffer++;//计算CRC
 			uchCRCHi=uchCRCLo^auchCRCHi[uIndex];

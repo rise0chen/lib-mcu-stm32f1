@@ -185,7 +185,7 @@ namespace RFID{
 		WriteRawRC(CommandReg, PCD_RESETPHASE);
 		//Timer: TPrescaler*TreloadVal/6.78MHz = 0xD3E*0x32/6.78=25ms
 		WriteRawRC(TModeReg, 0x8D);//TAuto=1为自动计数模式，受通信协议影响。低4位为预分频值的高4位
-		//WriteRawRC(TModeReg,0x1D);				//TAutoRestart=1为自动重载计时，0x0D3E是0.5ms的定时初值//test
+		//WriteRawRC(TModeReg,0x1D);//TAutoRestart=1为自动重载计时，0x0D3E是0.5ms的定时初值//test
 		WriteRawRC(TPrescalerReg, 0x3E);//预分频值的低8位
 		WriteRawRC(TReloadRegL, 0x32);//计数器的低8位
 		WriteRawRC(TReloadRegH, 0x00);//计数器的高8位
@@ -283,7 +283,7 @@ namespace RFID{
 
 		ClearBitMask(Status2Reg, 0x08);// 清空校验成功标志
 		WriteRawRC(BitFramingReg, 0x00);// 最后一个字节发送所有数据
-		ClearBitMask(CollReg, 0x80);// CollRegCollReg	0冲突结束后冲突位被置零
+		ClearBitMask(CollReg, 0x80);// CollRegCollReg 0冲突结束后冲突位被置零
 		ucComMF522Buf[0] = PICC_ANTICOLL1;// 防冲突指令，所有位在接收到冲突后将清除
 		ucComMF522Buf[1] = 0x20;// 发送4个字节
 		status = PcdComMF522(PCD_TRANSCEIVE, ucComMF522Buf, 2, ucComMF522Buf, &unLen);
@@ -463,7 +463,7 @@ namespace RFID{
 		ucComMF522Buf[0] = dd_mode;
 		ucComMF522Buf[1] = addr;
 		CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]);
- 
+
 		status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,4,ucComMF522Buf,&unLen);
 		if((status != MI_OK) ||(unLen != 4) ||((ucComMF522Buf[0] & 0x0F) != 0x0A)){
 			status = MI_ERR;
@@ -481,7 +481,7 @@ namespace RFID{
 			ucComMF522Buf[0] = PICC_TRANSFER;
 			ucComMF522Buf[1] = addr;
 			CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]); 
- 
+
 			status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,4,ucComMF522Buf,&unLen);
 
 			if((status != MI_OK) ||(unLen != 4) ||((ucComMF522Buf[0] & 0x0F) != 0x0A)){
@@ -505,7 +505,7 @@ namespace RFID{
 		ucComMF522Buf[0] = PICC_RESTORE;
 		ucComMF522Buf[1] = sourceaddr;
 		CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]);
- 
+
 		status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,4,ucComMF522Buf,&unLen);
 		if((status != MI_OK) ||(unLen != 4) ||((ucComMF522Buf[0] & 0x0F) != 0x0A)){
 			status = MI_ERR;

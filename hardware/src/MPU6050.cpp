@@ -30,25 +30,25 @@ namespace MPU6050{
 		u8 BUF[2];
 		BUF[0]=Read_Byte(MPU_GYRO_XOUTH_REG);
 		BUF[1]=Read_Byte(MPU_GYRO_XOUTL_REG);
-		GYRO[0]=	(BUF[0]<<8)|BUF[1];
+		GYRO[0]= (BUF[0]<<8)|BUF[1];
 		BUF[0]=Read_Byte(MPU_GYRO_YOUTH_REG);
 		BUF[1]=Read_Byte(MPU_GYRO_YOUTL_REG);
-		GYRO[1]=	(BUF[0]<<8)|BUF[1];
+		GYRO[1]= (BUF[0]<<8)|BUF[1];
 		BUF[0]=Read_Byte(MPU_GYRO_ZOUTH_REG);
 		BUF[1]=Read_Byte(MPU_GYRO_ZOUTL_REG);
-		GYRO[2]=	(BUF[0]<<8)|BUF[1];
+		GYRO[2]= (BUF[0]<<8)|BUF[1];
 	}
 	void Get_ACCEL(void){
 		u8 BUF[2];
 		BUF[0]=Read_Byte(MPU_ACCEL_XOUTH_REG);
 		BUF[1]=Read_Byte(MPU_ACCEL_XOUTL_REG);
-		ACCEL[0]=	(BUF[0]<<8)|BUF[1];
+		ACCEL[0]= (BUF[0]<<8)|BUF[1];
 		BUF[0]=Read_Byte(MPU_ACCEL_YOUTH_REG);
 		BUF[1]=Read_Byte(MPU_ACCEL_YOUTL_REG);
-		ACCEL[1]=	(BUF[0]<<8)|BUF[1];
+		ACCEL[1]= (BUF[0]<<8)|BUF[1];
 		BUF[0]=Read_Byte(MPU_ACCEL_ZOUTH_REG);
 		BUF[1]=Read_Byte(MPU_ACCEL_ZOUTL_REG);
-		ACCEL[2]=	(BUF[0]<<8)|BUF[1];
+		ACCEL[2]= (BUF[0]<<8)|BUF[1];
 	}
 	
 	void Write_Byte(u8 reg,u8 data){

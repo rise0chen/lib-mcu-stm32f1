@@ -20,7 +20,7 @@ void ClearBit(volatile void* p,u8 where){
 //执行times次，直到(*func)()返回0
 //auto a = [](u8 b){return b;};//定义局部函数
 ErrorStatus run(u8 (*func)(), u32 times){
-	reTry	=	times;
+	reTry = times;
 	while((*func)()){//判断条件
 		if(reTry-- <= 0){return OVERTIME;}
 	}

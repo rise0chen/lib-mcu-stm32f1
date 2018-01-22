@@ -11,41 +11,41 @@ usart::usart(u8 t){
 	if(t==1){
 		the = USART1;
 		RCC_GPIO = APB2_GPIOA;
-		RCC_The	= APB2_USART1;
-		Px	= PA;
+		RCC_The  = APB2_USART1;
+		Px  = PA;
 		PTX = 9;
 		PRX = 10;
 		IRQn = USART1_IRQn;
 		TX_DMA = DMA1_Channel4;
 		RX_DMA = DMA1_Channel5;
-		FLAG_TC=0x00002000;
-		funRx = USART1_Do;
+		FLAG_TC= 0x00002000;
+		funRx  = USART1_Do;
 	}
 	if(t==2){
 		the = USART2;
 		RCC_GPIO = APB2_GPIOA;
-		RCC_The	= APB1_USART2;
-		Px	= PA;
+		RCC_The  = APB1_USART2;
+		Px  = PA;
 		PTX = 2;
 		PRX = 3;
 		IRQn = USART2_IRQn;
 		TX_DMA = DMA1_Channel7;
 		RX_DMA = DMA1_Channel6;
-		FLAG_TC=0x02000000;
-		funRx = USART2_Do;
+		FLAG_TC= 0x02000000;
+		funRx  = USART2_Do;
 	}
 	if(t==3){
 		the = USART3;
 		RCC_GPIO = APB2_GPIOB;
-		RCC_The	= APB1_USART3;
-		Px	= PB;
+		RCC_The  = APB1_USART3;
+		Px  = PB;
 		PTX = 10;
 		PRX = 11;
 		IRQn = USART3_IRQn;
 		TX_DMA = DMA1_Channel2;
 		RX_DMA = DMA1_Channel3;
-		FLAG_TC=0x00000020;
-		funRx = USART3_Do;
+		FLAG_TC= 0x00000020;
+		funRx  = USART3_Do;
 	}
 }
 void usart::Config(u32 bound,u8 s,u8 e){
@@ -53,16 +53,16 @@ void usart::Config(u32 bound,u8 s,u8 e){
 	u16 integer, fraction;
 
 	start=s;//起始标志
-	end=e;//结束标志
-	RCC->APB2ENR	|= RCC_GPIO;//使能PORT口时钟
+	end = e;//结束标志
+	RCC->APB2ENR |= RCC_GPIO;//使能PORT口时钟
 //使能串口时钟
 	if(the==USART1){
 		rcc::Reset(2,RCC_The);
-		RCC->APB2ENR	|= RCC_The;
+		RCC->APB2ENR |= RCC_The;
 		clk = apb2clk;
 	}else{
 		rcc::Reset(1,RCC_The);
-		RCC->APB1ENR	|= RCC_The;
+		RCC->APB1ENR |= RCC_The;
 		clk = apb1clk;
 	}
 	//GPIO端口设置
@@ -70,17 +70,17 @@ void usart::Config(u32 bound,u8 s,u8 e){
 	gpio(Px, PRX).Config(P_FIN);//RX浮空输入
 	//波特率设置
 	integer=clk/(bound<<4);//得到整数部分
-	temp=(clk<<4)/bound;//得到USARTDIV
+	temp = (clk<<4)/bound;//得到USARTDIV
 	fraction=(temp-(integer<<8))>>4;//得到小数部分
 	the->BRR=(integer<<4)+fraction;// 波特率设置
 	//使能接收中断
-	the->CR1|=1<<5;//RXNE(1<<6:IDLE)中断使能
+	the->CR1 |= 1<<5;//RXNE(1<<6:IDLE)中断使能
 	nvic::Init(IRQn,2,0);
 	//DMA设置
 	dma::TxConfig(TX_DMA,(u32)&the->DR,(u32)&TX_BUF,1);
 	//dma::Rx_Config(RX_DMA,(u32)&the->DR,(u32)&RX_BUF,USART_LEN);
 	the->CR3 |= 0xC0;//DMA使能
-	the->CR1|=0X200C;//使能,8位数据,无校验位,1位停止,收发
+	the->CR1 |= 0X200C;//使能,8位数据,无校验位,1位停止,收发
 }
 void usart::printf(char *format, ...){
 	va_list ap;
@@ -89,7 +89,7 @@ void usart::printf(char *format, ...){
 	TX_DMA->CCR &= ~1;//关DMA
 	vsprintf(TX_BUF, format, ap );
 	TX_DMA->CNDTR=std::strlen(TX_BUF);
-	DMA1->IFCR |= FLAG_TC;//清TC中断
+	DMA1->IFCR  |= FLAG_TC;//清TC中断
 	TX_DMA->CCR |= 1;//开DMA
 }
 void usart::Send(char *buf, u16 len){
@@ -98,11 +98,11 @@ void usart::Send(char *buf, u16 len){
 	TX_DMA->CCR &= ~1;//关DMA
 	std::memcpy(TX_BUF, buf, len);
 	TX_DMA->CNDTR=len;
-	DMA1->IFCR |= FLAG_TC;//清TC中断
+	DMA1->IFCR  |= FLAG_TC;//清TC中断
 	TX_DMA->CCR |= 1;//开DMA
 }
 void usart::Receive(){
-	u8	res;
+	u8 res;
 
 	if(the->SR&(1<<5)){
 		res=the->DR;

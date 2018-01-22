@@ -40,7 +40,7 @@ ErrorStatus  eeprom::Write(u16 addr,void* buf,u16 num){
 		count=num;
 	}else{
 		num = num-count;
-		NumOfPage =	num / pageSize;
+		NumOfPage = num / pageSize;
 		NumOfEnd = num % pageSize;
 	}
 	
@@ -55,7 +55,7 @@ ErrorStatus  eeprom::Write(u16 addr,void* buf,u16 num){
 		reTry=0x10;
 		while(WritePage(addr, pBuf, pageSize) & reTry--);
 		if(reTry<=0){return OVERTIME;}
-		addr +=	pageSize;
+		addr += pageSize;
 		pBuf += pageSize;
 	}
 	if(NumOfEnd != 0){//尾页

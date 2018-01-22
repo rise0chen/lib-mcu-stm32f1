@@ -6,16 +6,16 @@ gpio::gpio(u8 x, u8 n){
 	Px = x;
 	GPIOx = (GPIO_TypeDef*)(GPIOA_BASE+(x<<10));
 	Pn = n;
-	O = BITBAND((int)&GPIOx->ODR, n);
-	I = BITBAND((int)&GPIOx->IDR, n);
+	O  = BITBAND((int)&GPIOx->ODR, n);
+	I  = BITBAND((int)&GPIOx->IDR, n);
 }
-void	gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
+void gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
 	uint32_t currentmode = 0x00, pos = 0x00;
 	uint32_t tmpreg = 0x00;
 
 	RCC->APB2ENR |= 1<<(Px+2);//时钟
 	if((Mode & 0x80) == 0){
-		currentmode =	Mode & 0x0F;
+		currentmode = Mode & 0x0F;
 		if((Mode & 0x10) != 0)
 			currentmode |= Speed;
 		if(Pn<8){
@@ -32,7 +32,7 @@ void	gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
 			GPIOx->CRH = tmpreg;//write
 		}
 		if(Mode == P_DIN)
-			GPIOx->BRR	= (1<<Pn);
+			GPIOx->BRR = (1<<Pn);
 		if(Mode == P_UIN)
 			GPIOx->BSRR = (1<<Pn);
 		if((Mode & 0x10) != 0)
@@ -45,17 +45,17 @@ void	gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
 		}
 	}
 }
-void	gpio::Output(s8 data){
+void gpio::Output(s8 data){
 	switch(data){
 		case 1 :GPIOx->BSRR = (1<<Pn);break;//置1
-		case 0 :GPIOx->BRR = (1<<Pn); break;//置0
+		case 0 :GPIOx->BRR  = (1<<Pn);break;//置0
 		case -1:(GPIOx->ODR & (1<<Pn)) ? (GPIOx->BRR = (1<<Pn)) : (GPIOx->BSRR = (1<<Pn));break;//翻转
 	}
 }
-u8		gpio::Input(){
+u8 gpio::Input(){
 	return (GPIOx->IDR & (1<<Pn)) ? 1 : 0;
 }
-void	gpio::ExConfig(u8 TRIM){
+void gpio::ExConfig(u8 TRIM){
 //外部中断配置函数
 //只针对GPIOA~G;不包括PVD,RTC和USB唤醒这三个
 //参数:
@@ -64,7 +64,7 @@ void	gpio::ExConfig(u8 TRIM){
 //该函数会自动开启对应中断,以及屏蔽线
 	u8 EXTADDR, EXTOFFSET, IRQn;
 
-	EXTADDR	 = (Pn>>2);//得到中断寄存器组的编号
+	EXTADDR  = (Pn>>2);//得到中断寄存器组的编号
 	EXTOFFSET = (Pn%4)<<2;
 	RCC->APB2ENR |= 0x01;//使能io复用时钟
 	AFIO->EXTICR[EXTADDR] &= ~(0x000F<<EXTOFFSET);//clear
@@ -83,7 +83,7 @@ void	gpio::ExConfig(u8 TRIM){
 	}
 	nvic::Init(IRQn,1,0);
 }
-void	gpio::Lock(){
+void gpio::Lock(){
 	u32 tmp = 0x00010000;
 	tmp |= (1<<Pn);
 	GPIOx->LCKR = tmp;//1
