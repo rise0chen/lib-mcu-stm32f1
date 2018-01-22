@@ -47,10 +47,15 @@ namespace InfraRed{
 		}
 	}
 }
+/*
 _C void EXTI15_10_IRQHandler(void){
 	if(EXTI->PR & (1<<15)){//红外遥控外部中断
 		InfraRed::Get();
-		
+		if(InfraRed::IR_IRQ==1){
+			InfraRed::IR_IRQ=0;
+			//InfraRed::IR_DATA;
+		}
 		EXTI->PR=1<<15;
 	}
 }
+*/

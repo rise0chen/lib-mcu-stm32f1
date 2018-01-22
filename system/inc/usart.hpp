@@ -4,7 +4,7 @@
 #include "dma.hpp"
 
 class usart{
-	#define USART_LEN 1024//最大接收字节数
+	#define USART_LEN 512 //最大接收字节数
 	public:
 		u16  TX_Len,RX_Len;//发送长度、接收长度
 		char TX_BUF[USART_LEN];

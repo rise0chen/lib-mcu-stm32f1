@@ -13,7 +13,6 @@
 #include "pwr.hpp"
 #include "wdg.hpp"
 #include "tim.hpp"
-#include "task.hpp"
 
 #define _C extern "C"//汇编语言中调用的函数,需要使用
 

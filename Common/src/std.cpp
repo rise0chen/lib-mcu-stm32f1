@@ -2,14 +2,14 @@
 
 namespace std{
 //<string.h>
-	unsigned int strlen(const void *str){//获取str长度
+	unsigned int strlen(const void *str){
 		const char* s=(const char*)str;
 		const char *p;
 
 		for(p = s; *s++; );
 		return (s - p);
 	}
-	void* memset(void* dst, int c, unsigned int n){//将dst的前n个字节赋值为c
+	void* memset(void* dst, int c, unsigned int n){
 		unsigned char* d = (unsigned char*) dst;
 		
 		while (n--) {
@@ -17,7 +17,7 @@ namespace std{
 		}
 		return dst;
 	}
-	void *memcpy(void *dst, const void *src, size_t n){//复制src到dst
+	void* memcpy(void *dst, const void *src, size_t n){
 		unsigned char* d = (unsigned char*) dst;
 		unsigned char* s = (unsigned char*) src;
 		unsigned char* r=d;
@@ -34,7 +34,7 @@ namespace std{
 		*d='\0';
 		return r;
 	}
-	int memcmp(const void *dst, const void *src, unsigned int n){//dest>source,返回值>0; dest=source,返回值=0; dest<source ,返回值<0
+	int memcmp(const void *dst, const void *src, unsigned int n){
 		unsigned char* d = (unsigned char*) dst;
 		unsigned char* s = (unsigned char*) src;
 		
@@ -72,7 +72,7 @@ namespace std{
 		}
 		return NULL;
 	}
-	char* strcat(char *dst, const char *src){//将src放到dst后面
+	char* strcat(char *dst, const char *src){
 		char * r = dst;
 		
 		while(*dst){//若使用while(*dst++)，则会出错
