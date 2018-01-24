@@ -46,7 +46,7 @@ namespace task{
 		task_Type[uid]->interval=in;
 	}
 	void run(void){
-		for(u16 i=0; i<256; i++){
+		for(u16 i=0; i<TASK_MAXNUM; i++){
 			if(task_Type[i]->status == TASK_READY){
 				if(task_Type[i]->interval == 0){
 					if(RunTime>=task::task_Type[i]->startTime && RunTime<=task::task_Type[i]->endTime){
@@ -66,7 +66,7 @@ namespace task{
 }
 _C void SysTick_Handler(void){
 	RunTime++;
-	for(u16 i=0; i<256; i++){
+	for(u16 i=0; i<TASK_MAXNUM; i++){
 		if(task::task_Type[i]->status == TASK_FINISH){
 			if(RunTime>=task::task_Type[i]->startTime && RunTime<=task::task_Type[i]->endTime){
 				if(task::task_Type[i]->times==0 || task::task_Type[i]->timesRun < task::task_Type[i]->times){
