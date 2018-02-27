@@ -2,7 +2,7 @@
 
 unsigned short Escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsigned char typelen, unsigned char way){
 	unsigned short i,j,k,outi=0;
-	char bufout[1024];
+	char bufout[512];
 
 	for(i=0;i<lenin;i++){//buf循环i
 		for(j=0;j<typelen;j++){//转义结构体循环j

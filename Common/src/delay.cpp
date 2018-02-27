@@ -9,7 +9,7 @@ void delay(u16 time){
 		for(j=0; j<9000; j++);//1ms
 }
 void delay_us(u32 nus){
-//延时nms<=59652323us
+//延时nus<=59652323us
 	u32 start,end;
 	DEM_CR |= (1<<24);
 	DWT_CR |= (1<<0);

@@ -29,7 +29,7 @@
 ; <h> Stack Configuration
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
-;Õ»´óĞ¡ÉèÖÃ,Èç¹û¾Ö²¿±äÁ¿¹ı¶à,ÕâÀïÓ¦¸ÃÏàÓ¦¸Ä´ó.Ä¬ÈÏÊÇ1024×Ö½Ú.
+;æ ˆå¤§å°è®¾ç½®,å¦‚æœå±€éƒ¨å˜é‡è¿‡å¤š,è¿™é‡Œåº”è¯¥ç›¸åº”æ”¹å¤§.é»˜è®¤æ˜¯1024å­—èŠ‚.
 Stack_Size      EQU     0x00000400
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
@@ -40,7 +40,7 @@ __initial_sp
 ; <h> Heap Configuration
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
-;Î´ÓÃµ½±àÒëÆ÷×Ô´øµÄÄÚ´æ¹ÜÀí(malloc,freeµÈ)£¬ÉèÖÃHeap_SzieÎª0,Ä¬ÈÏÊÇ512×Ö½Ú.
+;æœªç”¨åˆ°ç¼–è¯‘å™¨è‡ªå¸¦çš„å†…å­˜ç®¡ç†(malloc,freeç­‰)ï¼Œè®¾ç½®Heap_Szieä¸º0,é»˜è®¤æ˜¯512å­—èŠ‚.
 Heap_Size       EQU     0x00000200
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
@@ -129,7 +129,7 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
                 IMPORT  __main
-                ;IMPORT  SystemInit;ÆÁ±Îsystem_stm32f10x.cÖĞµÄSystemInit
+                ;IMPORT  SystemInit;å±è”½system_stm32f10x.cä¸­çš„SystemInit
                 ;LDR     R0, =SystemInit
                 ;BLX     R0
                 LDR     R0, =__main
@@ -269,7 +269,7 @@ USART3_IRQHandler
 EXTI15_10_IRQHandler
 RTCAlarm_IRQHandler
 USBWakeUp_IRQHandler
-                B       .;ÓĞÎ´´¦ÀíµÄÖĞ¶Ï
+                B       .;æœ‰æœªå¤„ç†çš„ä¸­æ–­
 
                 ENDP
 

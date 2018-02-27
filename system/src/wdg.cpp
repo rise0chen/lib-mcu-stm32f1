@@ -38,5 +38,5 @@ void WWDG_Config(u8 tr,u8 wr,u8 fprer){
 _C void WWDG_IRQHandler(void){//窗口看门狗中断程序
 	WWDG->CR =(0x7F);//重设窗口看门狗的值!
 	WWDG->SR=0X00;//清除提前唤醒中断标志位
-	gpio(PC,13).Output(-1);
+	
 }

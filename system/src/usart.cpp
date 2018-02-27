@@ -116,7 +116,7 @@ void usart::Receive(){
 			}
 		}else if((RX_STA>>4)!=0xf){//未结束
 			RX_BUF[RX_Len++]=res;
-			if(RX_Len >= USART_LEN-8){
+			if(RX_Len >= LEN_MAX-8){
 				RX_STA=0;RX_Len=0;//数据过多
 			}
 			if(res==end){//结束

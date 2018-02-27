@@ -1,14 +1,15 @@
 #ifndef __USART_H
 #define __USART_H
 #include "sys.hpp"
+#include "gpio.hpp"
 #include "dma.hpp"
 
 class usart{
-	#define USART_LEN 512 //最大接收字节数
+	
 	public:
 		u16  TX_Len,RX_Len;//发送长度、接收长度
-		char TX_BUF[USART_LEN];
-		char RX_BUF[USART_LEN];
+		char TX_BUF[LEN_MAX];
+		char RX_BUF[LEN_MAX];
 		
 		usart(u8 t);
 		void (*funRx)();

@@ -1,13 +1,14 @@
 #ifndef __I2C_H
 #define __I2C_H
 #include "sys.hpp"
+#include "gpio.hpp"
+
+#define I2C_SOFE  1  //I2C软件操控
 
 class i2c{
-	#define I2C_LEN   80 //最大接收字节数
-	#define I2C_SOFE  1  //I2C软件操控
 	public:
-		//char TX_BUF[I2C_LEN];
-		//char RX_BUF[I2C_LEN];
+		//char TX_BUF[LEN_MID];
+		//char RX_BUF[LEN_MID];
 		
 		i2c(u8 t);
 		void Config(void);

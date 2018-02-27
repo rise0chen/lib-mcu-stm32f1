@@ -5,6 +5,35 @@
 //Ex_Config专用定义
 #define FTI 1//下降沿触发
 #define RTI 2//上升沿触发
+
+//GPIO定义
+#define PA    0
+#define PB    1
+#define PC    2
+#define PD    3
+#define PE    4
+#define PF    5
+#define PG    6
+#define P0    (0x0001)
+#define P1    (0x0002)
+#define P2    (0x0004)
+#define P3    (0x0008)
+#define P4    (0x0010)
+#define P5    (0x0020)
+#define P6    (0x0040)
+#define P7    (0x0080)
+#define PLow  (0x00FF)
+#define P8    (0x0100)
+#define P9    (0x0200)
+#define P10   (0x0400)
+#define P11   (0x0800)
+#define P12   (0x1000)
+#define P13   (0x2000)
+#define P14   (0x4000)
+#define P15   (0x8000)
+#define PHigh (0xFF00)
+#define PAll  (0xFFFF)
+
 typedef enum{
 	P_10MHz = 1,
 	P_2MHz,
