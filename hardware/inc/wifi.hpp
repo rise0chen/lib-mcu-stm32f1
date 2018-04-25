@@ -1,10 +1,11 @@
 #ifndef __WIFI_H
 #define __WIFI_H
 #include "sys.hpp"
+#include "usart.hpp"
 
 namespace WIFI{
-	extern gpio &Power;
-	extern usart &com;
+	extern gpio *Power;
+	extern usart *com;
 	
 	void  On(void);//wifi初始化
 	void  Connect(char* name, char* pwd);//连接wifi

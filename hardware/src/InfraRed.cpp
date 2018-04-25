@@ -1,17 +1,17 @@
 #include "InfraRed.hpp"
 
 namespace InfraRed{
-	gpio &DQ=gpio_default;
+	gpio *DQ = &gpio_default;
 	u32 IR_DATA; //定义一个32位数据变量，保存接收码
 	u8  IR_IRQ;  //定义一个8位数据的变量，用于指示接收标志
 
 	void Init(void){
-		DQ.Config(P_UIN);
-		DQ.ExConfig(FTI);//下降沿中断
+		DQ->Config(P_UIN);
+		DQ->ExConfig(FTI);//下降沿中断
 	}
 	u8 Tim(void){
 		u8 t=0;
-		while(*DQ.I){//高电平
+		while(*DQ->I){//高电平
 			t++;
 			delay_us(20);
 			if(t>=250) return t;//超时溢出
@@ -23,7 +23,7 @@ namespace InfraRed{
 		u8 time=0,ok=0,d,num=0;
 		
 		while(1){
-			if(*DQ.I){
+			if(*DQ->I){
 				time=Tim();//获得此次高电平时间
 				if(time>=250) break;//不是有用的信号
 				if(time>=200 && time<250){

@@ -69,7 +69,7 @@
 #define MPU_DEVICE_ID_REG    0X75 //器件ID寄存器
 
 namespace MPU6050{
-	extern i2c &com;
+	extern i2c *com;
 	extern short GYRO[3],ACCEL[3];//陀螺仪,加速度
 	
 	void Init(void);//初始化MPU6050

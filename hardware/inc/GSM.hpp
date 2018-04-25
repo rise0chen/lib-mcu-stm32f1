@@ -1,10 +1,11 @@
 #ifndef __GSM_H
 #define __GSM_H
 #include "sys.hpp"
+#include "usart.hpp"
 
 namespace GSM{
-	extern gpio &RST;
-	extern usart &com;
+	extern gpio *RST;
+	extern usart *com;
 	
 	void ON(void);
 	void OFF(void);

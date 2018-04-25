@@ -1,58 +1,58 @@
 #include "DS18B20.hpp"
 
 namespace DS18B20{
-	gpio &DQ=gpio_default;
+	gpio *DQ = &gpio_default;
 	
 	void Init(void){
-		DQ.Config(P_PPO);
-		*DQ.O=1;
+		DQ->Config(P_PPO);
+		*DQ->O=1;
 		delay_us(10);
-		*DQ.O=0;
+		*DQ->O=0;
 		delay_us(600);
-		*DQ.O=1;
+		*DQ->O=1;
 		delay_us(50);
-		*DQ.O=0;
+		*DQ->O=0;
 		delay_us(200);
-		*DQ.O=1;
+		*DQ->O=1;
 		delay_us(400);
 	}
 	void Write(u8 dat){
 		u8 i;
-		DQ.Config(P_PPO);
-		*DQ.O=1;
+		DQ->Config(P_PPO);
+		*DQ->O=1;
 		delay_us(10);
 		for(i=0;i<8;i++){
-			*DQ.O=0;
+			*DQ->O=0;
 			if(dat&0x01){
-				*DQ.O=1;
+				*DQ->O=1;
 			}else
-				*DQ.O=0;
+				*DQ->O=0;
 			dat>>=1;
 			delay_us(60);
-			*DQ.O=1;
+			*DQ->O=1;
 			delay_us(10);
 		}
-		*DQ.O=1;
+		*DQ->O=1;
 		delay_us(10);
 	}
 	u8 Read(){
 		u8 i,value=0;//一定要给value附初值否则显示会错误
-		DQ.Config(P_PPO);
-		*DQ.O=1;
+		DQ->Config(P_PPO);
+		*DQ->O=1;
 		for(i=0;i<8;i++){
-			*DQ.O=0;
+			*DQ->O=0;
 			value>>=1;
-			*DQ.O=1;
-			DQ.Config(P_FIN);
-			if(*DQ.I==1){
+			*DQ->O=1;
+			DQ->Config(P_FIN);
+			if(*DQ->I==1){
 				value|=0x80;
 			}
 			delay_us(50);
-			DQ.Config(P_PPO);
-			*DQ.O=1;
+			DQ->Config(P_PPO);
+			*DQ->O=1;
 			delay_us(1);
 		}
-		*DQ.O=1;
+		*DQ->O=1;
 		delay_us(10);
 		return value;
 	}

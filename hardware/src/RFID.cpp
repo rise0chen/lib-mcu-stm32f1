@@ -1,16 +1,16 @@
 #include "RFID.hpp"
 
 namespace RFID{
-	spi &com = spi2;
-	gpio &RST=gpio_default;
-	gpio &CS=gpio_default;
+	spi *com = &spi2;
+	gpio *RST = &gpio_default;
+	gpio *CS = &gpio_default;
 	u8 type[2];
 	u8 pSnr[4];//IC卡ID
 
 
 	void Init(){
-		RST.Config(P_PPO);
-		CS.Config(P_PPO);
+		RST->Config(P_PPO);
+		CS->Config(P_PPO);
 		PcdReset();
 		PcdAntennaOff();
 		PcdAntennaOn();
@@ -23,11 +23,11 @@ namespace RFID{
 	* @retval 无
 	**********************************************************************/
 	static void WriteRawRC(u8 Address, u8 value){
-		*CS.O=0;//选中
+		*CS->O=0;//选中
 		//寄存器地址格式:0XXXXXX0
-		com.ReadWriteByte((Address << 1) &0x7E);
-		com.ReadWriteByte(value);
-		*CS.O=1;//放开
+		com->ReadWriteByte((Address << 1) &0x7E);
+		com->ReadWriteByte(value);
+		*CS->O=1;//放开
 	}
 	/**********************************************************************
 	* @brief  读RC522寄存器
@@ -37,11 +37,11 @@ namespace RFID{
 	static u8 ReadRawRC(u8 Address){
 		u8 data;
 
-		*CS.O=0;//选中
+		*CS->O=0;//选中
 		//寄存器地址格式:1XXXXXX0
-		com.ReadWriteByte((Address << 1) | 0x80);
-		data = com.ReadWriteByte(0x00);
-		*CS.O=1;//放开
+		com->ReadWriteByte((Address << 1) | 0x80);
+		data = com->ReadWriteByte(0x00);
+		*CS->O=1;//放开
 		return(data);
 	}
 	
@@ -175,11 +175,11 @@ namespace RFID{
 	**********************************************************************/
 	s8 PcdReset(void){
 		//外部复位
-		*RST.O=1;
+		*RST->O=1;
 		delay_us(1);
-		*RST.O=0;
+		*RST->O=0;
 		delay_us(1);
-		*RST.O=1;
+		*RST->O=1;
 		delay_us(1);
 		//软复位
 		WriteRawRC(CommandReg, PCD_RESETPHASE);

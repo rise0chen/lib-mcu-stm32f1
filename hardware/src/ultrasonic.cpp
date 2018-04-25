@@ -1,24 +1,24 @@
 #include "ultrasonic.hpp"
 
 namespace ultrasonic{
-	gpio &TRIG=gpio_default;
-	gpio &ECHO=gpio_default;
+	gpio *TRIG = &gpio_default;
+	gpio *ECHO = &gpio_default;
 	u32 distance;
 	
 	void Init(void){
-		TRIG.Config(P_PPO);
-		ECHO.Config(P_UIN);
+		TRIG->Config(P_PPO);
+		ECHO->Config(P_UIN);
 	}
 	void Ranging(u8 num){
 		u8 i;
 		u16 j=0;
 		u32 Ultr_Temp=0;
 		for(i=0;i<num;i++){
-			*TRIG.O=1;
+			*TRIG->O=1;
 			delay_ms(10);
-			*TRIG.O=0;
-			while((!*ECHO.I));
-			while(*ECHO.I){
+			*TRIG->O=0;
+			while((!*ECHO->I));
+			while(*ECHO->I){
 				delay_us(10);
 				j++;
 			}

@@ -3,8 +3,8 @@
 #include "sys.hpp"
 
 namespace ultrasonic{
-	extern gpio &TRIG;
-	extern gpio &ECHO;
+	extern gpio *TRIG;
+	extern gpio *ECHO;
 	extern u32 distance;//单位毫米mm
 	
 	void Init(void);

@@ -113,9 +113,9 @@ namespace RFID{
 	#define RFU3F             0x3F //保留
 
 
-	extern spi &com;
-	extern gpio &RST;
-	extern gpio &CS;
+	extern spi *com;
+	extern gpio *RST;
+	extern gpio *CS;
 	extern u8 type[2];
 	extern u8 pSnr[4];
 	

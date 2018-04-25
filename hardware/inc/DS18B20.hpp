@@ -4,7 +4,7 @@
 
 //温度传感器
 namespace DS18B20{
-	extern gpio &DQ;
+	extern gpio *DQ;
 	
 	u8 GetTemp();
 }
