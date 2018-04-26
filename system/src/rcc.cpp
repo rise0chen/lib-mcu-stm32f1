@@ -6,7 +6,7 @@ u32 ahbclk;
 u32 apb1clk;
 u32 apb2clk;
 namespace rcc{
-	void Cmd(u8 bus, u32 periph, FunctionalState state){
+	void cmd(u8 bus, u32 periph, FunctionalState state){
 		switch(bus){
 			case 0:
 				state ? RCC->AHBENR |=periph : RCC->AHBENR &=~periph;
@@ -19,7 +19,7 @@ namespace rcc{
 			break;
 		}
 	}
-	void Reset(u8 bus, u32 periph){
+	void reset(u8 bus, u32 periph){
 		switch(bus){
 			case 1:
 				RCC->APB1RSTR |= periph;
@@ -49,12 +49,12 @@ namespace rcc{
 		RCC->CIR = 0x00000000;//关闭所有中断
 	//配置向量表
 	#ifdef VECT_TAB_RAM
-		nvic::SetVectorTable(SRAM_BASE,0x0);
+		nvic::setVectorTable(SRAM_BASE,0x0);
 	#else
-		nvic::SetVectorTable(FLASH_BASE,0x0);
+		nvic::setVectorTable(FLASH_BASE,0x0);
 	#endif
 	}
-	void Init(u8 PLL){
+	void init(u8 PLL){
 	//系统时钟初始化函数
 	//pll:选择的倍频数，从2开始，最大值为16
 		DeInit();//复位并配置向量表

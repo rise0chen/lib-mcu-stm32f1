@@ -5,11 +5,11 @@ namespace ultrasonic{
 	gpio *ECHO = &gpio_default;
 	u32 distance;
 	
-	void Init(void){
-		TRIG->Config(P_PPO);
-		ECHO->Config(P_UIN);
+	void init(void){
+		TRIG->config(P_PPO);
+		ECHO->config(P_UIN);
 	}
-	void Ranging(u8 num){
+	void ranging(u8 num){
 		u8 i;
 		u16 j=0;
 		u32 Ultr_Temp=0;

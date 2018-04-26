@@ -1,10 +1,13 @@
 #ifndef __WDG_H
 #define __WDG_H
 #include "sys.hpp"
+namespace iwdg{
+	void config(u8 prer,u16 rlr);
+	void feed(void);
+}
 
-void IWDG_Config(u8 prer,u16 rlr);
-void IWDG_Feed(void);
-
-void WWDG_Config(u8 tr,u8 wr,u8 fprer);
+namespace wwdg{
+	void config(u8 tr,u8 wr,u8 fprer);
+}
 
 #endif //__WDG_H

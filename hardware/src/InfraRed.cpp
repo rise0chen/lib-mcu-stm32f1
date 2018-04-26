@@ -5,9 +5,9 @@ namespace InfraRed{
 	u32 IR_DATA; //定义一个32位数据变量，保存接收码
 	u8  IR_IRQ;  //定义一个8位数据的变量，用于指示接收标志
 
-	void Init(void){
-		DQ->Config(P_UIN);
-		DQ->ExConfig(FTI);//下降沿中断
+	void init(void){
+		DQ->config(P_UIN);
+		DQ->configExti(FTI);//下降沿中断
 	}
 	u8 Tim(void){
 		u8 t=0;
@@ -18,7 +18,7 @@ namespace InfraRed{
 		}
 		return t;
 	}
-	void Get(void){
+	void get(void){
 		u32 data=0;
 		u8 time=0,ok=0,d,num=0;
 		

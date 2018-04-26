@@ -5,17 +5,17 @@
 
 class spi{
 	public:
-		SPI_TypeDef* the;
 		//char TX_BUF[LEN_MID];
 		//char RX_BUF[LEN_MID];
 		
 		spi(u8 t);
 		void (*funRx)();
-		void Config();
-		void SetSpeed(u8 SpeedSet);
-		u8   ReadWriteByte(u8 TxData);
+		void config();
+		void setSpeed(u8 speed);
+		u8   rwByte(u8 data);
 	
 	private:
+		SPI_TypeDef* the;
 		u16 RCC_GPIO;
 		u32 RCC_The;
 		u8  Px;

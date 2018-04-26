@@ -72,11 +72,11 @@ namespace MPU6050{
 	extern i2c *com;
 	extern short GYRO[3],ACCEL[3];//陀螺仪,加速度
 	
-	void Init(void);//初始化MPU6050
-	void Get_GYRO(void);//读取陀螺仪值
-	void Get_ACCEL(void);//读取加速度值
-	static void Write_Byte(u8 reg,u8 data);
-	static u8 Read_Byte(u8 reg);
+	void init(void);//初始化MPU6050
+	void getGYRO(void);//读取陀螺仪值
+	void getACCEL(void);//读取加速度值
+	static void writeByte(u8 reg,u8 data);
+	static u8 readByte(u8 reg);
 }
 
 #endif //__GYRO_H

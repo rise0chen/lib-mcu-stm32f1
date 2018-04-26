@@ -7,7 +7,7 @@ namespace ultrasonic{
 	extern gpio *ECHO;
 	extern u32 distance;//单位毫米mm
 	
-	void Init(void);
-	void Ranging(u8 num=1);
+	void init(void);
+	void ranging(u8 num=1);
 }
 #endif //__TEMPLATE_H

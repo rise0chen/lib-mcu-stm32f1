@@ -2,16 +2,16 @@
 
 s32 reTry=0x00FFFFFF;
 
-void SetMem(volatile void* p,u32 where,u32 content){
+void setMem(volatile void* p,u32 where,u32 content){
 	u32* p0=(u32*)p;
 	*p0 &= ~where;//清零
 	*p0 |= content;//置数
 }
-void SetBit(volatile void* p,u8 where){
+void setBit(volatile void* p,u8 where){
 	u32* p0=(u32*)p;
 	*p0 |= (1<<where);
 }
-void ClearBit(volatile void* p,u8 where){
+void clearBit(volatile void* p,u8 where){
 	u32* p0=(u32*)p;
 	*p0 &= ~(1<<where);
 }

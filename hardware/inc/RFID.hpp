@@ -119,9 +119,9 @@ namespace RFID{
 	extern u8 type[2];
 	extern u8 pSnr[4];
 	
-	void Init();
-	void PcdAntennaOff(void);
-	void PcdAntennaOn(void);
+	void init();
+	void closeAntenna(void);
+	void openAntenna(void);
 	s8 PcdComMF522(u8 Command, u8* pDataIn, u8 InLenByte, u8* pDataOut, u16 *pOutLenBit);
 	s8 PcdReset(void);
 	void CalulateCRC(u8* pIndata, u8 len, u8* pDataOut);

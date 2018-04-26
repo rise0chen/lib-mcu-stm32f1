@@ -56,11 +56,11 @@ typedef enum{
 class gpio{
 	public:
 		gpio(u8 x, u8 n);
-		void  Config(GPIOMode_TypeDef Mode,s8 data=0,GPIOSpeed_TypeDef Speed=P_2MHz);
-		void  Output(s8 data);
-		u8    Input(void);
-		void  ExConfig(u8 TRIM);//外部中断
-		void  Lock(void);
+		void  config(GPIOMode_TypeDef mode,s8 data=0,GPIOSpeed_TypeDef speed=P_2MHz);
+		void  output(s8 data);
+		u8    input(void);
+		void  configExti(u8 TRIM);//外部中断
+		void  lock(void);
 
 		vu32* O;
 		vu32* I;

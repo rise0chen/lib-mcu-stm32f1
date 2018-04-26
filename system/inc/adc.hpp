@@ -7,9 +7,9 @@ class adc{
 		ADC_TypeDef* the;
 	
 		adc(u8 t);
-		void Init(void);
-		u16  Get(u8 ch,u8 times=10);
-		float GetTemp(u8 times=10);
+		void init(void);
+		u16  get(u8 ch,u8 times=10);
+		float getTemp(u8 times=10);
 	private:
 		u32 RCC_The;
 		

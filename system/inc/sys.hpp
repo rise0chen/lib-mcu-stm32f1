@@ -23,13 +23,13 @@ extern s32 reTry;
 
 //位操作
 #define MEM(addr)      (*addr)
-//#define SetMem(addr,where,content)  (addr &= ~(where);addr |= (content);)
-//#define SetBit(addr,where)          (addr |= (1<<where);)
-//#define ClearBit(addr,where)        (addr &= ~(1<<where);)
+//#define setMem(addr,where,content)  (addr &= ~(where);addr |= (content);)
+//#define setBit(addr,where)          (addr |= (1<<where);)
+//#define clearBit(addr,where)        (addr &= ~(1<<where);)
 #define BITBAND(addr,bit)        ((vu32*)(0x42000000+((addr&0xFFFFF)<<5)+(bit<<2)))//位带操作
-void SetMem(volatile void* p, u32 where, u32 content);
-void SetBit(volatile void* p, u8 where);
-void ClearBit(volatile void* p, u8 where);
+void setMem(volatile void* p, u32 where, u32 content);
+void setBit(volatile void* p, u8 where);
+void clearBit(volatile void* p, u8 where);
 ErrorStatus run(u8 (*func)(), u32 times);
 //以下为汇编函数
 void MSR_MSP(u32 addr);//设置堆栈地址

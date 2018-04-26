@@ -1,3 +1,18 @@
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: rtc.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: 实时时钟
+Usage:
+	#include "rtc.hpp"
+	RTC_Config(RTC_Time);//初始化RTC
+	RTC_SetClock(RTC_Time);//设置RTC时间
+	RTC_GetTime();//更新RTC_Time
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
 #include "rtc.hpp"
 
 /* 月份   1  2  3  4  5  6  7  8  9  10 11 12 */
@@ -53,7 +68,7 @@ int8_t RTC_Config(RTC_TimeTypeDef *time){
 		while(!(RTC->CRL & (1 << 5)));//等待RTC寄存器操作完成
 		RTC->CRL |= 1 << 4;//允许配置
 		RTC->PRLH = 0x0000;
-		RTC->PRLL = 32767;//时钟周期设置(有待观察,看是否跑慢了?)理论值：32767
+		RTC->PRLL = 32767;//时钟周期设置,理论值为外部低速时钟频率:32767
 		RTC_SetTime(time);//设置时间
 		RTC->CRL &= ~(1 << 4);//配置更新
 		while(!(RTC->CRL & (1 << 5)));//等待RTC寄存器操作完成
@@ -63,7 +78,7 @@ int8_t RTC_Config(RTC_TimeTypeDef *time){
 		RTC->CRH |= 0x01;//允许秒中断
 		while(!(RTC->CRL & (1 << 5)));//等待RTC寄存器操作完成
 	}
-	nvic::Init(RTC_IRQn,3,3);//RCT中断分组设置，开启中断
+	nvic::init(RTC_IRQn,3,3);//RCT中断分组设置，开启中断
 	RTC_GetTime();//更新时间
 
 	return 0;

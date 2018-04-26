@@ -1,6 +1,6 @@
 #include "transCode.hpp"
 
-unsigned char Utf8ToGbk(const char* pszBufIn, char* pszBufOut){
+unsigned char utf8ToGbk(const char* pszBufIn, char* pszBufOut){
 	unsigned char i_in = 0, len_out = 0;
 	unsigned short unicode;
 	unsigned int gbkaddr;
@@ -52,14 +52,14 @@ unsigned char Utf8ToGbk(const char* pszBufIn, char* pszBufOut){
 		else result=1;
 		if(result==0){
 			gbkaddr = 0x67d70 + (h<<1);
-			*FontRom::CS.O=0;
-			FontRom::com.ReadWriteByte(0x03);
-			FontRom::com.ReadWriteByte(gbkaddr>>16);
-			FontRom::com.ReadWriteByte(gbkaddr>>8);
-			FontRom::com.ReadWriteByte(gbkaddr);
-			pszBufOut[len_out++] = FontRom::com.ReadWriteByte(0x00);
-			pszBufOut[len_out++] = FontRom::com.ReadWriteByte(0x00);
-			*FontRom::CS.O=1;
+			*FontRom::CS->O=0;
+			FontRom::com->rwByte(0x03);
+			FontRom::com->rwByte(gbkaddr>>16);
+			FontRom::com->rwByte(gbkaddr>>8);
+			FontRom::com->rwByte(gbkaddr);
+			pszBufOut[len_out++] = FontRom::com->rwByte(0x00);
+			pszBufOut[len_out++] = FontRom::com->rwByte(0x00);
+			*FontRom::CS->O=1;
 		}
 	}
 	pszBufOut[len_out] = 0x00;

@@ -1,6 +1,6 @@
 #include "escape.hpp"
 
-unsigned short Escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsigned char typelen, unsigned char way){
+unsigned short escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsigned char typelen, unsigned char way){
 	unsigned short i,j,k,outi=0;
 	char bufout[512];
 

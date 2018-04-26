@@ -8,12 +8,12 @@ namespace RFID{
 	u8 pSnr[4];//IC卡ID
 
 
-	void Init(){
-		RST->Config(P_PPO);
-		CS->Config(P_PPO);
+	void init(){
+		RST->config(P_PPO);
+		CS->config(P_PPO);
 		PcdReset();
-		PcdAntennaOff();
-		PcdAntennaOn();
+		closeAntenna();
+		openAntenna();
 	}
 	
 	/**********************************************************************
@@ -22,11 +22,11 @@ namespace RFID{
 	*         value:写入数值
 	* @retval 无
 	**********************************************************************/
-	static void WriteRawRC(u8 Address, u8 value){
+	static void writeRawRC(u8 addr, u8 value){
 		*CS->O=0;//选中
 		//寄存器地址格式:0XXXXXX0
-		com->ReadWriteByte((Address << 1) &0x7E);
-		com->ReadWriteByte(value);
+		com->rwByte((addr << 1) &0x7E);
+		com->rwByte(value);
 		*CS->O=1;//放开
 	}
 	/**********************************************************************
@@ -34,13 +34,13 @@ namespace RFID{
 	* @param  Address:寄存器地址
 	* @retval 读出的值
 	**********************************************************************/
-	static u8 ReadRawRC(u8 Address){
+	static u8 readRawRC(u8 addr){
 		u8 data;
 
 		*CS->O=0;//选中
 		//寄存器地址格式:1XXXXXX0
-		com->ReadWriteByte((Address << 1) | 0x80);
-		data = com->ReadWriteByte(0x00);
+		com->rwByte((addr << 1) | 0x80);
+		data = com->rwByte(0x00);
 		*CS->O=1;//放开
 		return(data);
 	}
@@ -51,10 +51,10 @@ namespace RFID{
 	*         mask:置位值
 	* @retval 无
 	**********************************************************************/
-	static void SetBitMask(u8 reg, u8 mask){
+	static void setBitMask(u8 reg, u8 mask){
 		u8 tmp = 0x0;
-		tmp = ReadRawRC(reg);
-		WriteRawRC(reg, tmp | mask);// set bit mask
+		tmp = readRawRC(reg);
+		writeRawRC(reg, tmp | mask);// set bit mask
 	}
 	/**********************************************************************
 	* @brief  复位
@@ -62,10 +62,10 @@ namespace RFID{
 	*         mask:置位值
 	* @retval 无
 	**********************************************************************/
-	static void ClearBitMask(u8 reg, u8 mask){
+	static void clearBitMask(u8 reg, u8 mask){
 		u8 tmp = 0x00;
-		tmp = ReadRawRC(reg);
-		WriteRawRC(reg, tmp &~mask);// clear bit mask
+		tmp = readRawRC(reg);
+		writeRawRC(reg, tmp &~mask);// clear bit mask
 	}
 	
 	/**********************************************************************
@@ -73,19 +73,19 @@ namespace RFID{
 	* @param  无
 	* @retval 无
 	**********************************************************************/
-	void PcdAntennaOff(void){
-		ClearBitMask(TxControlReg, 0x03);//禁止Tx1RFEn,Tx2RFEn
+	void closeAntenna(void){
+		clearBitMask(TxControlReg, 0x03);//禁止Tx1RFEn,Tx2RFEn
 	}
 	/**********************************************************************
 	* @brief  开启天线,每次启动或关闭天险发射之间应至少有1ms的间隔
 	* @param  无
 	* @retval 无
 	**********************************************************************/
-	void PcdAntennaOn(void){
+	void openAntenna(void){
 		u8 i;
-		i = ReadRawRC(TxControlReg);//读取出发送控制寄存器
+		i = readRawRC(TxControlReg);//读取出发送控制寄存器
 		if(!(i &0x03)){//如果未开启,则
-			SetBitMask(TxControlReg, 0x03);//开启Tx1RFEn,Tx2RFEn
+			setBitMask(TxControlReg, 0x03);//开启Tx1RFEn,Tx2RFEn
 		}
 	}
 	/**********************************************************************
@@ -115,35 +115,35 @@ namespace RFID{
 		default:
 			break;
 		}
-		WriteRawRC(ComIEnReg, irqEn | 0x80);// 容许除定时器中断请求以为得所有中断请求
-		ClearBitMask(ComIrqReg, 0x80);// 屏蔽位清除
-		WriteRawRC(CommandReg, PCD_IDLE);// 取消当前命令
-		SetBitMask(FIFOLevelReg, 0x80);// 清除FIFO中的读写指针
+		writeRawRC(ComIEnReg, irqEn | 0x80);// 容许除定时器中断请求以为得所有中断请求
+		clearBitMask(ComIrqReg, 0x80);// 屏蔽位清除
+		writeRawRC(CommandReg, PCD_IDLE);// 取消当前命令
+		setBitMask(FIFOLevelReg, 0x80);// 清除FIFO中的读写指针
 
 		for(i = 0; i < InLenByte; i++){
-			WriteRawRC(FIFODataReg, pDataIn[i]);//数据写入FIFO
+			writeRawRC(FIFODataReg, pDataIn[i]);//数据写入FIFO
 		}
-		WriteRawRC(CommandReg, Command);//写入命令,将缓冲区中的数据发送到天线,并激活自动接收器
+		writeRawRC(CommandReg, Command);//写入命令,将缓冲区中的数据发送到天线,并激活自动接收器
 
 		if(Command == PCD_TRANSCEIVE){//如果命令为0C
-			SetBitMask(BitFramingReg, 0x80);//相当于启动发送STARTSENG
+			setBitMask(BitFramingReg, 0x80);//相当于启动发送STARTSENG
 		}
 		i = 3000;//根据时钟频率调整，操作M1卡最大等待时间=600,操作IC卡最大等待时间=1200
 		do{
-			n = ReadRawRC(ComIrqReg);//读取中断标志,检查数据返回
+			n = readRawRC(ComIrqReg);//读取中断标志,检查数据返回
 			i--;
 		}while((i != 0) &&!(n &0x01) &&!(n &waitFor));// 定时器未超时,没有错误,0x01,0x30
-		ClearBitMask(BitFramingReg, 0x80);// 相当于清除发送STARTSENG
+		clearBitMask(BitFramingReg, 0x80);// 相当于清除发送STARTSENG
 
 		if(i != 0){// 定时时间到，i，没有递减到0
-			if(!(ReadRawRC(ErrorReg) &0x1B)){// 判断有无出现错误标志	 Buffer溢出,位冲突,接收CRC错误,奇偶校验错误,
+			if(!(readRawRC(ErrorReg) &0x1B)){// 判断有无出现错误标志	 Buffer溢出,位冲突,接收CRC错误,奇偶校验错误,
 				status = MI_OK;// 初始化状态
 				if(n &irqEn &0x01){// 若是PCD_TRANSCEIVE, irq = 0x77,  定时器为0中断产生,定时器为0时为错误
 					status = MI_NOTAGERR;// 搜索不到卡
 				}
 				if(Command == PCD_TRANSCEIVE){// 如果是发送接收指令
-					n = ReadRawRC(FIFOLevelReg);// 读取接收到的数据的字节数
-					lastBits = ReadRawRC(ControlReg) &0x07;// 2-0:RxLastBits,显示接收到最后一个字节的位数
+					n = readRawRC(FIFOLevelReg);// 读取接收到的数据的字节数
+					lastBits = readRawRC(ControlReg) &0x07;// 2-0:RxLastBits,显示接收到最后一个字节的位数
 					if(lastBits){// 若该位为0，最后整个字节有效
 						*pOutLenBit =(n - 1) *8 + lastBits;//pOutLenBit记录总共收到的位数
 					}else{
@@ -156,15 +156,15 @@ namespace RFID{
 						n = MAXRLEN;//超出最大长度,只接受最大长度的值
 					}
 					for(i = 0; i < n; i++){
-						pDataOut[i] = ReadRawRC(FIFODataReg);//从FIFO读取数据
+						pDataOut[i] = readRawRC(FIFODataReg);//从FIFO读取数据
 					}
 				}
 			}else{
 				status = MI_ERR;//有错误
 			}
 		}
-		SetBitMask(ControlReg, 0x80);//停止定时器
-		WriteRawRC(CommandReg, PCD_IDLE);//清空指令
+		setBitMask(ControlReg, 0x80);//停止定时器
+		writeRawRC(CommandReg, PCD_IDLE);//清空指令
 		return status;//返回状态
 	}
 	
@@ -182,17 +182,17 @@ namespace RFID{
 		*RST->O=1;
 		delay_us(1);
 		//软复位
-		WriteRawRC(CommandReg, PCD_RESETPHASE);
+		writeRawRC(CommandReg, PCD_RESETPHASE);
 		//Timer: TPrescaler*TreloadVal/6.78MHz = 0xD3E*0x32/6.78=25ms
-		WriteRawRC(TModeReg, 0x8D);//TAuto=1为自动计数模式，受通信协议影响。低4位为预分频值的高4位
-		//WriteRawRC(TModeReg,0x1D);//TAutoRestart=1为自动重载计时，0x0D3E是0.5ms的定时初值//test
-		WriteRawRC(TPrescalerReg, 0x3E);//预分频值的低8位
-		WriteRawRC(TReloadRegL, 0x32);//计数器的低8位
-		WriteRawRC(TReloadRegH, 0x00);//计数器的高8位
-		WriteRawRC(TxAutoReg, 0x40);//必须要,设置逻辑1,强制100%ASK调制
-		WriteRawRC(ModeReg, 0x3D);//CRC初始值0x6363
-		WriteRawRC(CommandReg, 0x00);//启动MFRC522
-		WriteRawRC(RFCfgReg, 0x7F);//接收器增益.0x0F:18dB; 0x4F:33dB; 0x7F:48dB
+		writeRawRC(TModeReg, 0x8D);//TAuto=1为自动计数模式，受通信协议影响。低4位为预分频值的高4位
+		//writeRawRC(TModeReg,0x1D);//TAutoRestart=1为自动重载计时，0x0D3E是0.5ms的定时初值//test
+		writeRawRC(TPrescalerReg, 0x3E);//预分频值的低8位
+		writeRawRC(TReloadRegL, 0x32);//计数器的低8位
+		writeRawRC(TReloadRegH, 0x00);//计数器的高8位
+		writeRawRC(TxAutoReg, 0x40);//必须要,设置逻辑1,强制100%ASK调制
+		writeRawRC(ModeReg, 0x3D);//CRC初始值0x6363
+		writeRawRC(CommandReg, 0x00);//启动MFRC522
+		writeRawRC(RFCfgReg, 0x7F);//接收器增益.0x0F:18dB; 0x4F:33dB; 0x7F:48dB
 		return MI_OK;//定时器时间6.78M/TPrescaler(ms)
 	}
 	
@@ -204,20 +204,20 @@ namespace RFID{
 	**********************************************************************/
 	void CalulateCRC(u8* pIndata, u8 len, u8* pDataOut){
 		u8 i, n;
-		ClearBitMask(DivIrqReg, 0x04);
-		WriteRawRC(CommandReg, PCD_IDLE);//取消当前命令
-		SetBitMask(FIFOLevelReg, 0x80);//FlushBuffer 清除ErrReg 的标志位
+		clearBitMask(DivIrqReg, 0x04);
+		writeRawRC(CommandReg, PCD_IDLE);//取消当前命令
+		setBitMask(FIFOLevelReg, 0x80);//FlushBuffer 清除ErrReg 的标志位
 		for(i = 0; i < len; i++){
-			WriteRawRC(FIFODataReg, *(pIndata + i));
+			writeRawRC(FIFODataReg, *(pIndata + i));
 		}
-		WriteRawRC(CommandReg, PCD_CALCCRC);
+		writeRawRC(CommandReg, PCD_CALCCRC);
 		i = 0xFF;
 		do{
-			n = ReadRawRC(DivIrqReg);
+			n = readRawRC(DivIrqReg);
 			i--;
 		}while((i != 0) &&!(n &0x04));//当CRCIRq 所有数据被处理完毕该位置位
-		pDataOut[0] = ReadRawRC(CRCResultRegL);
-		pDataOut[1] = ReadRawRC(CRCResultRegM);
+		pDataOut[0] = readRawRC(CRCResultRegL);
+		pDataOut[1] = readRawRC(CRCResultRegM);
 	}
 	
 	/**********************************************************************
@@ -256,9 +256,9 @@ namespace RFID{
 
 		/*清空，做准备工作*/
 		PcdReset();
-		ClearBitMask(Status2Reg, 0x08);// 清空校验成功标志,清除MFCrypto1On位
-		WriteRawRC(BitFramingReg, 0x07);// StartSend =0;RxAlign=0定义最后一个字节发送的位数,发送7个位
-		SetBitMask(TxControlReg, 0x03);// 两天线发射信号,Tx1RFEn,Tx2RFEn置1
+		clearBitMask(Status2Reg, 0x08);// 清空校验成功标志,清除MFCrypto1On位
+		writeRawRC(BitFramingReg, 0x07);// StartSend =0;RxAlign=0定义最后一个字节发送的位数,发送7个位
+		setBitMask(TxControlReg, 0x03);// 两天线发射信号,Tx1RFEn,Tx2RFEn置1
 		ucComMF522Buf[0] = req_code;//寻卡方式,所有卡还是其他什么卡
 		status = PcdComMF522(PCD_TRANSCEIVE, ucComMF522Buf, 1, ucComMF522Buf, &unLen);// 将收到的卡片类型号保存
 		if(status == MI_OK){
@@ -281,9 +281,9 @@ namespace RFID{
 		u16 unLen;
 		u8 ucComMF522Buf[MAXRLEN];
 
-		ClearBitMask(Status2Reg, 0x08);// 清空校验成功标志
-		WriteRawRC(BitFramingReg, 0x00);// 最后一个字节发送所有数据
-		ClearBitMask(CollReg, 0x80);// CollRegCollReg 0冲突结束后冲突位被置零
+		clearBitMask(Status2Reg, 0x08);// 清空校验成功标志
+		writeRawRC(BitFramingReg, 0x00);// 最后一个字节发送所有数据
+		clearBitMask(CollReg, 0x80);// CollRegCollReg 0冲突结束后冲突位被置零
 		ucComMF522Buf[0] = PICC_ANTICOLL1;// 防冲突指令，所有位在接收到冲突后将清除
 		ucComMF522Buf[1] = 0x20;// 发送4个字节
 		status = PcdComMF522(PCD_TRANSCEIVE, ucComMF522Buf, 2, ucComMF522Buf, &unLen);
@@ -298,7 +298,7 @@ namespace RFID{
 		}else{
 			status = MI_ERR;
 		}
-		SetBitMask(CollReg, 0x80);// CollRegCollReg	在106kbps良好的防冲突情况下该位置1
+		setBitMask(CollReg, 0x80);// CollRegCollReg	在106kbps良好的防冲突情况下该位置1
 		return status;// 返回结果
 	}
 	
@@ -314,7 +314,7 @@ namespace RFID{
 		u16 unLen;
 		u8 ucComMF522Buf[MAXRLEN];
 
-		ClearBitMask(Status2Reg, 0x08);// 清空校验成功标志
+		clearBitMask(Status2Reg, 0x08);// 清空校验成功标志
 		ucComMF522Buf[0] = PICC_ANTICOLL1;// 防冲突
 		ucComMF522Buf[1] = 0x70;// 发送7字节
 		ucComMF522Buf[6] = 0;//ID校验清0
@@ -381,7 +381,7 @@ namespace RFID{
 		std::memcpy(&ucComMF522Buf[8], pSnr, 4);
 
 		status = PcdComMF522(PCD_AUTHENT,ucComMF522Buf,12,ucComMF522Buf,&unLen);
-		if((status != MI_OK) ||(!(ReadRawRC(Status2Reg) & 0x08))){
+		if((status != MI_OK) ||(!(readRawRC(Status2Reg) & 0x08))){
 			return MI_ERRPWD;
 		}else{
 			return MI_OK;

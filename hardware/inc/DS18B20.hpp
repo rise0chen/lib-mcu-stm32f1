@@ -6,7 +6,7 @@
 namespace DS18B20{
 	extern gpio *DQ;
 	
-	u8 GetTemp();
+	u8 getTemp();
 }
 
 #endif //__DS18B20_H

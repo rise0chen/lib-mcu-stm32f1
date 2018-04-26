@@ -7,7 +7,7 @@ class dac{
 		DAC_TypeDef* the;
 	
 		dac(u8 t);
-		void Init(void);
+		void init(void);
 	private:
 		u32 RCC_The;
 		

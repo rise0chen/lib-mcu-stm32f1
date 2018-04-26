@@ -9,15 +9,15 @@ gpio::gpio(u8 x, u8 n){
 	O  = BITBAND((int)&GPIOx->ODR, n);
 	I  = BITBAND((int)&GPIOx->IDR, n);
 }
-void gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
+void gpio::config(GPIOMode_TypeDef mode, s8 data, GPIOSpeed_TypeDef speed){
 	uint32_t currentmode = 0x00, pos = 0x00;
 	uint32_t tmpreg = 0x00;
 
 	RCC->APB2ENR |= 1<<(Px+2);//时钟
-	if((Mode & 0x80) == 0){
-		currentmode = Mode & 0x0F;
-		if((Mode & 0x10) != 0)
-			currentmode |= Speed;
+	if((mode & 0x80) == 0){
+		currentmode = mode & 0x0F;
+		if((mode & 0x10) != 0)
+			currentmode |= speed;
 		if(Pn<8){
 			tmpreg = GPIOx->CRL;
 			pos = Pn << 2;
@@ -31,31 +31,31 @@ void gpio::Config(GPIOMode_TypeDef Mode, s8 data, GPIOSpeed_TypeDef Speed){
 			tmpreg |= (currentmode << pos);//revise
 			GPIOx->CRH = tmpreg;//write
 		}
-		if(Mode == P_DIN)
+		if(mode == P_DIN)
 			GPIOx->BRR = (1<<Pn);
-		if(Mode == P_UIN)
+		if(mode == P_UIN)
 			GPIOx->BSRR = (1<<Pn);
-		if((Mode & 0x10) != 0)
+		if((mode & 0x10) != 0)
 			*this->O = data;
 	}else{
-		switch((u8)Mode){
+		switch((u8)mode){
 			case 0x80:
 				AFIO->EVCR =(1<<7) | (Px << 0x04) | Pn;
 			break;
 		}
 	}
 }
-void gpio::Output(s8 data){
+void gpio::output(s8 data){
 	switch(data){
 		case 1 :GPIOx->BSRR = (1<<Pn);break;//置1
 		case 0 :GPIOx->BRR  = (1<<Pn);break;//置0
 		case -1:(GPIOx->ODR & (1<<Pn)) ? (GPIOx->BRR = (1<<Pn)) : (GPIOx->BSRR = (1<<Pn));break;//翻转
 	}
 }
-u8 gpio::Input(){
+u8 gpio::input(){
 	return (GPIOx->IDR & (1<<Pn)) ? 1 : 0;
 }
-void gpio::ExConfig(u8 TRIM){
+void gpio::configExti(u8 TRIM){
 //外部中断配置函数
 //只针对GPIOA~G;不包括PVD,RTC和USB唤醒这三个
 //参数:
@@ -81,9 +81,9 @@ void gpio::ExConfig(u8 TRIM){
 	}else if(Pn>=10 && Pn<16){
 		IRQn = 40;
 	}
-	nvic::Init(IRQn,1,0);
+	nvic::init(IRQn,1,0);
 }
-void gpio::Lock(){
+void gpio::lock(){
 	u32 tmp = 0x00010000;
 	tmp |= (1<<Pn);
 	GPIOx->LCKR = tmp;//1

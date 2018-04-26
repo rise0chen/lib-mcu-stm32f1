@@ -11,13 +11,13 @@ class i2c{
 		//char RX_BUF[LEN_MID];
 		
 		i2c(u8 t);
-		void Config(void);
-		void Start(void);
-		void Stop(void);
-		void Ack(u8 en=1);
-		ErrorStatus WaitAck(void);
-		ErrorStatus Write(u8 data);
-		u8 Read(u8 ack);
+		void config(void);
+		void start(void);
+		void stop(void);
+		void ack(u8 en=1);
+		ErrorStatus waitAck(void);
+		ErrorStatus write(u8 data);
+		u8 read(u8 isAck);
 	
 	private:
 		I2C_TypeDef* the;

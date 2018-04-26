@@ -11,7 +11,7 @@ namespace flash{
 	#define FLASH_START_ADDR   ((uint32_t)0x0800C000)
 	#define FLASH_END_ADDR     ((uint32_t)0x08010000)
 	
-	void Read(u32 addr, void* buf, u16 num);
-	void Write(u32 addr, void* buf, u16 num);
+	void read(u32 addr, void* buf, u16 num);
+	void write(u32 addr, void* buf, u16 num);
 }
 #endif //__FLASH_H

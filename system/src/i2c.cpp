@@ -23,19 +23,19 @@ i2c::i2c(u8 t){
 		IRQn = I2C2_EV_IRQn;
 	}
 }
-void i2c::Config(void){
+void i2c::config(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSCL).Config(P_ODO);
-	gpio(Px, PSDA).Config(P_ODO);
+	gpio(Px, PSCL).config(P_ODO);
+	gpio(Px, PSDA).config(P_ODO);
 	*gpio(Px, PSCL).O=1;
 	*gpio(Px, PSDA).O=1;
 	#else//硬件I2C外设
 
 	#endif
 }
-void i2c::Start(void){
+void i2c::start(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSDA).Config(P_ODO);
+	gpio(Px, PSDA).config(P_ODO);
 	*gpio(Px, PSCL).O=1; //起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
 	*gpio(Px, PSDA).O=1;
 	delay_us(5); //需要大于4.7us
@@ -47,9 +47,9 @@ void i2c::Start(void){
 
 	#endif
 }
-void i2c::Stop(void){
+void i2c::stop(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSDA).Config(P_ODO);
+	gpio(Px, PSDA).config(P_ODO);
 	*gpio(Px, PSCL).O=0;
 	*gpio(Px, PSDA).O=0;
 	delay_us(1);
@@ -61,10 +61,10 @@ void i2c::Stop(void){
 
 	#endif
 }
-void i2c::Ack(u8 en){
+void i2c::ack(u8 en){
 	#if I2C_SOFE//软件I2C
 	*gpio(Px, PSCL).O=0;
-	gpio(Px, PSDA).Config(P_ODO);
+	gpio(Px, PSDA).config(P_ODO);
 	*gpio(Px, PSDA).O= !en;//SDA传输完前8位时，当SCL来到第9个高电平时，SDA线为低电平，则为有效应答位
 	delay_us(1);
 	*gpio(Px, PSCL).O=1;
@@ -75,9 +75,9 @@ void i2c::Ack(u8 en){
 
 	#endif
 }
-ErrorStatus i2c::WaitAck(void){
+ErrorStatus i2c::waitAck(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSDA).Config(P_UIN);//SDA设置为输入
+	gpio(Px, PSDA).config(P_UIN);//SDA设置为输入
 	*gpio(Px, PSDA).O=1;
 	delay_us(1);
 	*gpio(Px, PSCL).O=1;
@@ -85,7 +85,7 @@ ErrorStatus i2c::WaitAck(void){
 	
 	reTry = 250;
 	while(*gpio(Px, PSDA).I){
-		if(reTry-- <= 0){Stop();return OVERTIME;}
+		if(reTry-- <= 0){stop();return OVERTIME;}
 	}
 	*gpio(Px, PSCL).O=0;
 	return SUCCESS;
@@ -93,10 +93,10 @@ ErrorStatus i2c::WaitAck(void){
 
 	#endif
 }
-ErrorStatus i2c::Write(u8 data){
+ErrorStatus i2c::write(u8 data){
 	u8 i;
 
-	gpio(Px, PSDA).Config(P_ODO);
+	gpio(Px, PSDA).config(P_ODO);
 	*gpio(Px, PSCL).O=0;
 	for(i=0;i<8;i++){//I2C总线在SCL线为高电平时传输数据，在低电平时更换数据
 		if(data&0x80)
@@ -110,12 +110,12 @@ ErrorStatus i2c::Write(u8 data){
 		*gpio(Px, PSCL).O=0;
 		delay_us(1);//SCL线由低电平变为高电平时需要有0.3us的延迟
 	}
-	return(WaitAck());
+	return(waitAck());
 }
-u8 i2c::Read(u8 ack){
+u8 i2c::read(u8 isAck){
 	u8 i,receive = 0;
 
-	gpio(Px, PSDA).Config(P_UIN);
+	gpio(Px, PSDA).config(P_UIN);
 	for(i=0;i<8;i++){
 		*gpio(Px, PSCL).O=0;
 		delay_us(1);
@@ -127,7 +127,7 @@ u8 i2c::Read(u8 ack){
 	}
 	*gpio(Px, PSCL).O=0;
 	delay_us(1);
-	Ack(ack);//发送ACK 或 NACK
+	ack(isAck);//发送ACK 或 NACK
 	return(receive);
 }
 

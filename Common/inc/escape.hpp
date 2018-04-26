@@ -7,6 +7,6 @@ typedef struct{
 	unsigned char buf[2][8];
 }ESC_TypeDef;
 
-unsigned short Escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsigned char typelen, unsigned char way);
+unsigned short escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsigned char typelen, unsigned char way);
 
 #endif //__ESCAPE_H

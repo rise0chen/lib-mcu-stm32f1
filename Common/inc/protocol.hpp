@@ -14,7 +14,7 @@ typedef struct{
 	u8 Body[256];  //消息体
 }protocol_TypeDef;//通信结构体
 
-extern u16  CmdIndex;//命令序列号
+extern u16  indexCmd;//命令序列号
 extern protocol_TypeDef* ToMe;
 extern protocol_TypeDef* FromMe;
 #endif //__PROTOCOL_H

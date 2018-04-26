@@ -8,13 +8,13 @@ class eeprom{
 		u8  pageSize;
 		
 		eeprom(i2c &com, u8 type, u8 deviceAddr);
-		ErrorStatus  Write(u16 addr,void* buf,u16 num);
-		ErrorStatus  Read(u16 addr,void* buf,u16 num);
+		ErrorStatus  write(u16 addr,void* buf,u16 num);
+		ErrorStatus  read(u16 addr,void* buf,u16 num);
 	private:
 		u8  deviceAddr;
 		u8  type;
 		u16 pageMax;
 		
-		ErrorStatus  WritePage(u16 addr, char* pBuf, u8 num);
+		ErrorStatus  writePage(u16 addr, char* pBuf, u8 num);
 };
 #endif //__EEPROM_H

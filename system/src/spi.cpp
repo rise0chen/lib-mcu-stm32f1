@@ -35,47 +35,47 @@ spi::spi(u8 t){
 		funRx=SPI2_Do;
 	}
 }
-void spi::Config(){
-	gpio SCK =gpio(Px, PSCK);
-	gpio MISO=gpio(Px, PMISO);
-	gpio MOSI=gpio(Px, PMOSI);
+void spi::config(){
+	gpio SCK  = gpio(Px, PSCK);
+	gpio MISO = gpio(Px, PMISO);
+	gpio MOSI = gpio(Px, PMOSI);
 	
-	rcc::Cmd(2, RCC_GPIO, ENABLE);//GPIO时钟
+	rcc::cmd(2, RCC_GPIO, ENABLE);//GPIO时钟
 	if(the==SPI1){//SPI时钟使能
-		rcc::Cmd(1, RCC_The, ENABLE);
+		rcc::cmd(1, RCC_The, ENABLE);
 	}else{
-		rcc::Cmd(2, RCC_The, ENABLE);
+		rcc::cmd(2, RCC_The, ENABLE);
 	}
-	SCK.Config(P_PPAF);
-	MISO.Config(P_PPAF);
-	MOSI.Config(P_PPAF);
+	SCK.config(P_PPAF);
+	MISO.config(P_PPAF);
+	MOSI.config(P_PPAF);
 	//the->CR1=0x035F;
-	the->CR1|=0<<10; //全双工模式
-	the->CR1|=1<<9;  //软件nss管理
-	the->CR1|=1<<8;
-	the->CR1|=1<<2;  //SPI主机
-	the->CR1|=0<<11; //8bit数据格式
-	the->CR1|=1<<1;  //空闲模式下SCK为1 CPOL=1
-	the->CR1|=1<<0;  //数据采样从第二个时间边沿开始,CPHA=1
-	the->CR1|=7<<3;  //Fsck=Fpclk1/256
-	the->CR1|=0<<7;  //MSBfirst
-	the->CR1|=1<<6;  //SPI设备使能
-	ReadWriteByte(0xff);//启动传输
+	the->CR1 |= 0<<10; //全双工模式
+	the->CR1 |= 1<<9;  //软件nss管理
+	the->CR1 |= 1<<8;
+	the->CR1 |= 1<<2;  //SPI主机
+	the->CR1 |= 0<<11; //8bit数据格式
+	the->CR1 |= 1<<1;  //空闲模式下SCK为1 CPOL=1
+	the->CR1 |= 1<<0;  //数据采样从第二个时间边沿开始,CPHA=1
+	the->CR1 |= 7<<3;  //Fsck=Fpclk1/256
+	the->CR1 |= 0<<7;  //MSBfirst
+	the->CR1 |= 1<<6;  //SPI设备使能
+	rwByte(0xff);//启动传输
 }
-void spi::SetSpeed(u8 SpeedSet){
+void spi::setSpeed(u8 speed){
 //SPI速度=fAPB/2^(SpeedSet+1)
 	the->CR1&=0XFF87;//失能、清速度
-	the->CR1|=(SpeedSet&0X07)<<3;//设置速度
-	the->CR1|=1<<6;//SPI设备使能
+	the->CR1 |= (speed&0X07)<<3;//设置速度
+	the->CR1 |= 1<<6;//SPI设备使能
 }
-u8 spi::ReadWriteByte(u8 TxData){
+u8 spi::rwByte(u8 data){
 //TxData:要写入的字节
 //返回值:读取到的字节
 	reTry = 0XFFFE;
 	while((the->SR&1<<1)==0){//等待发送区空
 		if(reTry-- <= 0)return 0xFF;//超时退出
 	}
-	the->DR=TxData;//发送一个byte
+	the->DR = data;//发送一个byte
 	
 	reTry = 0XFFFE;
 	while((the->SR&1<<0)==0){//等待接收完一个byte

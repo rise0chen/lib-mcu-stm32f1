@@ -58,7 +58,7 @@ namespace crc{
 		0x43, 0x83, 0x41, 0x81, 0x80, 0x40
 	};
 
-	u16 Get16(char *pBuffer, uint32_t BufferLength){
+	u16 get16(char *pBuffer, uint32_t BufferLength){
 		u8 uchCRCHi=0xFF; //高CRC 字节初始化
 		u8 uchCRCLo=0xFF; //低CRC 字节初始化
 		u32 uIndex; //CRC 循环中的索引
@@ -70,7 +70,7 @@ namespace crc{
 		}
 		return (uchCRCHi<<8|uchCRCLo);
 	}
-	u32 Get32(uint32_t pBuffer[], uint32_t BufferLength){
+	u32 get32(uint32_t pBuffer[], uint32_t BufferLength){
 		uint32_t index = 0;
 		CRC->CR = 0x01;//复位CRC->DR
 		for(index = 0; index < BufferLength; index++){

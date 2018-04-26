@@ -21,12 +21,12 @@ namespace FontRom{
 		}
 		
 		*CS->O=0;
-		com->ReadWriteByte(0x03);
-		com->ReadWriteByte((fontaddr&0xff0000)>>16);//地址的高8位,共24位
-		com->ReadWriteByte((fontaddr&0xff00)>>8);//地址的中8位,共24位
-		com->ReadWriteByte(fontaddr&0xff);//地址的低8位,共24位
+		com->rwByte(0x03);
+		com->rwByte((fontaddr&0xff0000)>>16);//地址的高8位,共24位
+		com->rwByte((fontaddr&0xff00)>>8);//地址的中8位,共24位
+		com->rwByte(fontaddr&0xff);//地址的低8位,共24位
 		for(int i=0;i<16*16/8;i++){
-			data[i] = com->ReadWriteByte(0x00);
+			data[i] = com->rwByte(0x00);
 		}
 		*CS->O=1;
 	}
@@ -36,12 +36,12 @@ namespace FontRom{
 		fontaddr = (u32)(fontaddr+0x3b7c0);
 		
 		*CS->O=0;
-		com->ReadWriteByte(0x03);
-		com->ReadWriteByte((fontaddr&0xff0000)>>16);//地址的高8位,共24位
-		com->ReadWriteByte((fontaddr&0xff00)>>8);//地址的中8位,共24位
-		com->ReadWriteByte(fontaddr&0xff);//地址的低8位,共24位
+		com->rwByte(0x03);
+		com->rwByte((fontaddr&0xff0000)>>16);//地址的高8位,共24位
+		com->rwByte((fontaddr&0xff00)>>8);//地址的中8位,共24位
+		com->rwByte(fontaddr&0xff);//地址的低8位,共24位
 		for(int i=0;i<8*16/8;i++){
-			data[i] = com->ReadWriteByte(0x00);
+			data[i] = com->rwByte(0x00);
 		}
 		*CS->O=1;
 	}

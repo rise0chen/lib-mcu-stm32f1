@@ -3,11 +3,11 @@
 #include "sys.hpp"
 
 namespace nvic{
-	void SetVectorTable(u32 VectTab, u32 Offset);//设置偏移地址
-	void GroupConfig(u8 Group);//设置NVIC分组
-	void Init(u8 Channel, u8 PreemptionPriority, u8 SubPriority=3);//设置中断
+	void setVectorTable(u32 vectTab, u32 offset);//设置偏移地址
+	void configGroup(u8 group);//设置NVIC分组
+	void init(u8 channel, u8 preemptionPriority, u8 subPriority=3);//设置中断
 
-	void DISABLE(void);//关闭所有中断
-	void ENABLE(void);//开启所有中断
+	void disable(void);//关闭所有中断
+	void enable(void);//开启所有中断
 }
 #endif //__NVIC_H

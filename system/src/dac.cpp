@@ -10,6 +10,6 @@ dac::dac(u8 t){
 			break;
 	}
 }
-void dac::Init(void){
+void dac::init(void){
 	
 }
