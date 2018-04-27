@@ -6,7 +6,7 @@ namespace WIFI{
 
 	void On(void){
 	//com初始化
-		Power->Config(P_PPO);
+		Power->config(P_PPO);
 		*Power->O=1;
 		delay(1000);
 		com->printf("ATE0\r\n");//关闭回显
@@ -33,7 +33,7 @@ namespace WIFI{
 		com->printf("%s\r\n",cmd);
 		if(req[0]!='\0'){
 			EndTime = RunTime + s;
-			while(!std::strstr(com->RX_BUF,req) && (RunTime<=EndTime));
+			while(!std::strstr(com->rx.buf,req) && (RunTime<=EndTime));
 			if(RunTime<EndTime){rt=1;}
 		}else{
 			delay(1000);

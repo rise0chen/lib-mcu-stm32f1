@@ -7,8 +7,8 @@
 
 class i2c{
 	public:
-		//char TX_BUF[LEN_MID];
-		//char RX_BUF[LEN_MID];
+		//bufRcv tx;
+		//bufRcv rx;
 		
 		i2c(u8 t);
 		void config(void);

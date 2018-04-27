@@ -5,8 +5,8 @@
 
 class spi{
 	public:
-		//char TX_BUF[LEN_MID];
-		//char RX_BUF[LEN_MID];
+		//bufRcv tx;
+		//bufRcv rx;
 		
 		spi(u8 t);
 		void (*funRx)();

@@ -32,7 +32,7 @@ namespace rcc{
 		}
 	}
 
-	static void DeInit(void){
+	static void deInit(void){
 	//不能在这里执行所有外设复位!否则至少引起串口不工作.
 	//把所有时钟寄存器复位
 		RCC->APB1RSTR= 0x00000000;//复位结束
@@ -57,11 +57,12 @@ namespace rcc{
 	void init(u8 PLL){
 	//系统时钟初始化函数
 	//pll:选择的倍频数，从2开始，最大值为16
-		DeInit();//复位并配置向量表
+		deInit();//复位并配置向量表
 		RCC->CR   |= (1<<16);//HSE使能
 		while(!(RCC->CR & (1<<17)));//等待HSE就绪
 		RCC->CFGR=0X00000400;//APB1=DIV2;APB2=DIV1;AHB=DIV1;
-		PLL -= 2;//抵消2个单位（因为是从2开始的，设置0就是2）
+		//RCC->CFGR |= (1<<17);//HSE二分频
+		PLL -= 2;//抵消2个单位(因为是从2开始的，设置0就是2)
 		RCC->CFGR |= (PLL<<18);//设置PLL值2~16
 		RCC->CFGR |= (1<<16);//PLL输入始终源 HSE
 		FLASH->ACR|= 0x32;//FLASH2个延时周期//0x12
