@@ -5,13 +5,13 @@
 
 #define I2C_SOFE  1  //I2C软件操控
 
-class i2c{
+class I2c{
 	public:
 		//bufRcv tx;
 		//bufRcv rx;
 		
-		i2c(u8 t);
-		void config(void);
+		I2c(u8 t);
+		void init(void);
 		void start(void);
 		void stop(void);
 		void ack(u8 en=1);
@@ -21,14 +21,12 @@ class i2c{
 	
 	private:
 		I2C_TypeDef* the;
-		u16 RCC_GPIO;
 		u32 RCC_The;
-		u8  Px;
-		u8  PSCL;
-		u8  PSDA;
+		Gpio SCL;
+		Gpio SDA;
 		u8  IRQn;
 };
-extern i2c i2c1;
-extern i2c i2c2;
+extern I2c i2c1;
+extern I2c i2c2;
 
 #endif //__I2C_H

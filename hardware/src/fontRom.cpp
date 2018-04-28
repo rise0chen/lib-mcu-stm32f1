@@ -1,8 +1,8 @@
 #include "fontRom.hpp"
 
 namespace FontRom{
-	gpio *CS = &gpio_default;
-	spi  *com = &spi2;
+	Gpio *CS = &gpio_default;
+	Spi  *com = &spi2;
 	u32  fontaddr=0;
 	
 	void getWord16x16(u16 gbk, u8* data){

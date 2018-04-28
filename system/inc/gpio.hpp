@@ -53,22 +53,24 @@ typedef enum{
 	P_EVO  = 0x80//EVENTOUT,用多个ARM间的时钟同步。执行SEV指令 或 __SEV()时，产生几个机器周期的高电平。
 }GPIOMode_TypeDef;
 
-class gpio{
+class Gpio{
 	public:
-		gpio(u8 x, u8 n);
+		vu32* O;
+		vu32* I;
+		
+		Gpio(){};
+		Gpio(u8 x, u8 n);
 		void  config(GPIOMode_TypeDef mode,s8 data=0,GPIOSpeed_TypeDef speed=P_2MHz);
 		void  output(s8 data);
 		u8    input(void);
 		void  configExti(u8 TRIM);//外部中断
 		void  lock(void);
 
-		vu32* O;
-		vu32* I;
 	private:
 		GPIO_TypeDef* GPIOx;
 		u8    Px;//GPIO
 		u8    Pn;//Pin
 };
-extern gpio gpio_default;
+extern Gpio gpio_default;
 
 #endif //__GPIO_H

@@ -78,7 +78,7 @@ int8_t RTC_Config(RTC_TimeTypeDef *time){
 		RTC->CRH |= 0x01;//允许秒中断
 		while(!(RTC->CRL & (1 << 5)));//等待RTC寄存器操作完成
 	}
-	nvic::init(RTC_IRQn,3,3);//RCT中断分组设置，开启中断
+	nvic.config(RTC_IRQn,3,3);//RCT中断分组设置，开启中断
 	RTC_GetTime();//更新时间
 
 	return 0;

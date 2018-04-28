@@ -3,20 +3,19 @@
 #include "sys.hpp"
 #include "gpio.hpp"
 
-class spi{
+class Spi{
 	public:
 		//bufRcv tx;
 		//bufRcv rx;
-		
-		spi(u8 t);
 		void (*funRx)();
-		void config();
-		void setSpeed(u8 speed);
+		
+		Spi(u8 t);
+		void init();
+		void setSpeed(u8 div);
 		u8   rwByte(u8 data);
 	
 	private:
 		SPI_TypeDef* the;
-		u16 RCC_GPIO;
 		u32 RCC_The;
 		u8  Px;
 		u8  PSCK;
@@ -27,7 +26,7 @@ class spi{
 		DMA_Channel_TypeDef* RX_DMA;
 		u32 FLAG_TC;
 };
-extern spi spi1;
-extern spi spi2;
+extern Spi spi1;
+extern Spi spi2;
 
 #endif //__SPI_H

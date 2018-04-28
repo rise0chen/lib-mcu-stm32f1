@@ -1,7 +1,7 @@
 #include "GSM.hpp"
 
 namespace GSM{
-	gpio *RST = &gpio_default;
+	Gpio *RST = &gpio_default;
 	usart *com= &usart2;
 
 	void ON(void){

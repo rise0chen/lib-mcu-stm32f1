@@ -4,7 +4,7 @@
 #include "usart.hpp"
 
 namespace WIFI{
-	extern gpio *Power;
+	extern Gpio *Power;
 	extern usart *com;
 	
 	void  On(void);//wifi初始化

@@ -1,7 +1,7 @@
 #include "InfraRed.hpp"
 
 namespace InfraRed{
-	gpio *DQ = &gpio_default;
+	Gpio *DQ = &gpio_default;
 	u32 IR_DATA; //定义一个32位数据变量，保存接收码
 	u8  IR_IRQ;  //定义一个8位数据的变量，用于指示接收标志
 

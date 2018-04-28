@@ -21,8 +21,8 @@ Description: bufRcv类的构造函数
 Calls: setFlag, setFunFinish
 Called By: usart.cpp
 Input: 
-	s    字符串的起始标志
-	e    字符串的终止标志
+	s    字符串的起始标识
+	e    字符串的终止标识
 	fun  字符串接收完成后的执行函数
 Return: bufRcv类
 *************************************************/
@@ -37,8 +37,8 @@ Description: 设置起始/终止标志
 Calls: 
 Called By: bufRcv
 Input: 
-	s    字符串的起始标志
-	e    字符串的终止标志
+	s    字符串的起始标识
+	e    字符串的终止标识
 Return: void
 *************************************************/
 void bufRcv::setFlag(uint8_t s, uint8_t e) {

@@ -4,8 +4,8 @@
 #include "spi.hpp"
 
 namespace FontRom{
-	extern gpio *CS;
-	extern spi *com;
+	extern Gpio *CS;
+	extern Spi *com;
 	
 	void getWord16x16(u16 gbk, u8* data);
 	void getWord8x16(u8 ascii, u8* data);

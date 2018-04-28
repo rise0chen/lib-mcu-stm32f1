@@ -5,13 +5,12 @@
 #include "dma.hpp"
 #include "bufRcv.hpp"
 
-class usart{
-	
+class Usart{
 	public:
 		bufRcv tx;
 		bufRcv rx;
 		
-		usart(u8 t);
+		Usart(u8 t);
 		void (*funRx)(char* msg, u16 len);
 		void config(u32 bound,u8 s=0x00,u8 e=0x0A);
 		void printf(char* format, ...);
@@ -30,8 +29,8 @@ class usart{
 		DMA_Channel_TypeDef* RX_DMA;
 		u32 FLAG_TC;
 };
-extern usart usart1;
-extern usart usart2;
-extern usart usart3;
+extern Usart usart1;
+extern Usart usart2;
+extern Usart usart3;
 
 #endif //__USART_H

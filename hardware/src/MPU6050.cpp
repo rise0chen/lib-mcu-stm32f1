@@ -1,7 +1,7 @@
 #include "MPU6050.hpp"
 
 namespace MPU6050{
-	i2c *com = &i2c2;
+	I2c *com = &i2c2;
 	u8 deviceAddr = 0x68;//AD0默认接GND
 	short GYRO[3],ACCEL[3];
 	

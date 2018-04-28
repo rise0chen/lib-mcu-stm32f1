@@ -1,24 +1,78 @@
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: sys.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: 通用文件,包含常用头文件、函数等
+Usage:
+	#include "sys.hpp"
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
 #include "sys.hpp"
 
 s32 reTry=0x00FFFFFF;
 
+/*************************************************
+Function: setMem
+Description: 设置寄存器内容
+Calls: 
+Called By: 
+Input: 
+	p       需要设置的寄存器的地址
+	where   在需要设置的bit上置1, 如0b0111代表设置第0~2位
+	content 需要设置的内容(<where)如0b0101代表第1、2位置1
+Return: void
+*************************************************/
 void setMem(volatile void* p,u32 where,u32 content){
 	u32* p0=(u32*)p;
 	*p0 &= ~where;//清零
 	*p0 |= content;//置数
 }
+
+/*************************************************
+Function: setBit
+Description: 单bit置1
+Calls: 
+Called By: 
+Input: 
+	p       需要设置的寄存器的地址
+	where   需要置1的位置 0~31
+Return: void
+*************************************************/
 void setBit(volatile void* p,u8 where){
 	u32* p0=(u32*)p;
 	*p0 |= (1<<where);
 }
+
+/*************************************************
+Function: clearBit
+Description: 单bit置0
+Calls: 
+Called By: 
+Input: 
+	p       需要设置的寄存器的地址
+	where   需要置0的位置 0~31
+Return: void
+*************************************************/
 void clearBit(volatile void* p,u8 where){
 	u32* p0=(u32*)p;
 	*p0 &= ~(1<<where);
 }
 
 
-//执行times次，直到(*func)()返回0
-//auto a = [](u8 b){return b;};//定义局部函数
+/*************************************************
+Function: run
+Description: 执行times次，直到(*func)()返回0
+Calls: 
+Called By: 
+Input: 
+	p       需要设置的寄存器的地址
+	where   需要置0的位置 0~31
+Return: void
+Other: auto a = [](u8 b){return b;};//定义局部函数
+*************************************************/
 ErrorStatus run(u8 (*func)(), u32 times){
 	reTry = times;
 	while((*func)()){//判断条件
@@ -28,30 +82,20 @@ ErrorStatus run(u8 (*func)(), u32 times){
 }
 
 
+/********************************汇编部分********************************/
+/********************************汇编部分********************************/
+/********************************汇编部分********************************/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/********汇编*********/
-__ASM void MSR_MSP(u32 addr){//设置栈顶地址
-//addr:栈顶地址
+/*************************************************
+Function: MSR_MSP
+Description: 设置栈顶地址
+Calls: 
+Called By: 
+Input: 
+	addr  栈顶地址
+Return: void
+*************************************************/
+__ASM void MSR_MSP(u32 addr){
 	MSR MSP, r0//set Main Stack value
 	BX r14
 }

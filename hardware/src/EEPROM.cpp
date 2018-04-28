@@ -1,6 +1,6 @@
 #include "EEPROM.hpp"
 
-eeprom::eeprom(i2c &com, u8 typ, u8 addr):com(com),type(typ){
+eeprom::eeprom(I2c &com, u8 typ, u8 addr):com(com),type(typ){
 	deviceAddr = 0xA0+addr;
 	switch(typ){
 		//case  1: pageSize=8 ;pageMax=16 ;break;

@@ -1,10 +1,31 @@
-#include "adc.hpp"
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: Adc.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: Adc 类
+Usage:
+	adc1.init();//初始化ADC1
+	adc1.get(0, 10);//采集10次ADC1通道0,并取平均值
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
+#include "Adc.hpp"
 
-adc adc1(1);
-adc adc2(2);
-adc adc3(3);
+Adc adc1(1);
+Adc adc2(2);
+Adc adc3(3);
 
-adc::adc(u8 t){
+/*************************************************
+Function: Adc::Adc
+Description: Adc类的构造函数
+Calls: 
+Called By: 
+Input: t ADC序号
+Return: Adc类
+*************************************************/
+Adc::Adc(u8 t){
 	switch(t){
 		case 1:
 			the=ADC1;
@@ -20,9 +41,18 @@ adc::adc(u8 t){
 			break;
 	}
 }
-void adc::init(void){
-	rcc::cmd(2,RCC_The,ENABLE);//ADC时钟使能
-	rcc::reset(2,RCC_The);//ADC复位
+
+/*************************************************
+Function: Adc::init
+Description: 初始化ADC
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void Adc::init(void){
+	rcc.cmd(2,RCC_The,ENABLE);//ADC时钟使能
+	rcc.reset(2,RCC_The);//ADC复位
 	setMem(&RCC->CFGR, 3<<14, 2<<14);//ADC分频。PCLK2/6=12MHz,ADC最大时钟不能超过14M，否则将导致ADC准确度下降!
 	setMem(&the->CR1, 0xF<<16, 0<<16);//独立工作模式  
 	clearBit(&the->CR1,8);//非扫描模式
@@ -40,7 +70,18 @@ void adc::init(void){
 	setBit(&the->CR2,2);//开启AD校准
 	while(the->CR2&1<<2);//等待校准结束
 }
-u16 adc::get(u8 ch, u8 times){
+
+/*************************************************
+Function: Adc::get
+Description: 读取AD转换值
+Calls: 
+Called By: 
+Input: 
+	ch    ADC通道(0~17)
+	times 采集次数(自动取平均值)
+Return: 12bit原始电压值
+*************************************************/
+u16 Adc::get(u8 ch, u8 times){
 	u32 temp_val=0;
 	u8 t;
 	for(t=0;t<times;t++){
@@ -51,7 +92,16 @@ u16 adc::get(u8 ch, u8 times){
 	}
 	return(temp_val/times);
 }
-float adc::getTemp(u8 times){
+
+/*************************************************
+Function: Adc::getTemp
+Description: 读取芯片温度
+Calls: 
+Called By: 
+Input: times 采集次数(自动取平均值)
+Return: 摄氏度
+*************************************************/
+float Adc::getTemp(u8 times){
 	u16 value;
 	float temperate;
 	

@@ -4,7 +4,7 @@
 #include "usart.hpp"
 
 namespace GSM{
-	extern gpio *RST;
+	extern Gpio *RST;
 	extern usart *com;
 	
 	void ON(void);

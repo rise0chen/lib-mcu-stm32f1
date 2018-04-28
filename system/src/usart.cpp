@@ -1,13 +1,36 @@
-#include "usart.hpp"
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: Usart.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: Usart 类
+Usage:
+	#include "Usart.hpp"
+	usart1.config(9600, 0x00, 0x0D);//初始化
+	usart1.printf("%x\n", data);
+	usart1.send(data);
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
+#include "Usart.hpp"
 
-usart usart1(1);
-usart usart2(2);
-usart usart3(3);
+Usart usart1(1);
+Usart usart2(2);
+Usart usart3(3);
 extern void USART1_Do(char* msg, u16 len);
 extern void USART2_Do(char* msg, u16 len);
 extern void USART3_Do(char* msg, u16 len);
 
-usart::usart(u8 t){
+/*************************************************
+Function: Usart::Usart
+Description: Usart类的构造函数
+Calls: 
+Called By: 
+Input: t Usart序号
+Return: Usart类
+*************************************************/
+Usart::Usart(u8 t){
 	if(t==1){
 		the = USART1;
 		RCC_GPIO = APB2_GPIOA;
@@ -48,27 +71,39 @@ usart::usart(u8 t){
 		funRx  = USART3_Do;
 	}
 }
-void usart::config(u32 bound,u8 s,u8 e){
+
+/*************************************************
+Function: Usart::config
+Description: Usart初始化
+Calls: 
+Called By: 
+Input: 
+	bound 波特率
+	s     起始标识 0x00任意字节
+	e     终止标识 0x0D为\r\n  0x0A为\n
+Return: void
+*************************************************/
+void Usart::config(u32 bound,u8 s,u8 e){
 	u32 clk, temp;
 	u16 integer, fraction;
 
 	rx = bufRcv(s, e, funRx);
 	
 	RCC->APB2ENR |= RCC_GPIO;//使能PORT口时钟
-//使能串口时钟
+	//使能串口时钟
 	if(the==USART1){
-		rcc::reset(2,RCC_The);
-		rcc::cmd(2, RCC_The, ENABLE);
-		clk = apb2clk;
+		rcc.reset(2,RCC_The);
+		rcc.cmd(2, RCC_The, ENABLE);
+		clk = rcc.clkApb2;
 	}else{
-		rcc::reset(1,RCC_The);
-		rcc::cmd(1, RCC_The, ENABLE);
+		rcc.reset(1,RCC_The);
+		rcc.cmd(1, RCC_The, ENABLE);
 		RCC->APB1ENR |= RCC_The;
-		clk = apb1clk;
+		clk = rcc.clkApb1;
 	}
 	//GPIO端口设置
-	gpio(Px, PTX).config(P_ODAF, 1, P_50MHz);//TX推挽输出
-	gpio(Px, PRX).config(P_FIN);//RX浮空输入
+	Gpio(Px, PTX).config(P_ODAF, 1, P_50MHz);//TX推挽输出
+	Gpio(Px, PRX).config(P_FIN);//RX浮空输入
 	//波特率设置
 	integer=clk/(bound<<4);//得到整数部分
 	temp = (clk<<4)/bound;//得到USARTDIV
@@ -76,14 +111,23 @@ void usart::config(u32 bound,u8 s,u8 e){
 	the->BRR=(integer<<4)+fraction;// 波特率设置
 	//使能接收中断
 	the->CR1 |= 1<<5;//RXNE(1<<6:IDLE)中断使能
-	nvic::init(IRQn,2,0);
+	nvic.config(IRQn,2,0);
 	//DMA设置
-	dma::configTx(TX_DMA,(u32)&the->DR,(u32)&tx.buf,1);
-	//dma::configRx(RX_DMA,(u32)&the->DR,(u32)&rx.buf,USART_LEN);
+	dma.configTx(TX_DMA,(u32)&the->DR,(u32)&tx.buf,1);
+	//dma.configRx(RX_DMA,(u32)&the->DR,(u32)&rx.buf,LEN_MAX);
 	the->CR3 |= 0xC0;//DMA使能
 	the->CR1 |= 0X200C;//使能,8位数据,无校验位,1位停止,收发
 }
-void usart::printf(char *format, ...){
+
+/*************************************************
+Function: Usart::printf
+Description: Usart格式化输出
+Calls: 
+Called By: 
+Input: 与printf相同
+Return: void
+*************************************************/
+void Usart::printf(char *format, ...){
 	va_list ap;
 	va_start(ap,format);
 	while((DMA1->ISR & FLAG_TC)==0);//等待上次结束
@@ -93,7 +137,18 @@ void usart::printf(char *format, ...){
 	DMA1->IFCR  |= FLAG_TC;//清TC中断
 	TX_DMA->CCR |= 1;//开DMA
 }
-void usart::send(char *buf, u16 len){
+
+/*************************************************
+Function: Usart::send
+Description: Usart发送字符串
+Calls: 
+Called By: 
+Input: 
+	buf   字符串
+	len   要发送的字节长度
+Return: void
+*************************************************/
+void Usart::send(char *buf, u16 len){
 	if(len==0){len=std::strlen(buf);}
 	while((DMA1->ISR & FLAG_TC)==0);//等待上次结束
 	TX_DMA->CCR &= ~1;//关DMA
@@ -102,7 +157,16 @@ void usart::send(char *buf, u16 len){
 	DMA1->IFCR  |= FLAG_TC;//清TC中断
 	TX_DMA->CCR |= 1;//开DMA
 }
-void usart::rcv(){
+
+/*************************************************
+Function: Usart::rcv
+Description: Usart接收单字节
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void Usart::rcv(){
 	u8 res;
 
 	if(the->SR&(1<<5)){
@@ -111,6 +175,14 @@ void usart::rcv(){
 	}
 }
 
+/*************************************************
+Function: USART1_IRQHandler
+Description: Usart中断函数
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
 _C void USART1_IRQHandler(void){
 	usart1.rcv();
 }

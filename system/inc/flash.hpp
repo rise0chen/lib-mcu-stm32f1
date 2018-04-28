@@ -2,16 +2,20 @@
 #define __FLASH_H
 #include "sys.hpp"
 
-namespace flash{
-	#if defined (STM32F10X_HD) || defined (STM32F10X_HD_VL) || defined (STM32F10X_CL) || defined (STM32F10X_XL)
-		#define FLASH_PAGE_SIZE  ((uint16_t)0x800) //2048
-	#else
-		#define FLASH_PAGE_SIZE  ((uint16_t)0x400) //1024
-	#endif
-	#define FLASH_START_ADDR   ((uint32_t)0x0800C000)
-	#define FLASH_END_ADDR     ((uint32_t)0x08010000)
+class Flash{
+	public:
+		uint16_t sizePage;
+		uint32_t addrStart;
+		uint32_t addrEnd;
+		
+		Flash();
+		void read(u32 addr, void* buf, u16 num);
+		void write(u32 addr, void* buf, u16 num);
 	
-	void read(u32 addr, void* buf, u16 num);
-	void write(u32 addr, void* buf, u16 num);
-}
+	private:
+		void lock(u8 en);
+		void erasePage(u32 paddr);
+};
+extern Flash flash;
+
 #endif //__FLASH_H

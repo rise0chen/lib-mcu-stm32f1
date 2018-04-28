@@ -1,131 +1,216 @@
-#include "i2c.hpp"
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: I2c.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: I2c 类
+Usage:
+	#include "I2c.hpp"
+	i2c1.init();//初始化
+	i2c1.start();//起始信号
+	i2c1.write(data);//写数据
+	i2c1.waitAck();//等待应答
+	data = i2c1.read();//读数据
+	i2c1.stop();//停止信号
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
+#include "I2c.hpp"
 
-i2c i2c1(1);
-i2c i2c2(2);
+I2c i2c1(1);
+I2c i2c2(2);
 
-i2c::i2c(u8 t){
+/*************************************************
+Function: I2c::I2c
+Description: I2c类的构造函数
+Calls: 
+Called By: 
+Input: t I2C序号
+Return: I2c类
+*************************************************/
+I2c::I2c(u8 t){
 	if(t==1){
 		the = I2C1;
-		RCC_GPIO = APB2_GPIOB;
 		RCC_The = APB1_I2C1;
-		Px = PB;
-		PSCL = 6;
-		PSDA = 7;
+		SCL = Gpio(PB, 6);
+		SDA = Gpio(PB, 7);
 		IRQn = I2C1_EV_IRQn;
 	}
 	if(t==2){
 		the = I2C2;
-		RCC_GPIO = APB2_GPIOB;
 		RCC_The = APB1_I2C2;
-		Px = PB;
-		PSCL = 10;
-		PSDA = 11;
+		SCL = Gpio(PB, 10);
+		SDA = Gpio(PB, 11);
 		IRQn = I2C2_EV_IRQn;
 	}
 }
-void i2c::config(void){
+
+/*************************************************
+Function: I2c::init
+Description: I2C初始化
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void I2c::init(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSCL).config(P_ODO);
-	gpio(Px, PSDA).config(P_ODO);
-	*gpio(Px, PSCL).O=1;
-	*gpio(Px, PSDA).O=1;
+	SCL.config(P_ODO);
+	SDA.config(P_ODO);
+	*SCL.O=1;
+	*SDA.O=1;
 	#else//硬件I2C外设
 
 	#endif
 }
-void i2c::start(void){
+
+/*************************************************
+Function: I2c::start
+Description: I2C起始信号
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void I2c::start(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSDA).config(P_ODO);
-	*gpio(Px, PSCL).O=1; //起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
-	*gpio(Px, PSDA).O=1;
+	SDA.config(P_ODO);
+	*SCL.O=1; //起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
+	*SDA.O=1;
 	delay_us(5); //需要大于4.7us
-	*gpio(Px, PSDA).O=0;
+	*SDA.O=0;
 	delay_us(5); //需要大于4us
-	*gpio(Px, PSCL).O=0;
+	*SCL.O=0;
 	delay_us(1);
 	#else//硬件I2C外设
 
 	#endif
 }
-void i2c::stop(void){
+
+/*************************************************
+Function: I2c::stop
+Description: I2C停止信号
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void I2c::stop(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSDA).config(P_ODO);
-	*gpio(Px, PSCL).O=0;
-	*gpio(Px, PSDA).O=0;
+	SDA.config(P_ODO);
+	*SCL.O=0;
+	*SDA.O=0;
 	delay_us(1);
-	*gpio(Px, PSCL).O=1;//停止条件：SCL线是高电平时，SDA 线由低电平向高电平切换
+	*SCL.O=1;//停止条件：SCL线是高电平时，SDA 线由低电平向高电平切换
 	delay_us(1);
-	*gpio(Px, PSDA).O=1;
+	*SDA.O=1;
 	delay_us(1);
 	#else//硬件I2C外设
 
 	#endif
 }
-void i2c::ack(u8 en){
+
+/*************************************************
+Function: I2c::start
+Description: I2C应答信号
+Calls: 
+Called By: 
+Input: en 1应当 0不应答
+Return: void
+*************************************************/
+void I2c::ack(u8 en){
 	#if I2C_SOFE//软件I2C
-	*gpio(Px, PSCL).O=0;
-	gpio(Px, PSDA).config(P_ODO);
-	*gpio(Px, PSDA).O= !en;//SDA传输完前8位时，当SCL来到第9个高电平时，SDA线为低电平，则为有效应答位
+	*SCL.O=0;
+	SDA.config(P_ODO);
+	*SDA.O= !en;//SDA传输完前8位时，当SCL来到第9个高电平时，SDA线为低电平，则为有效应答位
 	delay_us(1);
-	*gpio(Px, PSCL).O=1;
+	*SCL.O=1;
 	delay_us(1);
-	*gpio(Px, PSCL).O=0;
+	*SCL.O=0;
 	delay_us(1);
 	#else//硬件I2C外设
 
 	#endif
 }
-ErrorStatus i2c::waitAck(void){
+
+/*************************************************
+Function: I2c::waitAck
+Description: I2C等待应答信号
+Calls: 
+Called By: 
+Input: void
+Return: 通用错误码
+*************************************************/
+ErrorStatus I2c::waitAck(void){
 	#if I2C_SOFE//软件I2C
-	gpio(Px, PSDA).config(P_UIN);//SDA设置为输入
-	*gpio(Px, PSDA).O=1;
+	SDA.config(P_UIN);//SDA设置为输入
+	*SDA.O=1;
 	delay_us(1);
-	*gpio(Px, PSCL).O=1;
+	*SCL.O=1;
 	delay_us(1);
 	
 	reTry = 250;
-	while(*gpio(Px, PSDA).I){
+	while(*SDA.I){
 		if(reTry-- <= 0){stop();return OVERTIME;}
 	}
-	*gpio(Px, PSCL).O=0;
+	*SCL.O=0;
 	return SUCCESS;
 	#else//硬件I2C外设
 
 	#endif
 }
-ErrorStatus i2c::write(u8 data){
+
+/*************************************************
+Function: I2c::write
+Description: I2C写单字节数据
+Calls: 
+Called By: 
+Input: data 单字节数据
+Return: void
+*************************************************/
+ErrorStatus I2c::write(u8 data){
 	u8 i;
 
-	gpio(Px, PSDA).config(P_ODO);
-	*gpio(Px, PSCL).O=0;
+	SDA.config(P_ODO);
+	*SCL.O=0;
 	for(i=0;i<8;i++){//I2C总线在SCL线为高电平时传输数据，在低电平时更换数据
 		if(data&0x80)
-			*gpio(Px, PSDA).O=1;
+			*SDA.O=1;
 		else
-			*gpio(Px, PSDA).O=0;
+			*SDA.O=0;
 		data<<=1;
 		delay_us(1);
-		*gpio(Px, PSCL).O=1;
+		*SCL.O=1;
 		delay_us(1);//SCL线由高电平变为低电平时需要有0.3us的延迟
-		*gpio(Px, PSCL).O=0;
+		*SCL.O=0;
 		delay_us(1);//SCL线由低电平变为高电平时需要有0.3us的延迟
 	}
 	return(waitAck());
 }
-u8 i2c::read(u8 isAck){
+
+/*************************************************
+Function: I2c::read
+Description: I2C读单字节数据,并发送应答信号
+Calls: 
+Called By: 
+Input: isAck 0不应答  1应答
+Return: 单字节数据
+*************************************************/
+u8 I2c::read(u8 isAck){
 	u8 i,receive = 0;
 
-	gpio(Px, PSDA).config(P_UIN);
+	SDA.config(P_UIN);
 	for(i=0;i<8;i++){
-		*gpio(Px, PSCL).O=0;
+		*SCL.O=0;
 		delay_us(1);
-		*gpio(Px, PSCL).O=1;
+		*SCL.O=1;
 		receive<<=1;
-		if(*gpio(Px, PSDA).I)
+		if(*SDA.I)
 			receive++;
 		delay_us(1);
 	}
-	*gpio(Px, PSCL).O=0;
+	*SCL.O=0;
 	delay_us(1);
 	ack(isAck);//发送ACK 或 NACK
 	return(receive);

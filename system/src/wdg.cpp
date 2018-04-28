@@ -17,7 +17,6 @@ History:
 *************************************************/
 #include "wdg.hpp"
 
-namespace iwdg{
 /*************************************************
 Description: 初始化独立看门狗,时间计算(大概):Tout=((4*2^prer)*rlr)/40 (ms).
 Calls: 
@@ -28,13 +27,13 @@ Input:
 	rlr  重装载寄存器值:低11位有效.
 Return: void
 *************************************************/
-	void config(u8 prer,u16 rlr){
-		IWDG->KR=0X5555; //使能对IWDG->PR和IWDG->RLR的写
-		IWDG->PR=prer; //设置分频系数
-		IWDG->RLR=rlr; //重装载寄存器 IWDG->RLR
-		IWDG->KR=0XAAAA; //reload
-		IWDG->KR=0XCCCC; //使能看门狗
-	}
+void iwdg::config(u8 prer,u16 rlr){
+	IWDG->KR=0X5555; //使能对IWDG->PR和IWDG->RLR的写
+	IWDG->PR=prer; //设置分频系数
+	IWDG->RLR=rlr; //重装载寄存器 IWDG->RLR
+	IWDG->KR=0XAAAA; //reload
+	IWDG->KR=0XCCCC; //使能看门狗
+}
 	
 /*************************************************
 Description: 喂独立看门狗
@@ -43,12 +42,10 @@ Called By:
 Input: void
 Return: void
 *************************************************/
-	void feed(void){
-		IWDG->KR=0XAAAA; //reload
-	}
+void iwdg::feed(void){
+	IWDG->KR=0XAAAA; //reload
 }
 
-namespace wwdg{
 /*************************************************
 Description: 初始化窗口看门狗
 Calls: 
@@ -60,18 +57,19 @@ Input:
 		Fwwdg=PCLK1/(4096*2^fprer).
 Return: void
 *************************************************/
-	void config(u8 tr,u8 wr,u8 prer){
-		rcc::cmd(1, APB1_WWDG, ENABLE);//使能wwdg时钟
-		WWDG->CFR|=prer<<7;//PCLK1/4096再除2^prer
-		WWDG->CFR&=0XFF80;
-		WWDG->CFR|=wr;//设定窗口值
-		WWDG->CR|=tr&0x7F;//设定计数器值
-		WWDG->CR|=1<<7;//开启看门狗
-		nvic::init(WWDG_IRQn,3,3);//抢占3，子优先级3，组2
-		WWDG->SR=0X00;//清除提前唤醒中断标志位
-		WWDG->CFR|=1<<9;//使能提前唤醒中断
-	}
+void wwdg::config(u8 tr,u8 wr,u8 prer){
+	rcc.cmd(1, APB1_WWDG, ENABLE);//使能wwdg时钟
+	WWDG->CFR|=prer<<7;//PCLK1/4096再除2^prer
+	WWDG->CFR&=0XFF80;
+	WWDG->CFR|=wr;//设定窗口值
+	WWDG->CR|=tr&0x7F;//设定计数器值
+	WWDG->CR|=1<<7;//开启看门狗
+	nvic.config(WWDG_IRQn,3,3);//抢占3，子优先级3，组2
+	WWDG->SR=0X00;//清除提前唤醒中断标志位
+	WWDG->CFR|=1<<9;//使能提前唤醒中断
 }
+
+
 _C void WWDG_IRQHandler(void){//窗口看门狗中断程序
 	WWDG->CR =(0x7F);//重设窗口看门狗的值!
 	WWDG->SR=0X00;//清除提前唤醒中断标志位

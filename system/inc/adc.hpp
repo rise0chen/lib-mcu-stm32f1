@@ -2,11 +2,11 @@
 #define __ADC_H
 #include "sys.hpp"
 
-class adc{
+class Adc{
 	public:
 		ADC_TypeDef* the;
 	
-		adc(u8 t);
+		Adc(u8 t);
 		void init(void);
 		u16  get(u8 ch,u8 times=10);
 		float getTemp(u8 times=10);
@@ -14,7 +14,7 @@ class adc{
 		u32 RCC_The;
 		
 };
-extern adc adc1;
-extern adc adc2;
-extern adc adc3;
+extern Adc adc1;
+extern Adc adc2;
+extern Adc adc3;
 #endif //__ADC_H

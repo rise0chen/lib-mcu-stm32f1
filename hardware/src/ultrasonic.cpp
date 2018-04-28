@@ -1,8 +1,8 @@
 #include "ultrasonic.hpp"
 
 namespace ultrasonic{
-	gpio *TRIG = &gpio_default;
-	gpio *ECHO = &gpio_default;
+	Gpio *TRIG = &gpio_default;
+	Gpio *ECHO = &gpio_default;
 	u32 distance;
 	
 	void init(void){

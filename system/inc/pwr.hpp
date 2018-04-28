@@ -3,6 +3,7 @@
 #include "sys.hpp"
 
 namespace pwr{
+	static void WFI_SET(void);
 	inline void reset(void);  //系统软复位
 	void sleep(u8 next=0);//睡眠模式
 	void stop(void);//停止模式

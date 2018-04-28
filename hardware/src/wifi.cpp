@@ -1,7 +1,7 @@
 #include "wifi.hpp"
 
 namespace WIFI{
-	gpio *Power = &gpio_default;
+	Gpio *Power = &gpio_default;
 	usart *com = &usart2;
 
 	void On(void){

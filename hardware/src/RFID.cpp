@@ -1,9 +1,9 @@
 #include "RFID.hpp"
 
 namespace RFID{
-	spi *com = &spi2;
-	gpio *RST = &gpio_default;
-	gpio *CS = &gpio_default;
+	Spi *com = &spi2;
+	Gpio *RST = &gpio_default;
+	Gpio *CS = &gpio_default;
 	u8 type[2];
 	u8 pSnr[4];//IC卡ID
 

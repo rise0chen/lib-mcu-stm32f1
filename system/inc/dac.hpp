@@ -2,15 +2,16 @@
 #define __DAC_H
 #include "sys.hpp"
 
-class dac{
+class Dac{
 	public:
 		DAC_TypeDef* the;
 	
-		dac(u8 t);
+		Dac(u8 t);
 		void init(void);
 	private:
 		u32 RCC_The;
 		
 };
-extern dac dac1;
+extern Dac dac1;
+
 #endif //__DAC_H

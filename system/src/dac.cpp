@@ -1,8 +1,8 @@
-#include "dac.hpp"
+#include "Dac.hpp"
 
-dac dac1(1);
+Dac dac1(1);
 
-dac::dac(u8 t){
+Dac::Dac(u8 t){
 	switch(t){
 		case 1:
 			//the=DAC1;
@@ -10,6 +10,6 @@ dac::dac(u8 t){
 			break;
 	}
 }
-void dac::init(void){
+void Dac::init(void){
 	
 }

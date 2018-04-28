@@ -47,15 +47,20 @@
 #define APB1_PWR    0x10000000
 #define APB1_DAC    0x20000000
 
-//时钟定义
-extern u32 sysclk;
-extern u32 ahbclk;
-extern u32 apb1clk;
-extern u32 apb2clk;
+class Rcc{
+	public:
+		uint32_t clkSys;
+		uint32_t clkAhb;
+		uint32_t clkApb1;
+		uint32_t clkApb2;
+		
+		void init(u8 PLL);//时钟初始化
+		void cmd(u8 bus, u32 periph, FunctionalState state);
+		void reset(u8 bus, u32 periph);
+	
+	private:
+		void deInit(void);
+};
+extern Rcc rcc;
 
-namespace rcc{
-	void cmd(u8 bus, u32 periph, FunctionalState state);
-	void reset(u8 bus, u32 periph);
-	void init(u8 PLL);//时钟初始化
-}
 #endif //__RCC_H

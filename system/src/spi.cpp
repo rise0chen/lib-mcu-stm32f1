@@ -1,14 +1,35 @@
-#include "spi.hpp"
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: Spi.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: Spi 类
+Usage:
+	#include "Spi.hpp"
+	spi1.init();//初始化
+	spi1.rwByte();//读写数据
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
+#include "Spi.hpp"
 
-spi spi1(1);
-spi spi2(2);
+Spi spi1(1);
+Spi spi2(2);
 extern void SPI1_Do(void);
 extern void SPI2_Do(void);
 
-spi::spi(u8 t){
+/*************************************************
+Function: Spi::Spi
+Description: Spi类的构造函数
+Calls: 
+Called By: 
+Input: t Spi序号
+Return: Spi类
+*************************************************/
+Spi::Spi(u8 t){
 	if(t==1){
 		the = SPI1;
-		RCC_GPIO = APB2_GPIOA;
 		RCC_The = APB2_SPI1;
 		Px = PA;
 		PSCK = 5;
@@ -22,7 +43,6 @@ spi::spi(u8 t){
 	}
 	if(t==2){
 		the = SPI2;
-		RCC_GPIO = APB2_GPIOB;
 		RCC_The = APB1_SPI2;
 		Px = PB;
 		PSCK = 13;
@@ -35,20 +55,24 @@ spi::spi(u8 t){
 		funRx=SPI2_Do;
 	}
 }
-void spi::config(){
-	gpio SCK  = gpio(Px, PSCK);
-	gpio MISO = gpio(Px, PMISO);
-	gpio MOSI = gpio(Px, PMOSI);
-	
-	rcc::cmd(2, RCC_GPIO, ENABLE);//GPIO时钟
+
+/*************************************************
+Function: Spi::init
+Description: SPI初始化
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void Spi::init(){
 	if(the==SPI1){//SPI时钟使能
-		rcc::cmd(1, RCC_The, ENABLE);
+		rcc.cmd(1, RCC_The, ENABLE);
 	}else{
-		rcc::cmd(2, RCC_The, ENABLE);
+		rcc.cmd(2, RCC_The, ENABLE);
 	}
-	SCK.config(P_PPAF);
-	MISO.config(P_PPAF);
-	MOSI.config(P_PPAF);
+	Gpio(Px, PSCK).config(P_PPAF);
+	Gpio(Px, PMISO).config(P_PPAF);
+	Gpio(Px, PMOSI).config(P_PPAF);
 	//the->CR1=0x035F;
 	the->CR1 |= 0<<10; //全双工模式
 	the->CR1 |= 1<<9;  //软件nss管理
@@ -60,17 +84,32 @@ void spi::config(){
 	the->CR1 |= 7<<3;  //Fsck=Fpclk1/256
 	the->CR1 |= 0<<7;  //MSBfirst
 	the->CR1 |= 1<<6;  //SPI设备使能
-	rwByte(0xff);//启动传输
+	rwByte(0xFF);//启动传输
 }
-void spi::setSpeed(u8 speed){
-//SPI速度=fAPB/2^(SpeedSet+1)
+
+/*************************************************
+Function: Spi::setSpeed
+Description: SPI设置传输速率(SPI速度=fAPB/2^(div+1))
+Calls: 
+Called By: 
+Input: div   0~7越小越快
+Return: void
+*************************************************/
+void Spi::setSpeed(u8 div){
 	the->CR1&=0XFF87;//失能、清速度
-	the->CR1 |= (speed&0X07)<<3;//设置速度
+	the->CR1 |= (div&0X07)<<3;//设置速度
 	the->CR1 |= 1<<6;//SPI设备使能
 }
-u8 spi::rwByte(u8 data){
-//TxData:要写入的字节
-//返回值:读取到的字节
+
+/*************************************************
+Function: Spi::rwByte
+Description: SPI初始化
+Calls: 
+Called By: 
+Input: data 要写入的字节
+Return: 读取到的字节
+*************************************************/
+u8 Spi::rwByte(u8 data){
 	reTry = 0XFFFE;
 	while((the->SR&1<<1)==0){//等待发送区空
 		if(reTry-- <= 0)return 0xFF;//超时退出

@@ -24,15 +24,15 @@ Description: 初始化CAN总线
 Calls: 
 Called By: 
 Input: void
-Return: 通用错误标识
+Return: 通用错误码
 *************************************************/
 ErrorStatus Can::init(void){
-	gpio(PA, 11).config(P_UIN);  //RX
-	gpio(PA, 12).config(P_PPAF); //TX
-	//nvic::init(USB_LP_CAN1_RX0_IRQn, 0 ,0);//使用FIFO0
-	nvic::init(CAN1_RX1_IRQn, 0 ,0);//使用FIFO1
-	rcc::cmd(1, APB1_CAN, ENABLE);
-	rcc::reset(1, APB1_CAN);
+	Gpio(PA, 11).config(P_UIN);  //RX
+	Gpio(PA, 12).config(P_PPAF); //TX
+	//nvic.config(USB_LP_CAN1_RX0_IRQn, 0 ,0);//使用FIFO0
+	nvic.config(CAN1_RX1_IRQn, 0 ,0);//使用FIFO1
+	rcc.cmd(1, APB1_CAN, ENABLE);
+	rcc.reset(1, APB1_CAN);
 	
 	CAN1->MCR &= (~(uint32_t)CAN_MCR_SLEEP); //退出睡眠
 	CAN1->MCR |= CAN_MCR_INRQ ; //请求进入初始化模式
