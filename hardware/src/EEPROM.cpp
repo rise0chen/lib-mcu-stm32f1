@@ -1,6 +1,28 @@
-#include "EEPROM.hpp"
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: Eeprom.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: EEPROM(AT24Cxx系列)
+Usage:
+	#include "Eeprom.hpp"
+	
+History: 
+	rise0chen   2018.4.26   初步完成
+*************************************************/
+#include "Eeprom.hpp"
 
-eeprom::eeprom(I2c &com, u8 typ, u8 addr):com(com),type(typ){
+/*************************************************
+Function: Eeprom::Eeprom
+Description: Eeprom类的构造函数
+Input: 
+	com  I2C接口
+	typ  芯片大小
+	addr I2C地址
+Return: Eeprom类
+*************************************************/
+Eeprom::Eeprom(I2c *com, u8 typ, u8 addr):com(com),type(typ){
 	deviceAddr = 0xA0+addr;
 	switch(typ){
 		//case  1: pageSize=8 ;pageMax=16 ;break;
@@ -14,24 +36,44 @@ eeprom::eeprom(I2c &com, u8 typ, u8 addr):com(com),type(typ){
 		//case 256:pageSize=64;pageMax=512;break;
 	}
 }
-ErrorStatus eeprom::writePage(u16 addr, char* pBuf, u8 num){
-	com.start();
+
+/*************************************************
+Function: Eeprom::writePage
+Description: Eeprom页写入
+Input: 
+	addr 页首地址
+	pBuf 待写入数据
+	num  字节长度
+Return: 通用错误码
+*************************************************/
+ErrorStatus Eeprom::writePage(u16 addr, char* pBuf, u8 num){
+	com->start();
 	if(type>16){
-		com.write(deviceAddr);//发送写命令
-		com.write(addr>>8);//发送高地址
-	}else{com.write(deviceAddr+((addr>>8)<<1));}//发送器件地址0XA0,写数据
-	com.write((u8)addr);//发送低地址
+		com->write(deviceAddr);//发送写命令
+		com->write(addr>>8);//发送高地址
+	}else{com->write(deviceAddr+((addr>>8)<<1));}//发送器件地址0XA0,写数据
+	com->write((u8)addr);//发送低地址
 	while(num--){
-		if(com.write(*(pBuf++))){
-			com.stop();
+		if(com->write(*(pBuf++))){
+			com->stop();
 			return ERROR;
 		}
 	}
-	com.stop();
+	com->stop();
 	delay_ms(10);//EEPROM的写入速度比较慢，加入延迟
 	return SUCCESS;
 }
-ErrorStatus  eeprom::write(u16 addr,void* buf,u16 num){
+
+/*************************************************
+Function: Eeprom::write
+Description: Eeprom批量写入
+Input: 
+	addr 首地址
+	buf  待写入数据
+	num  字节长度
+Return: 通用错误码
+*************************************************/
+ErrorStatus  Eeprom::write(u16 addr,void* buf,u16 num){
 	char* pBuf=(char*)buf;
 	u8 count = 0, NumOfPage = 0, NumOfEnd = 0;
 
@@ -65,27 +107,37 @@ ErrorStatus  eeprom::write(u16 addr,void* buf,u16 num){
 	}
 	return SUCCESS;
 }
-ErrorStatus  eeprom::read(u16 addr,void* buf,u16 num){
+
+/*************************************************
+Function: Eeprom::read
+Description: Eeprom读取数据
+Input: 
+	addr 首地址
+	buf  读取数据保存到buf
+	num  字节长度
+Return: 通用错误码
+*************************************************/
+ErrorStatus  Eeprom::read(u16 addr,void* buf,u16 num){
 	char* pBuf=(char*)buf;
-	com.start();
+	com->start();
 	if(type>16){
-		com.write(deviceAddr);//发送写命令
-		com.write(addr>>8);//发送高地址
-	}else{com.write(deviceAddr+((addr>>8)<<1));}//发送器件地址0XA0,写数据
-	com.write((u8)addr);//发送低地址
+		com->write(deviceAddr);//发送写命令
+		com->write(addr>>8);//发送高地址
+	}else{com->write(deviceAddr+((addr>>8)<<1));}//发送器件地址0XA0,写数据
+	com->write((u8)addr);//发送低地址
 	
-	com.start();
-	if(com.write(deviceAddr+1)){
-		com.stop();
+	com->start();
+	if(com->write(deviceAddr+1)){
+		com->stop();
 		return ERROR;
 	}
 	while(num--){//Rrad Data
 		if(num){
-			*(pBuf++) = com.read(1);
+			*(pBuf++) = com->read(1);
 		}else{
-			*(pBuf++) = com.read(0);
+			*(pBuf++) = com->read(0);
 		}
 	}
-	com.stop();
+	com->stop();
 	return SUCCESS;
 }

@@ -5,7 +5,7 @@
 
 namespace GSM{
 	extern Gpio *RST;
-	extern usart *com;
+	extern Usart *com;
 	
 	void ON(void);
 	void OFF(void);

@@ -2,12 +2,12 @@
 #define __EEPROM_H
 #include "i2c.hpp"
 
-class eeprom{
+class Eeprom{
 	public:
-		I2c &com;
+		I2c *com;
 		u8  pageSize;
 		
-		eeprom(I2c &com, u8 type, u8 deviceAddr);
+		Eeprom(I2c *com, u8 type, u8 deviceAddr);
 		ErrorStatus  write(u16 addr,void* buf,u16 num);
 		ErrorStatus  read(u16 addr,void* buf,u16 num);
 	private:

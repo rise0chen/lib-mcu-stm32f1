@@ -2,7 +2,7 @@
 
 namespace WIFI{
 	Gpio *Power = &gpio_default;
-	usart *com = &usart2;
+	Usart *com = &usart2;
 
 	void On(void){
 	//com初始化

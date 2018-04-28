@@ -16,7 +16,7 @@ History:
 #include "bufRcv.hpp"
 
 /*************************************************
-Function: bufRcv
+Function: bufRcv::bufRcv
 Description: bufRcv类的构造函数
 Calls: setFlag, setFunFinish
 Called By: usart.cpp
@@ -32,7 +32,7 @@ bufRcv::bufRcv(uint8_t s, uint8_t e, void (*fun)(char* msg, uint16_t len)){
 }
 
 /*************************************************
-Function: setFlag
+Function: bufRcv::setFlag
 Description: 设置起始/终止标志
 Calls: 
 Called By: bufRcv
@@ -49,7 +49,7 @@ void bufRcv::setFlag(uint8_t s, uint8_t e) {
 }
 
 /*************************************************
-Function: setFunFinish
+Function: bufRcv::setFunFinish
 Description: 设置接收完成后的执行函数
 Calls: 
 Called By: bufRcv
@@ -62,7 +62,7 @@ void bufRcv::setFunFinish(void (*fun)(char* msg, uint16_t len)) {
 }
 
 /*************************************************
-Function: rcv
+Function: bufRcv::rcv
 Description: 接收单字节
 Calls: 
 Called By: usart.cpp

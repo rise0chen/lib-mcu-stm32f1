@@ -5,7 +5,7 @@
 
 namespace WIFI{
 	extern Gpio *Power;
-	extern usart *com;
+	extern Usart *com;
 	
 	void  On(void);//wifi初始化
 	void  Connect(char* name, char* pwd);//连接wifi

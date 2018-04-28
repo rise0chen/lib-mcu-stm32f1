@@ -1,5 +1,36 @@
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: escape.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: 字符转义/还原
+Usage:
+	#include "escape.hpp"
+	#define ESC_LEN  3
+	ESC_TypeDef esctype[ESC_LEN]={
+		{{1,2},{{0x7E},{0x7B,0x01}}},
+		{{1,2},{{0x7D},{0x7B,0x02}}},
+		{{1,2},{{0x7B},{0x7B,0x03}}},
+	};
+	escape(usart1.tx.buf, usart1.tx.len, esctype, ESC_LEN, 1); //转义
+	escape(usart1.rx.buf, usart1.rx.len, esctype, ESC_LEN, 0); //还原
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
 #include "escape.hpp"
 
+/*************************************************
+Function: Can::escape
+Description: 字符转义/还原
+Input: 
+	bufin   待转义的数据
+	lenin   待转义的数据长度
+	type    转义规则
+	typelen 转义规则的长度
+	way     方式 0还原  1转义
+Return: 转义/还原后的长度
+*************************************************/
 unsigned short escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsigned char typelen, unsigned char way){
 	unsigned short i,j,k,outi=0;
 	char bufout[512];

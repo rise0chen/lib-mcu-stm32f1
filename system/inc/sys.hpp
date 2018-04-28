@@ -1,9 +1,9 @@
 #ifndef __SYS_H
 #define __SYS_H
 #include "stm32f10x.h"
-#include "rcc.hpp"
-#include "nvic.hpp"
-#include "gpio.hpp"
+#include "Rcc.hpp"
+#include "Nvic.hpp"
+#include "Gpio.hpp"
 #include "map.hpp"
 #include "std.hpp"
 #include "delay.hpp"

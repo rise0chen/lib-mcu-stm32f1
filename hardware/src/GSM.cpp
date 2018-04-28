@@ -2,7 +2,7 @@
 
 namespace GSM{
 	Gpio *RST = &gpio_default;
-	usart *com= &usart2;
+	Usart *com= &usart2;
 
 	void ON(void){
 		*RST->O=0;

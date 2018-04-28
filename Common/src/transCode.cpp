@@ -1,22 +1,43 @@
+/*************************************************
+Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
+File name: transCode.cpp
+Author: rise0chen
+Version: 1.0
+Date: 2018.4.26
+Description: 帧传输通信协议
+Usage: 
+	#include "transCode.hpp"
+	utf8ToGbk(in, out);
+History: 
+	rise0chen   2018.4.26   编写注释
+*************************************************/
 #include "transCode.hpp"
 
-unsigned char utf8ToGbk(const char* pszBufIn, char* pszBufOut){
+/*************************************************
+Function: Can::utf8ToGbk
+Description: UTF8编码转GBK编码(需要用到GT21L16S2Y字库芯片)
+Input: 
+	bufIn  待转换的UTF8数据
+	bufOut 转换出的GBK数据
+Return: GBK数据的长度
+*************************************************/
+unsigned char utf8ToGbk(const char* bufIn, char* bufOut){
 	unsigned char i_in = 0, len_out = 0;
 	unsigned short unicode;
 	unsigned int gbkaddr;
-	while(pszBufIn[i_in] != 0x00){
+	while(bufIn[i_in] != 0x00){
 		unicode = 0;
-		if((pszBufIn[i_in] & 0x80) == 0x00){ //1λ
-			pszBufOut[len_out++] = pszBufIn[i_in++];
+		if((bufIn[i_in] & 0x80) == 0x00){ //1λ
+			bufOut[len_out++] = bufIn[i_in++];
 		}
-		else if((pszBufIn[i_in] & 0xE0) == 0xC0){ //2λ
-			unicode |= (pszBufIn[i_in++] & 0x1F) << 6;
-			unicode |= (pszBufIn[i_in++] & 0x3F);
+		else if((bufIn[i_in] & 0xE0) == 0xC0){ //2λ
+			unicode |= (bufIn[i_in++] & 0x1F) << 6;
+			unicode |= (bufIn[i_in++] & 0x3F);
 		}
-		else if ((pszBufIn[i_in] & 0xF0) == 0xE0){ //3λ
-			unicode |= (pszBufIn[i_in++] & 0x0F) << 12;
-			unicode |= (pszBufIn[i_in++] & 0x3F) << 6;
-			unicode |= (pszBufIn[i_in++] & 0x3F);
+		else if ((bufIn[i_in] & 0xF0) == 0xE0){ //3λ
+			unicode |= (bufIn[i_in++] & 0x0F) << 12;
+			unicode |= (bufIn[i_in++] & 0x3F) << 6;
+			unicode |= (bufIn[i_in++] & 0x3F);
 		}
 		else{
 			return 0;
@@ -57,11 +78,11 @@ unsigned char utf8ToGbk(const char* pszBufIn, char* pszBufOut){
 			FontRom::com->rwByte(gbkaddr>>16);
 			FontRom::com->rwByte(gbkaddr>>8);
 			FontRom::com->rwByte(gbkaddr);
-			pszBufOut[len_out++] = FontRom::com->rwByte(0x00);
-			pszBufOut[len_out++] = FontRom::com->rwByte(0x00);
+			bufOut[len_out++] = FontRom::com->rwByte(0x00);
+			bufOut[len_out++] = FontRom::com->rwByte(0x00);
 			*FontRom::CS->O=1;
 		}
 	}
-	pszBufOut[len_out] = 0x00;
+	bufOut[len_out] = 0x00;
 	return len_out;
 }

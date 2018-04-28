@@ -68,15 +68,22 @@
 #define MPU_FIFO_RW_REG      0X74 //FIFO读写寄存器
 #define MPU_DEVICE_ID_REG    0X75 //器件ID寄存器
 
-namespace MPU6050{
-	extern I2c *com;
-	extern short GYRO[3],ACCEL[3];//陀螺仪,加速度
+class Mpu6050{
+	public:
+		short GYRO[3]; //倾斜角
+		short ACCEL[3];//加速度
+		
+		Mpu6050(I2c *com, u8 addr);
+		void init(void);//初始化MPU6050
+		void getGYRO(void);//读取陀螺仪值
+		void getACCEL(void);//读取加速度值
+		void writeByte(u8 reg,u8 data);
+		u8 readByte(u8 reg);
 	
-	void init(void);//初始化MPU6050
-	void getGYRO(void);//读取陀螺仪值
-	void getACCEL(void);//读取加速度值
-	static void writeByte(u8 reg,u8 data);
-	static u8 readByte(u8 reg);
-}
+	private:
+		u8    addr; //I2C设备地址
+		I2c *com;
+};
+extern Mpu6050 mpu6050;
 
 #endif //__GYRO_H
