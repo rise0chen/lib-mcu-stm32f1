@@ -17,8 +17,6 @@ s32 reTry=0x00FFFFFF;
 /*************************************************
 Function: setMem
 Description: 设置寄存器内容
-Calls: 
-Called By: 
 Input: 
 	p       需要设置的寄存器的地址
 	where   在需要设置的bit上置1, 如0b0111代表设置第0~2位
@@ -34,8 +32,6 @@ void setMem(volatile void* p,u32 where,u32 content){
 /*************************************************
 Function: setBit
 Description: 单bit置1
-Calls: 
-Called By: 
 Input: 
 	p       需要设置的寄存器的地址
 	where   需要置1的位置 0~31
@@ -49,8 +45,6 @@ void setBit(volatile void* p,u8 where){
 /*************************************************
 Function: clearBit
 Description: 单bit置0
-Calls: 
-Called By: 
 Input: 
 	p       需要设置的寄存器的地址
 	where   需要置0的位置 0~31
@@ -61,12 +55,9 @@ void clearBit(volatile void* p,u8 where){
 	*p0 &= ~(1<<where);
 }
 
-
 /*************************************************
 Function: run
 Description: 执行times次，直到(*func)()返回0
-Calls: 
-Called By: 
 Input: 
 	p       需要设置的寄存器的地址
 	where   需要置0的位置 0~31
@@ -81,6 +72,27 @@ ErrorStatus run(u8 (*func)(), u32 times){
 	return SUCCESS;
 }
 
+/*************************************************
+Function: waitBuf
+Description: 等待接收到期待的数据
+Input: 
+	where  数据地址
+	req    期待的数据
+	s      等待时间 0~25秒
+Return: 通用错误码
+*************************************************/
+ErrorStatus waitBuf(char* where, char* req, u8 s){
+	u8 time;
+	if(req[0]!='\0'){
+		while(!std::strstr(where, req)){
+			delay_ms(100);
+			if(time++ > 10*s){return OVERTIME;}
+		}
+		return SUCCESS;
+	}else{
+		return ERROR;
+	}
+}
 
 /********************************汇编部分********************************/
 /********************************汇编部分********************************/
@@ -89,8 +101,6 @@ ErrorStatus run(u8 (*func)(), u32 times){
 /*************************************************
 Function: MSR_MSP
 Description: 设置栈顶地址
-Calls: 
-Called By: 
 Input: 
 	addr  栈顶地址
 Return: void

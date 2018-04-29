@@ -3,12 +3,15 @@
 #include "sys.hpp"
 #include "spi.hpp"
 
-namespace FontRom{
-	extern Gpio *CS;
-	extern Spi *com;
-	
-	void getWord16x16(u16 gbk, u8* data);
-	void getWord8x16(u8 ascii, u8* data);
-}
+class FontRom{
+	public:
+		void init(Spi  *spi_com, Gpio *spi_cs);
+		void getWord16x16(u16 gbk, u8* data);
+		void getWord8x16(u8 ascii, u8* data);
+		u8 utf8ToGbk(const char* bufIn, char* bufOut);
+	private:
+		Spi *com = &spi2;
+		Gpio *CS = &gpio_default;
+};
 
 #endif /* __FONTS_H */

@@ -2,12 +2,15 @@
 #define __ULTRASONIC_H
 #include "sys.hpp"
 
-namespace ultrasonic{
-	extern Gpio *TRIG;
-	extern Gpio *ECHO;
-	extern u32 distance;//单位毫米mm
+class Ultrasonic{
+	public:
+		u32 distance;//单位毫米mm
 	
-	void init(void);
-	void ranging(u8 num=1);
-}
+		void init(Gpio *TRIG, Gpio *ECHO);
+		u32  ranging(u8 num=1);
+	
+	private:
+		Gpio *TRIG = &gpio_default;
+		Gpio *ECHO = &gpio_default;
+};
 #endif //__TEMPLATE_H

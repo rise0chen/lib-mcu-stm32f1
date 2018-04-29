@@ -20,11 +20,7 @@ History:
 *************************************************/
 #include "InfraRed.hpp"
 
-InfraRed infraRed(&gpio_default);
-
-InfraRed::InfraRed(Gpio *DQ):DQ(DQ){
-	
-}
+InfraRed infraRed;
 
 /*************************************************
 Function: InfraRed::init
@@ -32,7 +28,8 @@ Description: 初始化红外接收引脚
 Input: void
 Return: void
 *************************************************/
-void InfraRed::init(void){
+void InfraRed::init(Gpio *P_DQ){
+	DQ = P_DQ;
 	DQ->config(P_UIN);
 	DQ->configExti(FTI);//下降沿中断
 }

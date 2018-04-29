@@ -21,11 +21,7 @@ History:
 *************************************************/
 #include "Mpu6050.hpp"
 
-Mpu6050 mpu6050(&i2c2, 0x68);
-
-Mpu6050::Mpu6050(I2c *com, u8 addr):com(com),addr(addr){
-	
-}
+Mpu6050 mpu6050;
 
 /*************************************************
 Function: Mpu6050::init
@@ -33,7 +29,9 @@ Description: 初始化Mpu6050
 Input: void
 Return: void
 *************************************************/
-void Mpu6050::init(void){
+void Mpu6050::init(I2c *i2c_com, u8 i2c_addr){
+	com  = i2c_com;
+	addr = i2c_addr;
 	writeByte(MPU_PWR_MGMT1_REG,0X80);//复位Mpu6050
 	delay_ms(100);
 	writeByte(MPU_PWR_MGMT1_REG,0X00);//唤醒Mpu6050
