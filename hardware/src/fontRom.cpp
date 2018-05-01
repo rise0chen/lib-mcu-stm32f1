@@ -24,6 +24,15 @@ Return: FontRom类
 FontRom::FontRom(Spi *spi_com, Gpio *spi_cs){
 	com = spi_com;
 	CS  = spi_cs;
+}
+
+/*************************************************
+Function: FontRom::init
+Description: 字库IC初始化
+Input: void
+Return: void
+*************************************************/
+void FontRom::init(void){
 	CS->config(P_PPO);
 }
 

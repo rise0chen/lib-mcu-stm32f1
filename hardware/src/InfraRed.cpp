@@ -30,8 +30,6 @@ Return: InfraRed类
 *************************************************/
 InfraRed::InfraRed(Gpio *P_DQ){
 	DQ = P_DQ;
-	DQ->config(P_UIN);
-	DQ->configExti(FTI);//下降沿中断
 }
 
 /*************************************************
@@ -60,6 +58,8 @@ void InfraRed::get(void){
 	u32 data=0;
 	u8 time=0,ok=0,d,num=0;
 	
+	DQ->config(P_UIN);
+	DQ->configExti(FTI);//下降沿中断
 	while(1){
 		if(*DQ->I){
 			time=tim();//获得此次高电平时间
@@ -75,8 +75,8 @@ void InfraRed::get(void){
 				data<<=1;
 				data+=d;
 				if(num>=32){
-					IR_DATA=data;
-					IR_IRQ=1;//接收完毕，产生IRQ标记
+					DATA=data;
+					IRQ=1;//接收完毕，产生IRQ标记
 					break;
 				}
 			}

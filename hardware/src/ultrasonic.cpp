@@ -25,8 +25,6 @@ Return: Ultrasonic类
 Ultrasonic::Ultrasonic(Gpio *P_TRIG, Gpio *P_ECHO){
 	TRIG = P_TRIG;
 	ECHO = P_ECHO;
-	TRIG->config(P_PPO);
-	ECHO->config(P_UIN);
 }
 
 /*************************************************
@@ -39,6 +37,9 @@ u32  Ultrasonic::ranging(u8 num){
 	u8 i;
 	u16 j=0;
 	u32 Ultr_Temp=0;
+	
+	TRIG->config(P_PPO);
+	ECHO->config(P_UIN);
 	for(i=0;i<num;i++){
 		*TRIG->O=1;
 		delay_ms(10);

@@ -113,6 +113,9 @@ class RFID{
 	#define RFU3F             0x3F //保留
 
 	public:
+		u8 cardType[2];//类型
+		u8 cardSN[4];  //序列号
+	
 		RFID(Spi *spi_com, Gpio *spi_CS, Gpio *pin_RST);
 		void init(void);
 		void closeAntenna(void);
@@ -135,8 +138,6 @@ class RFID{
 		Spi *com;
 		Gpio *CS;
 		Gpio *RST;
-		u8 cardType[2];//类型
-		u8 cardSN[4];  //序列号
 		
 		void writeRawRC(u8 addr, u8 value);
 		u8 readRawRC(u8 addr);

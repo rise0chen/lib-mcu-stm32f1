@@ -9,11 +9,11 @@ git submodule add git@gitee.com:rise0chen/lib-mcu-stm32f1.git ./lib
 ```
 
 ## 示例
-见 [https://gitee.com/rise0chen/STM32F1](https://gitee.com/rise0chen/STM32F1)
+见 [https://gitee.com/rise0chen/demo-mcu-stm32f1](https://gitee.com/rise0chen/demo-mcu-stm32f1)
 
 ## 许可证
 MIT
 
 ## 相关链接
-[wiki文档](https://gitee.com/rise0chen/lib-mcu-stm32f1/wikis/pages)
+[wiki文档](https://gitee.com/rise0chen/lib-mcu-stm32f1/wikis/pages)  
 [我的博客](http://blog.crise.cn/)  
