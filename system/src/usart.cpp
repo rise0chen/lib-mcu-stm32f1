@@ -83,11 +83,11 @@ Input:
 	e     终止标识 0x0D为\r\n  0x0A为\n
 Return: void
 *************************************************/
-void Usart::config(u32 bound,u8 s,u8 e){
+void Usart::init(u32 bound,u8 s,u8 e){
 	u32 clk, temp;
 	u16 integer, fraction;
 
-	rx = bufRcv(s, e, funRx);
+	rx = BufRcv(s, e, funRx);
 	
 	RCC->APB2ENR |= RCC_GPIO;//使能PORT口时钟
 	//使能串口时钟

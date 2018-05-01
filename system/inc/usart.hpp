@@ -1,18 +1,18 @@
 #ifndef __USART_H
 #define __USART_H
 #include "sys.hpp"
-#include "gpio.hpp"
-#include "dma.hpp"
-#include "bufRcv.hpp"
+#include "Gpio.hpp"
+#include "Dma.hpp"
+#include "BufRcv.hpp"
 
 class Usart{
 	public:
-		bufRcv tx;
-		bufRcv rx;
+		BufRcv tx;
+		BufRcv rx;
 		
 		Usart(u8 t);
 		void (*funRx)(char* msg, u16 len);
-		void config(u32 bound,u8 s=0x00,u8 e=0x0A);
+		void init(u32 bound,u8 s=0x00,u8 e=0x0A);
 		void printf(char* format, ...);
 		void send(char *buf, u16 len=0);
 		void rcv();

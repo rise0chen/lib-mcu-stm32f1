@@ -25,8 +25,8 @@ class Task{
 		Task_TypeDef* taskType[TASK_MAXNUM];
 		
 		void init(void);
-		void add(u8 uid, void (*func)(void), u8 st=0, u8 et=0xff, u8 in=1, u8 ts=0);
-		void update(u8 uid, void (*func)(void), u8 st=0, u8 et=0xff, u8 in=1, u8 ts=0);
+		void add(u8 uid, void (*func)(void), u8 in=1, u8 ts=0xff, u8 st=0, u8 et=0xff);
+		void update(u8 uid, void (*func)(void), u8 in=1, u8 ts=0xff, u8 st=0, u8 et=0xff);
 		void run(void);
 		
 	private:

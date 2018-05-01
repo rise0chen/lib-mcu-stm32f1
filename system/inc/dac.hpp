@@ -4,11 +4,10 @@
 
 class Dac{
 	public:
-		DAC_TypeDef* the;
-	
 		Dac(u8 t);
 		void init(void);
 	private:
+		DAC_TypeDef* the;
 		u32 RCC_The;
 		
 };

@@ -5,15 +5,16 @@
 //温度传感器
 class DS18B20{
 	public:
-		u8 getTemp(Gpio *P_DQ);
+		DS18B20(Gpio *P_DQ);
+		void setGPIO(Gpio *P_DQ);
+		u8 getTemp(void);
 	
 	private:
-		Gpio *DQ = &gpio_default;
+		Gpio *DQ;
 	
-		void init(Gpio *P_DQ);
+		void init(void);
 		void write(u8 dat);
 		u8 read(void);
 };
-extern DS18B20 ds18b20;
 
 #endif //__DS18B20_H

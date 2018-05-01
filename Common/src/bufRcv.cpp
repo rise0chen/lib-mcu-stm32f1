@@ -1,47 +1,47 @@
 /*************************************************
 Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
-File name: bufRcv.cpp
+File name: BufRcv.cpp
 Author: rise0chen
 Version: 1.0
 Date: 2018.4.26
 Description: 用于单字节接收字符串
 Usage:
-	#include "bufRcv.hpp"
-	bufRcv receiver(0x00, 0x0D, fun_rcvfinish);
-	cahr res;
+	#include "BufRcv.hpp"
+	BufRcv receiver(0x00, 0x0D, fun_rcvfinish);
+	char res;
 	receiver.rcv(res);
 History: 
 	rise0chen   2018.4.26   初步完成
 *************************************************/
-#include "bufRcv.hpp"
+#include "BufRcv.hpp"
 
 /*************************************************
-Function: bufRcv::bufRcv
-Description: bufRcv类的构造函数
+Function: BufRcv::BufRcv
+Description: BufRcv类的构造函数
 Calls: setFlag, setFunFinish
 Called By: usart.cpp
 Input: 
 	s    字符串的起始标识
 	e    字符串的终止标识
 	fun  字符串接收完成后的执行函数
-Return: bufRcv类
+Return: BufRcv类
 *************************************************/
-bufRcv::bufRcv(uint8_t s, uint8_t e, void (*fun)(char* msg, uint16_t len)){
+BufRcv::BufRcv(uint8_t s, uint8_t e, void (*fun)(char* msg, uint16_t len)){
 	setFlag(s, e);
 	setFunFinish(fun);
 }
 
 /*************************************************
-Function: bufRcv::setFlag
+Function: BufRcv::setFlag
 Description: 设置起始/终止标志
 Calls: 
-Called By: bufRcv
+Called By: BufRcv
 Input: 
 	s    字符串的起始标识
 	e    字符串的终止标识
 Return: void
 *************************************************/
-void bufRcv::setFlag(uint8_t s, uint8_t e) {
+void BufRcv::setFlag(uint8_t s, uint8_t e) {
 	flagStart = s;
 	flagEnd = e;
 	status = 0;
@@ -49,20 +49,20 @@ void bufRcv::setFlag(uint8_t s, uint8_t e) {
 }
 
 /*************************************************
-Function: bufRcv::setFunFinish
+Function: BufRcv::setFunFinish
 Description: 设置接收完成后的执行函数
 Calls: 
-Called By: bufRcv
+Called By: BufRcv
 Input: 
 	fun  字符串接收完成后的执行函数
 Return: void
 *************************************************/
-void bufRcv::setFunFinish(void (*fun)(char* msg, uint16_t len)) {
+void BufRcv::setFunFinish(void (*fun)(char* msg, uint16_t len)) {
 	funFinish=fun;
 }
 
 /*************************************************
-Function: bufRcv::rcv
+Function: BufRcv::rcv
 Description: 接收单字节
 Calls: 
 Called By: usart.cpp
@@ -70,7 +70,7 @@ Input:
 	res  需要接收的字节
 Return: void
 *************************************************/
-void bufRcv::rcv(uint8_t res) {
+void BufRcv::rcv(uint8_t res) {
 	if((status>>6)!=3){//未开始
 		if(flagStart==0x00 && res!=0x00){//无开始标志
 			status|=0xC0;

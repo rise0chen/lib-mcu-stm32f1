@@ -19,7 +19,7 @@ History:
 Can can;
 
 /*************************************************
-Function: Can::config
+Function: Can::init
 Description: 初始化CAN总线
 Calls: 
 Called By: 

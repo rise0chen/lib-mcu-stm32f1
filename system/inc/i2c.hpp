@@ -7,8 +7,8 @@
 
 class I2c{
 	public:
-		//bufRcv tx;
-		//bufRcv rx;
+		//BufRcv tx;
+		//BufRcv rx;
 		
 		I2c(u8 t);
 		void init(void);

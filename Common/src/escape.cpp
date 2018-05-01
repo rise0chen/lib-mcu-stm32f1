@@ -21,7 +21,7 @@ History:
 #include "escape.hpp"
 
 /*************************************************
-Function: Can::escape
+Function: escape
 Description: 字符转义/还原
 Input: 
 	bufin   待转义的数据

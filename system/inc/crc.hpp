@@ -3,8 +3,8 @@
 #include "sys.hpp"
 
 namespace crc{
-	u16 get16(char *pBuffer, uint32_t BufferLength);  //计算CRC16
-	u32 get32(uint32_t pBuffer[], uint32_t BufferLength);  //计算CRC32
+	uint16_t get16(char *pBuffer, uint32_t BufferLength);
+	uint32_t get32(uint32_t *pBuffer, uint32_t BufferLength);
 }
 
 #endif //__CRC_H

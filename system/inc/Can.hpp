@@ -2,12 +2,12 @@
 #define __CAN_H
 #include "sys.hpp"
 
+#define CAN_Id_Standard  ((uint32_t)0x00000000)
+#define CAN_Id_Extended  ((uint32_t)0x00000004)
+#define CAN_RTR_Data     ((uint32_t)0x00000000)
+#define CAN_RTR_Remote   ((uint32_t)0x00000002)
+
 class Can{
-	#define CAN_Id_Standard  ((uint32_t)0x00000000)
-	#define CAN_Id_Extended  ((uint32_t)0x00000004)
-	#define CAN_RTR_Data     ((uint32_t)0x00000000)
-	#define CAN_RTR_Remote   ((uint32_t)0x00000002)
-	
 	public:
 		typedef struct{
 			uint32_t StdId;  // 标准ID   0~0x7FF

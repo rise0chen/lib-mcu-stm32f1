@@ -17,4 +17,5 @@ typedef struct{
 extern u16  indexCmd;//命令序列号
 extern protocol_TypeDef* ToMe;
 extern protocol_TypeDef* FromMe;
+
 #endif //__PROTOCOL_H

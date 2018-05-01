@@ -3,7 +3,7 @@
 #include "sys.hpp"
 #include "spi.hpp"
 
-namespace RFID{
+class RFID{
 	//通讯缓存最大长度
 	#define MAXRLEN            64
 	#define DEF_FIFO_LENGTH    64  //FIFO size=64byte
@@ -112,28 +112,36 @@ namespace RFID{
 	#define RFU3E             0x3E //保留
 	#define RFU3F             0x3F //保留
 
-
-	extern Spi *com;
-	extern Gpio *RST;
-	extern Gpio *CS;
-	extern u8 type[2];
-	extern u8 pSnr[4];
+	public:
+		RFID(Spi *spi_com, Gpio *spi_CS, Gpio *pin_RST);
+		void init(void);
+		void closeAntenna(void);
+		void openAntenna(void);
+		s8 PcdComMF522(u8 Command, u8* pDataIn, u8 InLenByte, u8* pDataOut, u16 *pOutLenBit);
+		s8 PcdReset(void);
+		void CalulateCRC(u8* pIndata, u8 len, u8* pDataOut);
+		s8 PcdHalt(void);
+		s8 PcdRequest(u8 req_code, u8* pTagType);
+		s8 PcdAnticoll(u8* pSnr);
+		s8 PcdSelect(u8* pSnr);
+		s8 GetCard(u8 Reqcode,u8* pSnr=0,u8* type=0);
+		s8 S50Auth(u8 auth_mode,u8 addr,u8 *pKey,u8* pSnr=0);
+		s8 S50Read(u8 addr,u8 *pData,u8 len=16);
+		s8 S50Write(u8 addr,u8 *pData);
+		s8 S50Value(u8 dd_mode,u8 addr,u8 *pValue);
+		s8 S50BakValue(u8 sourceaddr, u8 goaladdr);
 	
-	void init();
-	void closeAntenna(void);
-	void openAntenna(void);
-	s8 PcdComMF522(u8 Command, u8* pDataIn, u8 InLenByte, u8* pDataOut, u16 *pOutLenBit);
-	s8 PcdReset(void);
-	void CalulateCRC(u8* pIndata, u8 len, u8* pDataOut);
-	s8 PcdHalt(void);
-	s8 PcdRequest(u8 req_code, u8* pTagType);
-	s8 PcdAnticoll(u8* pSnr);
-	s8 PcdSelect(u8* pSnr);
-	s8 GetCard(u8 Reqcode,u8* pSnr=RFID::pSnr,u8* type=RFID::type);
-	s8 S50Auth(u8 auth_mode,u8 addr,u8 *pKey,u8* pSnr=RFID::pSnr);
-	s8 S50Read(u8 addr,u8 *pData,u8 len=16);
-	s8 S50Write(u8 addr,u8 *pData);
-	s8 S50Value(u8 dd_mode,u8 addr,u8 *pValue);
-	s8 S50BakValue(u8 sourceaddr, u8 goaladdr);
-}
+	private:
+		Spi *com;
+		Gpio *CS;
+		Gpio *RST;
+		u8 cardType[2];//类型
+		u8 cardSN[4];  //序列号
+		
+		void writeRawRC(u8 addr, u8 value);
+		u8 readRawRC(u8 addr);
+		void setBitMask(u8 reg, u8 mask);
+		void clearBitMask(u8 reg, u8 mask);
+};
+
 #endif //__RFID_H

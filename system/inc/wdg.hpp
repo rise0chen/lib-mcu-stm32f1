@@ -1,6 +1,7 @@
 #ifndef __WDG_H
 #define __WDG_H
 #include "sys.hpp"
+
 namespace iwdg{
 	void config(u8 prer,u16 rlr);
 	void feed(void);

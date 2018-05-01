@@ -1,6 +1,7 @@
 #ifndef __RCC_H
 #define __RCC_H
 #include "sys.hpp"
+#include "Nvic.hpp"
 
 #define AHB_DMA1    0x00000001
 #define AHB_DMA2    0x00000002

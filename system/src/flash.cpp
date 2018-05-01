@@ -9,7 +9,7 @@ Usage:
 	#include "Flash.hpp"
 	flash.read(0xE000ED00, ID, 4); //读CPUID
 	flash.read(0X1FFFF7E8, ID, 12);//读设备ID
-	flash.write(addrStart, ID, 12);//写入flash
+	flash.write(FLASH_ADDR_START, ID, 12);//写入flash
 History: 
 	rise0chen   2018.4.26   编写注释
 *************************************************/
@@ -22,15 +22,10 @@ Function: Flash::Flash
 Description: Flash类的构造函数
 Calls: 
 Called By: 
-Input: 
-	s    字符串的起始标志
-	e    字符串的终止标志
-	fun  字符串接收完成后的执行函数
+Input: void
 Return: Flash类
 *************************************************/
 Flash::Flash(){
-	addrStart = 0x0800C000;
-	addrEnd   = 0x08010000;
 	#if defined (STM32F10X_HD) || defined (STM32F10X_HD_VL) || defined (STM32F10X_CL) || defined (STM32F10X_XL)
 		sizePage = 0x800; //2048
 	#else

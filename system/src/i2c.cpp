@@ -112,7 +112,7 @@ void I2c::stop(void){
 }
 
 /*************************************************
-Function: I2c::start
+Function: I2c::ack
 Description: I2C应答信号
 Calls: 
 Called By: 

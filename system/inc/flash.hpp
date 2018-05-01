@@ -2,17 +2,18 @@
 #define __FLASH_H
 #include "sys.hpp"
 
+#define FLASH_ADDR_START 0x0800C000
+#define FLASH_ADDR_END   0x08010000
+
 class Flash{
 	public:
-		uint16_t sizePage;
-		uint32_t addrStart;
-		uint32_t addrEnd;
-		
 		Flash();
 		void read(u32 addr, void* buf, u16 num);
 		void write(u32 addr, void* buf, u16 num);
 	
 	private:
+		uint16_t sizePage;
+	
 		void lock(u8 en);
 		void erasePage(u32 paddr);
 };

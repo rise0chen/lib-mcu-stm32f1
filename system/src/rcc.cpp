@@ -13,7 +13,7 @@ Usage:
 History: 
 	rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "rcc.hpp"
+#include "Rcc.hpp"
 
 Rcc rcc;
 //uint32_t SystemCoreClock;
@@ -44,7 +44,7 @@ void Rcc::cmd(u8 bus, u32 periph, FunctionalState state){
 }
 
 /*************************************************
-Function: Rcc::cmd
+Function: Rcc::reset
 Description: 复位外设
 Calls: 
 Called By: 

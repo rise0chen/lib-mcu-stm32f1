@@ -7,6 +7,7 @@ Date: 2018.4.26
 Description: Mpu6050陀螺仪芯片
 Usage:
 	#include "Mpu6050.hpp"
+	Mpu6050 mpu6050(&i2c2, 0x68);
 	mpu6050.init();
 	mpu6050.getGYRO();
 	mpu6050.getACCEL();
@@ -21,7 +22,18 @@ History:
 *************************************************/
 #include "Mpu6050.hpp"
 
-Mpu6050 mpu6050;
+/*************************************************
+Function: Mpu6050::Mpu6050
+Description: Mpu6050构造函数
+Input: 
+	i2c_com  I2C外设
+	i2c_addr I2C地址
+Return: DS18B20类
+*************************************************/
+Mpu6050::Mpu6050(I2c *i2c_com, u8 i2c_addr){
+	com  = i2c_com;
+	addr = i2c_addr;
+}
 
 /*************************************************
 Function: Mpu6050::init
@@ -29,9 +41,7 @@ Description: 初始化Mpu6050
 Input: void
 Return: void
 *************************************************/
-void Mpu6050::init(I2c *i2c_com, u8 i2c_addr){
-	com  = i2c_com;
-	addr = i2c_addr;
+void Mpu6050::init(void){
 	writeByte(MPU_PWR_MGMT1_REG,0X80);//复位Mpu6050
 	delay_ms(100);
 	writeByte(MPU_PWR_MGMT1_REG,0X00);//唤醒Mpu6050

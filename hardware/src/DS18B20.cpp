@@ -7,22 +7,40 @@ Date: 2018.4.26
 Description: DS18B20温度传感器
 Usage: 
 	#include "DS18B20.hpp"
-	getTemp(&DQ);
+	DS18B20 ds18b20(&gpio_default);
+	getTemp();
 History: 
 	rise0chen   2018.4.26   编写注释
 *************************************************/
 #include "DS18B20.hpp"
 
-DS18B20 ds18b20;
+/*************************************************
+Function: DS18B20::DS18B20
+Description: DS18B20构造函数
+Input: P_DQ  DS18B20的数据引脚
+Return: DS18B20类
+*************************************************/
+DS18B20::DS18B20(Gpio *P_DQ){
+	DQ = P_DQ;
+}
+
+/*************************************************
+Function: DS18B20::setGPIO
+Description: 设置引脚
+Input: P_DQ  DS18B20的数据引脚
+Return: void
+*************************************************/
+void DS18B20::setGPIO(Gpio *P_DQ){
+	DQ = P_DQ;
+}
 
 /*************************************************
 Function: DS18B20::init
 Description: 初始化引脚
-Input: P_DQ  DS18B20的数据引脚
+Input: void
 Return: void
 *************************************************/
-void DS18B20::init(Gpio *P_DQ){
-	DQ = P_DQ;
+void DS18B20::init(void){
 	DQ->config(P_PPO);
 	*DQ->O=1;
 	delay_us(10);
@@ -96,14 +114,14 @@ Description: 读取温度
 Input: P_DQ  DS18B20的数据引脚
 Return: 摄氏温度(只保留整数部分)
 *************************************************/
-u8 DS18B20::getTemp(Gpio *P_DQ){
+u8 DS18B20::getTemp(void){
 	u8 a,b;
 	
-	init(P_DQ);//初始化
+	init();//初始化
 	write(0xcc);//发送忽略ROM指令
 	write(0x44);//发送温度转换指令
 	delay_us(1000);
-	init(P_DQ);//初始化
+	init();//初始化
 	write(0xcc);//发送忽略ROM指令
 	write(0xbe);//发读暂存器指令
 	a=read();//温度的低八位

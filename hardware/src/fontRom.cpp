@@ -7,24 +7,24 @@ Date: 2018.4.26
 Description: GT21L16S2Y字库IC
 Usage: 
 	#include "FontRom.hpp"
-	FontRom  fontIC;
-	fontIC.init(spi_com, spi_cs);
+	FontRom  fontIC(&spi_com, &spi_cs);
 History: 
 	rise0chen   2018.4.26   编写注释
 *************************************************/
 #include "FontRom.hpp"
 
 /*************************************************
-Function: FontRom::init
-Description: 初始化spi接口
+Function: FontRom::FontRom
+Description: FontRom构造函数
 Input: 
 	spi_com spi外设
 	spi_c是 spi片选引脚
-Return: void
+Return: FontRom类
 *************************************************/
-void FontRom::init(Spi  *spi_com, Gpio *spi_cs){
+FontRom::FontRom(Spi *spi_com, Gpio *spi_cs){
 	com = spi_com;
 	CS  = spi_cs;
+	CS->config(P_PPO);
 }
 
 /*************************************************
@@ -89,15 +89,16 @@ void FontRom::getWord8x16(u8 ascii, u8* data){
 }
 
 /*************************************************
-Function: Can::utf8ToGbk
+Function: FontRom::utf8ToGbk
 Description: UTF8编码转GBK编码(需要用到GT21L16S2Y字库芯片)
 Input: 
 	bufIn  待转换的UTF8数据
 	bufOut 转换出的GBK数据
 Return: GBK数据的长度
 *************************************************/
-u8 FontRom::utf8ToGbk(const char* bufIn, char* bufOut){
-	unsigned char i_in = 0, len_out = 0;
+unsigned char FontRom::utf8ToGbk(const char* bufIn, char* bufOut){
+	unsigned char i_in = 0;
+	unsigned char len_out = 0;
 	unsigned short unicode;
 	unsigned int gbkaddr;
 	while(bufIn[i_in] != 0x00){

@@ -7,11 +7,12 @@ Date: 2018.4.26
 Description: 红外通信
 Usage:
 	#include "InfraRed.hpp"
+	InfraRed ir(&gpio_default);
 	if(EXTI->PR & (1<<15)){//红外遥控外部中断
-		infraRed::Get();
-		if(infraRed::IR_IRQ==1){
-			infraRed::IR_IRQ=0;
-			//infraRed::IR_DATA;
+		ir.get();
+		if(ir.IRQ==1){
+			ir.IRQ=0;
+			//ir.DATA;
 		}
 		EXTI->PR=1<<15;
 	}
@@ -20,15 +21,14 @@ History:
 *************************************************/
 #include "InfraRed.hpp"
 
-InfraRed infraRed;
-
 /*************************************************
-Function: InfraRed::init
-Description: 初始化红外接收引脚
-Input: void
-Return: void
+Function: InfraRed::InfraRed
+Description: InfraRed构造函数
+Input: 
+	P_DQ  红外接收引脚
+Return: InfraRed类
 *************************************************/
-void InfraRed::init(Gpio *P_DQ){
+InfraRed::InfraRed(Gpio *P_DQ){
 	DQ = P_DQ;
 	DQ->config(P_UIN);
 	DQ->configExti(FTI);//下降沿中断

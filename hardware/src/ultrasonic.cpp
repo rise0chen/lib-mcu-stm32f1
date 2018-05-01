@@ -14,17 +14,15 @@ History:
 *************************************************/
 #include "Ultrasonic.hpp"
 
-Ultrasonic ultrasonic;
-
 /*************************************************
-Function: Ultrasonic::init
+Function: Ultrasonic::Ultrasonic
 Description: 初始化HC-SR04超声波传感器
 Input: 
 	TRIG  控制端引脚
 	ECHO  接收端引脚
-Return: void
+Return: Ultrasonic类
 *************************************************/
-void Ultrasonic::init(Gpio *P_TRIG, Gpio *P_ECHO){
+Ultrasonic::Ultrasonic(Gpio *P_TRIG, Gpio *P_ECHO){
 	TRIG = P_TRIG;
 	ECHO = P_ECHO;
 	TRIG->config(P_PPO);

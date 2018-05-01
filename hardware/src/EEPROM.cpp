@@ -7,7 +7,9 @@ Date: 2018.4.26
 Description: EEPROM(AT24Cxx系列)
 Usage:
 	#include "Eeprom.hpp"
-	
+	Eeprom at24c02(&i2c2, 0, 128);
+	at24c02.write(0x00, data, len);
+	at24c02.read(0x00, data, len);
 History: 
 	rise0chen   2018.4.26   初步完成
 *************************************************/
@@ -18,11 +20,11 @@ Function: Eeprom::Eeprom
 Description: Eeprom类的构造函数
 Input: 
 	com  I2C接口
-	typ  芯片大小
 	addr I2C地址
+	typ  芯片大小
 Return: Eeprom类
 *************************************************/
-Eeprom::Eeprom(I2c *com, u8 typ, u8 addr):com(com),type(typ){
+Eeprom::Eeprom(I2c *com, u8 addr, u8 typ):com(com),type(typ){
 	deviceAddr = 0xA0+addr;
 	switch(typ){
 		//case  1: pageSize=8 ;pageMax=16 ;break;
