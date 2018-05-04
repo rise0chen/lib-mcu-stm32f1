@@ -25,8 +25,6 @@ u32 RunTime;//单位秒
 /*************************************************
 Function: Task::init
 Description: 初始化SysTick心跳定时器
-Calls: 
-Called By: 
 Input: void
 Return: void
 *************************************************/
@@ -40,8 +38,6 @@ void Task::init(void){
 /*************************************************
 Function: Task::add
 Description: 新建任务
-Calls: 
-Called By: 
 Input: 
 	uid  任务编码 0~TASK_MAXNUM
 	func 需要执行的函数
@@ -53,8 +49,8 @@ Return: void
 *************************************************/
 void Task::add(u8 uid, void (*func)(void), u8 in, u8 ts, u8 st, u8 et){
 	taskType[uid]=new Task_TypeDef;
-	taskType[uid]->uid=uid;
-	taskType[uid]->status = FINISH;
+	taskType[uid]->uid = uid;
+	taskType[uid]->status = READY;
 	taskType[uid]->startTime=RunTime+st;
 	if(et==0){
 		taskType[uid]->endTime=0;
@@ -72,8 +68,6 @@ void Task::add(u8 uid, void (*func)(void), u8 in, u8 ts, u8 st, u8 et){
 /*************************************************
 Function: Task::update
 Description: 更新任务
-Calls: 
-Called By: 
 Input: 
 	uid  任务编码 0~TASK_MAXNUM
 	func 需要执行的函数
@@ -84,7 +78,7 @@ Input:
 Return: void
 *************************************************/
 void Task::update(u8 uid, void (*func)(void), u8 in, u8 ts, u8 st, u8 et){
-	taskType[uid]->status = FINISH;
+	taskType[uid]->status = READY;
 	taskType[uid]->startTime=RunTime+st;
 	if(et==0){
 		taskType[uid]->endTime=0;
@@ -98,18 +92,27 @@ void Task::update(u8 uid, void (*func)(void), u8 in, u8 ts, u8 st, u8 et){
 	taskType[uid]->timesRun=0;
 	taskType[uid]->interval=in;
 }
+/*************************************************
+Function: Task::cmd
+Description: 控制任务状态
+Input: 
+	uid    任务编码 0~TASK_MAXNUM
+	status 状态
+Return: void
+*************************************************/
+void Task::cmd(u8 uid, Task_Status status){
+	taskType[uid]->status = status;
+}
 
 /*************************************************
 Function: Task::run
 Description: 执行任务
-Calls: 
-Called By: 
 Input: void
 Return: void
 *************************************************/
 void Task::run(void){
 	for(u16 i=0; i<TASK_MAXNUM; i++){
-		if(taskType[i]->status == READY){
+		if(taskType[i]->status == RUN){
 			if(taskType[i]->interval == 0){
 				if(RunTime>=taskType[i]->startTime && RunTime<=taskType[i]->endTime){
 					if(taskType[i]->times==0xff || taskType[i]->timesRun < taskType[i]->times){
@@ -129,21 +132,19 @@ void Task::run(void){
 /*************************************************
 Function: SysTick_Handler
 Description: 心跳定时器中断(每1s触发)
-Calls: 
-Called By: 
 Input: void
 Return: void
 *************************************************/
 _C void SysTick_Handler(void){
 	RunTime++;
 	for(u16 i=0; i<TASK_MAXNUM; i++){
-		if(task.taskType[i]->status == task.FINISH){
+		if(task.taskType[i]->status == task.READY || task.taskType[i]->status == task.FINISH){
 			if(RunTime>=task.taskType[i]->startTime && RunTime<=task.taskType[i]->endTime){
 				if(task.taskType[i]->times==0xff || task.taskType[i]->timesRun < task.taskType[i]->times){
 					if(task.taskType[i]->interval == 0){
-						task.taskType[i]->status = task.READY;
+						task.taskType[i]->status = task.RUN;
 					}else if((RunTime-task.taskType[i]->startTime)%task.taskType[i]->interval==0){
-						task.taskType[i]->status = task.READY;
+						task.taskType[i]->status = task.RUN;
 					}
 				}
 			}

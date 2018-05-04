@@ -11,6 +11,7 @@ class I2c{
 		//BufRcv rx;
 		
 		I2c(u8 t);
+		void setGPIO(Gpio *P_SCL, Gpio *P_SDA);
 		void init(void);
 		void start(void);
 		void stop(void);
@@ -22,8 +23,8 @@ class I2c{
 	private:
 		I2C_TypeDef* the;
 		u32 RCC_The;
-		Gpio SCL;
-		Gpio SDA;
+		Gpio *SCL;
+		Gpio *SDA;
 		u8  IRQn;
 };
 extern I2c i2c1;

@@ -8,8 +8,10 @@ extern u32 RunTime;
 class Task{
 	public:
 		typedef enum {
-			READY  = 0x64,//准备执行
-			FINISH = 0x65,//执行完成
+			READY  = 0x61,//准备执行
+			RUN    = 0x66,//正在执行
+			FINISH = 0x6F,//执行完成
+			STOP   = 0xF0,//停止执行
 			ERROR  = 0xFF,//未知错误
 		} Task_Status;//状态码
 		typedef struct{
@@ -27,6 +29,7 @@ class Task{
 		void init(void);
 		void add(u8 uid, void (*func)(void), u8 in=1, u8 ts=0xff, u8 st=0, u8 et=0xff);
 		void update(u8 uid, void (*func)(void), u8 in=1, u8 ts=0xff, u8 st=0, u8 et=0xff);
+		void cmd(u8 uid, Task_Status status);
 		void run(void);
 		
 	private:

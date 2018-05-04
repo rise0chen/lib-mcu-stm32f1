@@ -8,7 +8,7 @@ Description: CAN总线 类
 Usage:
 	#include "Can.hpp"
 	can.init();
-	can.configFilter(0, 1, 0x00000000, 0x00000000); //屏蔽模式 接收所有
+	can.configFilter(0x00, 1, 0x00000000, 0x00000000); //屏蔽模式 接收所有
 	can.send(&can.tx);
 	can.rcv(&can.rx);
 History: 
@@ -29,8 +29,6 @@ Return: 通用错误码
 ErrorStatus Can::init(void){
 	Gpio(PA, 11).config(P_UIN);  //RX
 	Gpio(PA, 12).config(P_PPAF); //TX
-	//nvic.config(USB_LP_CAN1_RX0_IRQn, 0 ,0);//使用FIFO0
-	nvic.config(CAN1_RX1_IRQn, 0 ,0);//使用FIFO1
 	rcc.cmd(1, APB1_CAN, ENABLE);
 	rcc.reset(1, APB1_CAN);
 	
@@ -86,6 +84,11 @@ void Can::configFilter(uint8_t number,uint8_t maskMode, uint32_t ID, uint32_t ma
 	CAN1->FFA1R |= (uint32_t)filter_number_bit_pos; //FIFO1
 	CAN1->FA1R |= filter_number_bit_pos; //使能过滤器
 	CAN1->FMR &= ~0x00000001; //退出过滤器初始化模式
+	
+	//nvic.config(USB_LP_CAN1_RX0_IRQn, 0 ,0);//使用FIFO0
+	nvic.config(CAN1_RX1_IRQn, 0 ,0);//使用FIFO1
+	//CAN1->IER |= 0x00000002; //FIFO0消息中断
+	CAN1->IER |= 0x00000010; //FIFO1消息中断
 }
 
 /*************************************************

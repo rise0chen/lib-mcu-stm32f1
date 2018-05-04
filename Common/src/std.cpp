@@ -78,7 +78,7 @@ Input:
 	dst   待比较
 	src   期望数据
 	n     字节长度 0代表字符串
-Return: void
+Return: 0相同  非0不相同
 *************************************************/
 int std::memcmp(const void *dst, const void *src, unsigned int n){
 	unsigned char* d = (unsigned char*) dst;

@@ -33,17 +33,30 @@ I2c::I2c(u8 t){
 	if(t==1){
 		the = I2C1;
 		RCC_The = APB1_I2C1;
-		SCL = Gpio(PB, 6);
-		SDA = Gpio(PB, 7);
+		SCL = new Gpio(PB, 6);
+		SDA = new Gpio(PB, 7);
 		IRQn = I2C1_EV_IRQn;
 	}
 	if(t==2){
 		the = I2C2;
 		RCC_The = APB1_I2C2;
-		SCL = Gpio(PB, 10);
-		SDA = Gpio(PB, 11);
+		SCL = new Gpio(PB, 10);
+		SDA = new Gpio(PB, 11);
 		IRQn = I2C2_EV_IRQn;
 	}
+}
+
+/*************************************************
+Function: I2c::setGPIO
+Description: 设置I2C引脚
+Calls: 
+Called By: 
+Input: void
+Return: void
+*************************************************/
+void I2c::setGPIO(Gpio *P_SCL, Gpio *P_SDA){
+	SCL = P_SCL;
+	SDA = P_SDA;
 }
 
 /*************************************************
@@ -56,10 +69,10 @@ Return: void
 *************************************************/
 void I2c::init(void){
 	#if I2C_SOFE//软件I2C
-	SCL.config(P_ODO);
-	SDA.config(P_ODO);
-	*SCL.O=1;
-	*SDA.O=1;
+	SCL->config(P_ODO);
+	SDA->config(P_ODO);
+	*SCL->O=1;
+	*SDA->O=1;
 	#else//硬件I2C外设
 
 	#endif
@@ -75,14 +88,14 @@ Return: void
 *************************************************/
 void I2c::start(void){
 	#if I2C_SOFE//软件I2C
-	SDA.config(P_ODO);
-	*SCL.O=1; //起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
-	*SDA.O=1;
-	delay_us(5); //需要大于4.7us
-	*SDA.O=0;
-	delay_us(5); //需要大于4us
-	*SCL.O=0;
-	delay_us(1);
+	SDA->config(P_ODO);
+	*SCL->O=1; //起始条件：SCL线是高电平时，SDA 线从高电平向低电平切换
+	*SDA->O=1;
+	delay_us(20); //需要大于4.7us
+	*SDA->O=0;
+	delay_us(20); //需要大于4us
+	*SCL->O=0;
+	delay_us(20);
 	#else//硬件I2C外设
 
 	#endif
@@ -98,14 +111,14 @@ Return: void
 *************************************************/
 void I2c::stop(void){
 	#if I2C_SOFE//软件I2C
-	SDA.config(P_ODO);
-	*SCL.O=0;
-	*SDA.O=0;
-	delay_us(1);
-	*SCL.O=1;//停止条件：SCL线是高电平时，SDA 线由低电平向高电平切换
-	delay_us(1);
-	*SDA.O=1;
-	delay_us(1);
+	SDA->config(P_ODO);
+	*SCL->O=0;
+	*SDA->O=0;
+	delay_us(20);
+	*SCL->O=1;//停止条件：SCL线是高电平时，SDA 线由低电平向高电平切换
+	delay_us(20);
+	*SDA->O=1;
+	delay_us(20);
 	#else//硬件I2C外设
 
 	#endif
@@ -121,14 +134,14 @@ Return: void
 *************************************************/
 void I2c::ack(u8 en){
 	#if I2C_SOFE//软件I2C
-	*SCL.O=0;
-	SDA.config(P_ODO);
-	*SDA.O= !en;//SDA传输完前8位时，当SCL来到第9个高电平时，SDA线为低电平，则为有效应答位
-	delay_us(1);
-	*SCL.O=1;
-	delay_us(1);
-	*SCL.O=0;
-	delay_us(1);
+	*SCL->O=0;
+	SDA->config(P_ODO);
+	*SDA->O= !en;//SDA传输完前8位时，当SCL来到第9个高电平时，SDA线为低电平，则为有效应答位
+	delay_us(20);
+	*SCL->O=1;
+	delay_us(20);
+	*SCL->O=0;
+	delay_us(20);
 	#else//硬件I2C外设
 
 	#endif
@@ -144,17 +157,17 @@ Return: 通用错误码
 *************************************************/
 ErrorStatus I2c::waitAck(void){
 	#if I2C_SOFE//软件I2C
-	SDA.config(P_UIN);//SDA设置为输入
-	*SDA.O=1;
-	delay_us(1);
-	*SCL.O=1;
-	delay_us(1);
+	SDA->config(P_UIN);//SDA设置为输入
+	*SDA->O=1;
+	delay_us(20);
+	*SCL->O=1;
+	delay_us(20);
 	
 	reTry = 250;
-	while(*SDA.I){
+	while(*SDA->I){
 		if(reTry-- <= 0){stop();return OVERTIME;}
 	}
-	*SCL.O=0;
+	*SCL->O=0;
 	return SUCCESS;
 	#else//硬件I2C外设
 
@@ -172,19 +185,19 @@ Return: void
 ErrorStatus I2c::write(u8 data){
 	u8 i;
 
-	SDA.config(P_ODO);
-	*SCL.O=0;
+	SDA->config(P_ODO);
+	*SCL->O=0;
 	for(i=0;i<8;i++){//I2C总线在SCL线为高电平时传输数据，在低电平时更换数据
 		if(data&0x80)
-			*SDA.O=1;
+			*SDA->O=1;
 		else
-			*SDA.O=0;
+			*SDA->O=0;
 		data<<=1;
-		delay_us(1);
-		*SCL.O=1;
-		delay_us(1);//SCL线由高电平变为低电平时需要有0.3us的延迟
-		*SCL.O=0;
-		delay_us(1);//SCL线由低电平变为高电平时需要有0.3us的延迟
+		delay_us(20);
+		*SCL->O=1;
+		delay_us(20);//SCL线由高电平变为低电平时需要有0.3us的延迟
+		*SCL->O=0;
+		delay_us(20);//SCL线由低电平变为高电平时需要有0.3us的延迟
 	}
 	return(waitAck());
 }
@@ -200,18 +213,18 @@ Return: 单字节数据
 u8 I2c::read(u8 isAck){
 	u8 i,receive = 0;
 
-	SDA.config(P_UIN);
+	SDA->config(P_UIN);
 	for(i=0;i<8;i++){
-		*SCL.O=0;
-		delay_us(1);
-		*SCL.O=1;
+		*SCL->O=0;
+		delay_us(20);
+		*SCL->O=1;
 		receive<<=1;
-		if(*SDA.I)
+		if(*SDA->I)
 			receive++;
-		delay_us(1);
+		delay_us(20);
 	}
-	*SCL.O=0;
-	delay_us(1);
+	*SCL->O=0;
+	delay_us(20);
 	ack(isAck);//发送ACK 或 NACK
 	return(receive);
 }
