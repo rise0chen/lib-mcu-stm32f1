@@ -17,8 +17,8 @@ History:
 *************************************************/
 #include "delay.hpp"
 
-#define fac_us (72)//us延时倍乘数 (sysclk/1 000 000)
-#define fac_ms (fac_us*1000)//ms延时倍乘数
+#define fac_us (72)  //us倍乘数 (rcc.clkSys/1 000 000)
+#define fac_ms (fac_us*1000)  //ms倍乘数
 
 /*************************************************
 Function: delay

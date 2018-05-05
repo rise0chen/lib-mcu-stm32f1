@@ -4,10 +4,10 @@
 
 class Ultrasonic{
 	public:
-		u32 distance;//单位毫米mm
+		u16 distance;//单位毫米mm
 	
 		Ultrasonic(Gpio *TRIG, Gpio *ECHO);
-		u32  ranging(u8 num=1);
+		u16  get(u8 num=1);
 	
 	private:
 		Gpio *TRIG;

@@ -44,7 +44,7 @@ ErrorStatus Can::init(void){
 	CAN1->MCR &= ~(uint32_t)CAN_MCR_NART; //禁止报文自动重传	  DISABLE-自动重传
 	CAN1->MCR &= ~(uint32_t)CAN_MCR_RFLM; //接收FIFO 锁定模式  DISABLE-溢出时新报文会覆盖原有报文
 	CAN1->MCR &= ~(uint32_t)CAN_MCR_TXFP; //发送FIFO优先级 DISABLE-优先级取决于报文标示符
-	//定义了时间单元的时间长度 36000k/(1+5+3)/40=100 bps
+	//定义了时间单元的时间长度 36000k/(1+5+3)/40=100k bps
 	//        = 正常模式              重新同步跳跃宽度(2个时间单元)  时间段1(5个时间单元)      时间段2(3个时间单元)      波特率分频器(40分频)
 	CAN1->BTR = ((uint32_t)0x00 << 30) | ((uint32_t)0x01 << 24) | ((uint32_t)0x04 << 16) | ((uint32_t)0x02 << 20) | ((uint32_t)40 - 1);
 	CAN1->MCR &= ~(uint32_t)CAN_MCR_INRQ; //请求退出初始化模式

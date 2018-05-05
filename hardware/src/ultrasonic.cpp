@@ -33,26 +33,26 @@ Description: HC-SR04超声波测距
 Input: num   测num次,取平均值
 Return: 距离,毫米数
 *************************************************/
-u32  Ultrasonic::ranging(u8 num){
-	u8 i;
-	u16 j=0;
-	u32 Ultr_Temp=0;
+u16  Ultrasonic::get(u8 num){
+	u16 t=0;
+	u16 tSum=0;
 	
 	TRIG->config(P_PPO);
 	ECHO->config(P_UIN);
-	for(i=0;i<num;i++){
+	for(u8 i=0;i<num;i++){
 		*TRIG->O=1;
 		delay_ms(10);
 		*TRIG->O=0;
+		
+		t=0;
 		while((!*ECHO->I));
-		while(*ECHO->I){
+		while(*ECHO->I && t<2000){//模块最大可测距3.4m
 			delay_us(10);
-			j++;
+			t++;
 		}
-		Ultr_Temp+=340/2*j*10;//模块最大可测距3m 
-		j=0;
+		tSum+=340/2*(10*t);
 		delay_ms(60);//防止发射信号对回响信号的影响
 	}
-	distance = Ultr_Temp/num/1000;
+	distance = tSum/num/1000;
 	return distance;
 }
