@@ -66,8 +66,8 @@ void* std::memcpy(void *dst, const void *src, size_t n){
 		while(*s){
 			*d++=*s++;
 		}
+		*d='\0';
 	}
-	*d='\0';
 	return r;
 }
 

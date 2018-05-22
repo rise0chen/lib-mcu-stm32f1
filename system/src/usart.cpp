@@ -102,8 +102,8 @@ void Usart::init(u32 bound,u8 s,u8 e){
 		clk = rcc.clkApb1;
 	}
 	//GPIO端口设置
-	Gpio(Px, PTX).config(P_ODAF, 1, P_50MHz);//TX推挽输出
-	Gpio(Px, PRX).config(P_FIN);//RX浮空输入
+	Gpio(Px, PTX).config(P_ODAF, 1, P_50MHz);//TX开漏输出
+	Gpio(Px, PRX).config(P_UIN);//RX上拉输入
 	//波特率设置
 	integer=clk/(bound<<4);//得到整数部分
 	temp = (clk<<4)/bound;//得到USARTDIV

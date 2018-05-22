@@ -66,9 +66,9 @@ Return: void
 *************************************************/
 void Spi::init(){
 	if(the==SPI1){//SPI时钟使能
-		rcc.cmd(1, RCC_The, ENABLE);
-	}else{
 		rcc.cmd(2, RCC_The, ENABLE);
+	}else{
+		rcc.cmd(1, RCC_The, ENABLE);
 	}
 	Gpio(Px, PSCK).config(P_PPAF);
 	Gpio(Px, PMISO).config(P_PPAF);

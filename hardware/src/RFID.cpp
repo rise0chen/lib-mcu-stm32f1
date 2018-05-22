@@ -406,6 +406,8 @@ s8 RFID::GetCard(u8 Reqcode,u8* pSnr,u8* type){
 	
 	if(pSnr == 0){pSnr = cardSN;}
 	if(type == 0){type = cardType;}
+	std::memset(pSnr, 0x00, 4);
+	std::memset(type, 0x00, 2);
 	status = PcdRequest(Reqcode, type);//寻卡
 	if(status){
 		return MI_NOCARD;
