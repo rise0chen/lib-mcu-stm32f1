@@ -144,7 +144,7 @@ void Gpio::configExti(u8 TRIM){
 	}else if(Pn>=10 && Pn<16){
 		IRQn = 40;
 	}
-	nvic.config(IRQn,1,0);
+	nvic.config(IRQn,3,0);
 }
 
 /*************************************************

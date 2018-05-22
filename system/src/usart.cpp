@@ -111,7 +111,7 @@ void Usart::init(u32 bound,u8 s,u8 e){
 	the->BRR=(integer<<4)+fraction;// 波特率设置
 	//使能接收中断
 	the->CR1 |= 1<<5;//RXNE(1<<6:IDLE)中断使能
-	nvic.config(IRQn,2,0);
+	nvic.config(IRQn,0,0);
 	//DMA设置
 	dma.configTx(TX_DMA,(u32)&the->DR,(u32)&tx.buf,1);
 	//dma.configRx(RX_DMA,(u32)&the->DR,(u32)&rx.buf,LEN_MAX);
