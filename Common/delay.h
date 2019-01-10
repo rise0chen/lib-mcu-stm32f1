@@ -11,6 +11,6 @@ void  delay_us(u32 nus);
 #define delay_ms(nms)         delay_us(nms*1000)
 
 void  tic(void);
-u32  toc(u8 way=0);
+u32  toc(u8 way);
 
 #endif //__DELAY_H

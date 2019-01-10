@@ -16,7 +16,7 @@ History:
 *************************************************/
 #include "task.h"
 
-#define fac_us (9)  //us倍乘数 (rcc.clkSys/8 000 000)
+#define fac_us (9)  //us倍乘数 (rcc_clkSys/8 000 000)
 #define fac_ms (fac_us*1000)  //ms倍乘数
 
 u16 timeOneSysTick = 0;//1次系统心跳的时间(ms)
@@ -51,7 +51,7 @@ Input:
 Return: void
 *************************************************/
 void task_add(u8 uid, void (*func)(void), u16 in, u16 ts, u16 st, u16 et){
-	tasks[uid]=new TaskStruct;
+	tasks[uid]=(TaskStruct*)malloc(sizeof(TaskStruct));
 	tasks[uid]->uid = uid;
 	tasks[uid]->status = taskStatus_ready;
 	tasks[uid]->startTime=timeSysTick+st;
@@ -134,7 +134,7 @@ Description: 心跳定时器中断(每timeOneSysTick毫秒触发1次)
 Input: void
 Return: void
 *************************************************/
-_C void SysTick_Handler(void){
+void SysTick_Handler(void){
 	timeSysTick++;
 	for(u16 i=0; i<TASK_NUM_MAX; i++){
 		if(tasks[i]->status == taskStatus_ready || tasks[i]->status == taskStatus_finish){

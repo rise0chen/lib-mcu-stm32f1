@@ -1332,7 +1332,7 @@ Input:
 	bufOut 转换出的GBK数据
 Return: GBK数据的长度
 *************************************************/
-unsigned char utf8ToGbk(const unsigned char* bufIn, unsigned char* bufOut){
+unsigned char utf8ToGbk(const char* bufIn, char* bufOut){
 	unsigned char i_in = 0;
 	unsigned char len_out = 0;
 	unsigned short unicode;

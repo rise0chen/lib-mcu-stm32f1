@@ -18,7 +18,7 @@ typedef struct {
   void (*fun)(Stdp_FieldStruct* msg);
 } Stdp_ListenerStruct;  //监听器结构体
 
-void stdp_start();
+void stdp_start(void);
 void stdp_addListener(uint16_t port, void (*fun)(Stdp_FieldStruct* msg));
 
 #ifdef __cplusplus

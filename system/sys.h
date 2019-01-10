@@ -1,10 +1,8 @@
 #ifndef __SYS_H
 #define __SYS_H
 #include "stm32f10x.h"
-#include "Rcc.hpp"
 #include "nvic.h"
-#include "Gpio.hpp"
-#include "map.h"
+#include "rcc.h"
 #include "std.h"
 #include "delay.h"
 #define _C extern "C"//汇编语言中调用的函数,需要使用

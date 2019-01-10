@@ -58,7 +58,7 @@ Input:
 Return: void
 *************************************************/
 void wwdg_config(u8 tr,u8 wr,u8 prer){
-	rcc.cmd(1, APB1_WWDG, ENABLE);//使能wwdg时钟
+	rcc_cmd(1, APB1_WWDG, ENABLE);//使能wwdg时钟
 	WWDG->CFR|=prer<<7;//PCLK1/4096再除2^prer
 	WWDG->CFR&=0XFF80;
 	WWDG->CFR|=wr;//设定窗口值
@@ -70,8 +70,7 @@ void wwdg_config(u8 tr,u8 wr,u8 prer){
 }
 
 
-_C void WWDG_IRQHandler(void){//窗口看门狗中断程序
+void WWDG_IRQHandler(void){//窗口看门狗中断程序
 	WWDG->CR =(0x7F);//重设窗口看门狗的值!
 	WWDG->SR=0X00;//清除提前唤醒中断标志位
-	
 }

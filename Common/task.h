@@ -27,8 +27,8 @@ typedef struct{
 }TaskStruct;//任务结构体
 
 void task_init(u16 nms);
-void task_add(u8 uid, void (*func)(void), u16 in=1, u16 ts=0xFFFF, u16 st=0, u16 et=0xFFFF);
-void task_update(u8 uid, void (*func)(void), u16 in=1, u16 ts=0xFFFF, u16 st=0, u16 et=0xFFFF);
+void task_add(u8 uid, void (*func)(void), u16 in, u16 ts, u16 st, u16 et);
+void task_update(u8 uid, void (*func)(void), u16 in, u16 ts, u16 st, u16 et);
 void task_cmd(u8 uid, TaskStatusEnum status);
 void task_run(void);
 

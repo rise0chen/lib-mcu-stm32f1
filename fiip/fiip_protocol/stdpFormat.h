@@ -48,7 +48,7 @@ typedef struct {
   uint8_t _index[2];  //序列号
 } StdpStruct;         //数据结构
 
-StdpStruct* stdp_new();
+StdpStruct* stdp_new(void);
 void stdp_setVar(StdpStruct* self,
                  Stdp_FieldEnum field,
                  uint8_t* data,

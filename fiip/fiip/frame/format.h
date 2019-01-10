@@ -42,7 +42,7 @@ typedef struct {
   Format_FieldStruct* msg;
 } FormatStruct;       //数据结构
 
-FormatStruct* format_new();
+FormatStruct* format_new(void);
 void format_setVar(FormatStruct* self,
                    Format_FieldEnum field,
                    uint8_t* data,

@@ -17,7 +17,7 @@ History:
 *************************************************/
 #include "delay.h"
 
-#define fac_us (72)  //us倍乘数 (rcc.clkSys/1 000 000)
+#define fac_us (72)  //us倍乘数 (rcc_clkSys/1 000 000)
 #define fac_ms (fac_us*1000)  //ms倍乘数
 
 /*************************************************

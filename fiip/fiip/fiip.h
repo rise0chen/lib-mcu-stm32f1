@@ -20,7 +20,7 @@ extern uint8_t fiip_centerId[8];
 extern uint8_t fiip_broadId[8];
 extern FormatStruct* fiip_rxd;
 
-void fiip_init();
+void fiip_init(void);
 void fiip_setId(uint8_t* id, uint8_t* key);
 void fiip_addServer(uint8_t type, LinkServerStruct* linkServer);
 void fiip_addProtocol(uint16_t type, ProtocolStruct* protocol);
