@@ -84,7 +84,7 @@ Return: 通用错误码
 ErrorStatus waitBuf(char* where, char* req, u8 s){
 	u8 time;
 	if(req[0]!='\0'){
-		while(!std::strstr(where, req)){
+		while(!strstr(where, req)){
 			delay_ms(100);
 			if(time++ > 10*s){return OVERTIME;}
 		}

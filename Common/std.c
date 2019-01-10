@@ -9,16 +9,16 @@ Usage:
 History: 
 	rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "std.hpp"
+#include "std.h"
 
 /********--------      <string.h>      --------********/
 /*************************************************
-Function: std::strlen
+Function: strlen
 Description: 字符串长度 以0x00结尾
 Input: str  字符串指针
 Return: void
 *************************************************/
-unsigned int std::strlen(const void *str){
+unsigned int strlen(const void *str){
 	const char* s=(const char*)str;
 	const char *p;
 
@@ -27,7 +27,7 @@ unsigned int std::strlen(const void *str){
 }
 
 /*************************************************
-Function: std::memset
+Function: memset
 Description: 批量设置内存的字节
 Input: 
 	dst   变量地址
@@ -35,7 +35,7 @@ Input:
 	n     字节长度
 Return: void
 *************************************************/
-void* std::memset(void* dst, int c, unsigned int n){
+void* memset(void* dst, int c, unsigned int n){
 	unsigned char* d = (unsigned char*) dst;
 	
 	while (n--) {
@@ -45,7 +45,7 @@ void* std::memset(void* dst, int c, unsigned int n){
 }
 
 /*************************************************
-Function: std::memcpy
+Function: memcpy
 Description: 复制内存到其他内存
 Input: 
 	dst   目标地址
@@ -53,7 +53,7 @@ Input:
 	n     字节长度 0代表字符串
 Return: void
 *************************************************/
-void* std::memcpy(void *dst, const void *src, size_t n){
+void* memcpy(void *dst, const void *src, size_t n){
 	unsigned char* d = (unsigned char*) dst;
 	unsigned char* s = (unsigned char*) src;
 	unsigned char* r=d;
@@ -72,7 +72,7 @@ void* std::memcpy(void *dst, const void *src, size_t n){
 }
 
 /*************************************************
-Function: std::memcmp
+Function: memcmp
 Description: 比较内存是否相同
 Input: 
 	dst   待比较
@@ -80,7 +80,7 @@ Input:
 	n     字节长度 0代表字符串
 Return: 0相同  非0不相同
 *************************************************/
-int std::memcmp(const void *dst, const void *src, unsigned int n){
+int memcmp(const void *dst, const void *src, unsigned int n){
 	unsigned char* d = (unsigned char*) dst;
 	unsigned char* s = (unsigned char*) src;
 	
@@ -101,14 +101,14 @@ int std::memcmp(const void *dst, const void *src, unsigned int n){
 }
 
 /*************************************************
-Function: std::strstr
+Function: strstr
 Description: 比较str2是否是str1的子串
 Input: 
 	str1  长字符串
 	str2  短字符串
 Return: void
 *************************************************/
-char* std::strstr(char* str1, char* str2 ){
+char* strstr(char* str1, char* str2 ){
 	char *p = NULL;
 	char *q = NULL;
 	if(str1 == NULL || str2 == NULL) return NULL;
@@ -129,14 +129,14 @@ char* std::strstr(char* str1, char* str2 ){
 }
 
 /*************************************************
-Function: std::strcat
+Function: strcat
 Description: 将src放到dst后面
 Input: 
 	dst   前面字符串
 	src   后面字符串
 Return: void
 *************************************************/
-char* std::strcat(char *dst, const char *src){
+char* strcat(char *dst, const char *src){
 	char * r = dst;
 	
 	while(*dst){//若使用while(*dst++)，则会出错
@@ -152,7 +152,7 @@ char* std::strcat(char *dst, const char *src){
 
 /********--------      <ctype.h>      --------********/
 /*************************************************
-Function: std::itoa
+Function: itoa
 Description: 将整数型转换为10进制字符串
 Input: 
 	i     前面字符串
@@ -160,7 +160,7 @@ Input:
 	n     字符串长度
 Return: void
 *************************************************/
-void std::itoa(int i, char s[], unsigned int n){
+void itoa(int i, char s[], unsigned int n){
 	int bak=i;
 	char a=0;
 	while(bak /= 10){

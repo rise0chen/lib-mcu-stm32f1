@@ -124,7 +124,7 @@ void Usart::printf(char *format, ...){
 	while((DMA1->ISR & FLAG_TC)==0);//等待上次结束
 	TX_DMA->CCR &= ~1;//关DMA
 	vsprintf((char*)txBuf, format, ap );
-	TX_DMA->CNDTR=std::strlen(txBuf);
+	TX_DMA->CNDTR=strlen((char*)txBuf);
 	DMA1->IFCR  |= FLAG_TC;//清TC中断
 	TX_DMA->CCR |= 1;//开DMA
 }
@@ -140,10 +140,10 @@ Input:
 Return: void
 *************************************************/
 void Usart::send(uint8_t *buf, u16 len){
-	if(len==0){len=std::strlen(buf);}
+	if(len==0){len=strlen((char*)buf);}
 	while((DMA1->ISR & FLAG_TC)==0);//等待上次结束
 	TX_DMA->CCR &= ~1;//关DMA
-	std::memcpy(txBuf, buf, len);
+	memcpy(txBuf, buf, len);
 	TX_DMA->CNDTR=len;
 	DMA1->IFCR  |= FLAG_TC;//清TC中断
 	TX_DMA->CCR |= 1;//开DMA
