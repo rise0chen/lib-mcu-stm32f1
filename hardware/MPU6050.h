@@ -72,15 +72,15 @@ typedef struct {
   short GYRO[3]; //倾斜角
   short ACCEL[3];//加速度
 
-  u8  addr; //I2C设备地址
+  uint8_t  addr; //I2C设备地址
   I2cStruct* com;
 } Mpu6050Struct;
 
-Mpu6050Struct* mpu6050_new(I2cStruct* com, u8 addr);
+Mpu6050Struct* mpu6050_new(I2cStruct* com, uint8_t addr);
 void mpu6050_init(Mpu6050Struct* self);//初始化MPU6050
 void mpu6050_getGYRO(Mpu6050Struct* self);//读取陀螺仪值
 void mpu6050_getACCEL(Mpu6050Struct* self);//读取加速度值
-void mpu6050_writeByte(Mpu6050Struct* self, u8 reg,u8 data);
-u8 mpu6050_readByte(Mpu6050Struct* self, u8 reg);
+void mpu6050_writeByte(Mpu6050Struct* self, uint8_t reg,uint8_t data);
+uint8_t mpu6050_readByte(Mpu6050Struct* self, uint8_t reg);
 
 #endif //__GYRO_H

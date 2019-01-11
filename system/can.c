@@ -16,7 +16,7 @@ Usage:
 	usart_printf(usart3, "RTR:%x\r\n", can_rx->RTR);
 	usart_printf(usart3, "DLC:%x\r\n", can_rx->DLC);
 	usart_printf(usart3, "FMI:%x\r\n", can_rx->FMI);
-	for(u8 i=0; i<can_rx->DLC; i++)
+	for(uint8_t i=0; i<can_rx->DLC; i++)
 		usart_printf(usart3, "FMI:%x\r\n", can_rx->Data[i]);
 History: 
 	rise0chen   2018.4.26   初步完成

@@ -4,9 +4,9 @@
 
 typedef struct {
 		DAC_TypeDef* the;
-		u32 RCC_The;
+		uint32_t RCC_The;
 } DacStruct;  //DAC结构
 
-DacStruct* dac_new(u8 t);
+DacStruct* dac_new(uint8_t t);
 void dac_init(DacStruct* self);
 #endif //__DAC_H

@@ -21,7 +21,7 @@ Input:
 	mode  jtag,swd模式设置  00全使能  01使能SWD  10全关闭
 Return: void
 *************************************************/
-void map_jtag(u8 mode){
+void map_jtag(uint8_t mode){
 	RCC->APB2ENR|= 1;//AF
 	AFIO->MAPR &= 0XF8FFFFFF;//清除MAPR的[26:24]
 	AFIO->MAPR |= (mode<<25);//设置jtag模式

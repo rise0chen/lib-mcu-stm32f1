@@ -112,8 +112,8 @@
 #define RFU3F             0x3F //保留
 
 typedef struct {
-  u8 cardType[2];//类型
-  u8 cardSN[4];  //序列号
+  uint8_t cardType[2];//类型
+  uint8_t cardSN[4];  //序列号
 
   SpiStruct *com;
   GpioStruct *CS;
@@ -125,18 +125,18 @@ RfidStruct* rfid_new(SpiStruct *spi_com, GpioStruct *spi_CS, GpioStruct *pin_RST
 void rfid_init(RfidStruct* self);
 void rfid_closeAntenna(RfidStruct* self);
 void rfid_openAntenna(RfidStruct* self);
-s8 rfid_PcdComMF522(RfidStruct* self, u8 Command, u8* pDataIn, u8 InLenByte, u8* pDataOut, u16 *pOutLenBit);
+s8 rfid_PcdComMF522(RfidStruct* self, uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit);
 s8 rfid_PcdReset(RfidStruct* self);
-void rfid_CalulateCRC(RfidStruct* self, u8* pIndata, u8 len, u8* pDataOut);
+void rfid_CalulateCRC(RfidStruct* self, uint8_t* pIndata, uint8_t len, uint8_t* pDataOut);
 s8 rfid_PcdHalt(RfidStruct* self);
-s8 rfid_PcdRequest(RfidStruct* self, u8 req_code, u8* pTagType);
-s8 rfid_PcdAnticoll(RfidStruct* self, u8* pSnr);
-s8 rfid_PcdSelect(RfidStruct* self, u8* pSnr);
-s8 rfid_GetCard(RfidStruct* self, u8 Reqcode,u8* pSnr,u8* type);
-s8 rfid_S50Auth(RfidStruct* self, u8 auth_mode,u8 addr,u8 *pKey,u8* pSnr);
-s8 rfid_S50Read(RfidStruct* self, u8 addr,u8 *pData,u8 len);
-s8 rfid_S50Write(RfidStruct* self, u8 addr,u8 *pData);
-s8 rfid_S50Value(RfidStruct* self, u8 dd_mode,u8 addr,u8 *pValue);
-s8 rfid_S50BakValue(RfidStruct* self, u8 sourceaddr, u8 goaladdr);
+s8 rfid_PcdRequest(RfidStruct* self, uint8_t req_code, uint8_t* pTagType);
+s8 rfid_PcdAnticoll(RfidStruct* self, uint8_t* pSnr);
+s8 rfid_PcdSelect(RfidStruct* self, uint8_t* pSnr);
+s8 rfid_GetCard(RfidStruct* self, uint8_t Reqcode,uint8_t* pSnr,uint8_t* type);
+s8 rfid_S50Auth(RfidStruct* self, uint8_t auth_mode,uint8_t addr,uint8_t *pKey,uint8_t* pSnr);
+s8 rfid_S50Read(RfidStruct* self, uint8_t addr,uint8_t *pData,uint8_t len);
+s8 rfid_S50Write(RfidStruct* self, uint8_t addr,uint8_t *pData);
+s8 rfid_S50Value(RfidStruct* self, uint8_t dd_mode,uint8_t addr,uint8_t *pValue);
+s8 rfid_S50BakValue(RfidStruct* self, uint8_t sourceaddr, uint8_t goaladdr);
 
 #endif //__RFID_H

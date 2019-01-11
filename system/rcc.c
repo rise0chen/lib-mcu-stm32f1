@@ -35,7 +35,7 @@ Input:
 	state   使能状态 ENABLE使能 DISABLE失能
 Return: void
 *************************************************/
-void rcc_cmd(u8 bus, u32 periph, FunctionalState state){
+void rcc_cmd(uint8_t bus, uint32_t periph, FunctionalState state){
 	switch(bus){
 		case 0:
 			state ? (RCC->AHBENR |=periph) : (RCC->AHBENR &= ~periph);
@@ -59,7 +59,7 @@ Input:
 	periph  外设，如APB2_AFIO
 Return: void
 *************************************************/
-void rcc_reset(u8 bus, u32 periph){
+void rcc_reset(uint8_t bus, uint32_t periph){
 	switch(bus){
 		case 1:
 			RCC->APB1RSTR |= periph;
@@ -112,7 +112,7 @@ Input:
 Return: void
 Other: 不能在这里执行所有外设复位!否则至少引起串口不工作.
 *************************************************/
-void rcc_init(u8 PLL){
+void rcc_init(uint8_t PLL){
 	rcc_deInit();//复位并配置向量表
 	RCC->CR   |= (1<<16);//HSE使能
 	while(!(RCC->CR & (1<<17)));//等待HSE就绪

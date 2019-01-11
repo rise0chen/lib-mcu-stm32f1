@@ -46,18 +46,18 @@ Input:
 	data  返回的点阵数据
 Return: void
 *************************************************/
-void fontRom_getWord16x16(FontRomStruct* self, u16 gbk, u8* data){
-	u32  fontaddr=0;
-	u8 text[2]={(u8)(gbk>>8), (u8)gbk};
+void fontRom_getWord16x16(FontRomStruct* self, uint16_t gbk, uint8_t* data){
+	uint32_t  fontaddr=0;
+	uint8_t text[2]={(uint8_t)(gbk>>8), (uint8_t)gbk};
 	
 	if(((text[0]>=0xb0) &&(text[0]<=0xf7))&&(text[1]>=0xa1)){
 		fontaddr = (text[0]- 0xb0)*94; 
 		fontaddr += (text[1]-0xa1)+846;
-		fontaddr = (u32)(fontaddr*32);
+		fontaddr = (uint32_t)(fontaddr*32);
 	}else if(((text[0]>=0xa1) &&(text[0]<=0xa9))&&(text[1]>=0xa1)){
 		fontaddr = (text[0]- 0xa1)*94; 
 		fontaddr += (text[1]-0xa1);
-		fontaddr = (u32)(fontaddr*32);
+		fontaddr = (uint32_t)(fontaddr*32);
 	}else if((text[0]>=0xa4) && (text[0]<=0xa8) &&(text[1]>=0xa1)){
 		fontaddr = 0;
 	}
@@ -81,12 +81,12 @@ Input:
 	data  返回的点阵数据
 Return: void
 *************************************************/
-void fontRom_getWord8x16(FontRomStruct* self, u8 ascii, u8* data){
-	u32  fontaddr=0;
+void fontRom_getWord8x16(FontRomStruct* self, uint8_t ascii, uint8_t* data){
+	uint32_t  fontaddr=0;
 	
 	fontaddr = (ascii- 0x20);
-	fontaddr = (u32)(fontaddr*16);
-	fontaddr = (u32)(fontaddr+0x3b7c0);
+	fontaddr = (uint32_t)(fontaddr*16);
+	fontaddr = (uint32_t)(fontaddr+0x3b7c0);
 	
 	*self->CS->O=0;
 	spi_rwByte(self->com, 0x03);

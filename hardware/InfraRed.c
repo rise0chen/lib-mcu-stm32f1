@@ -20,7 +20,7 @@ History:
 	rise0chen   2018.4.26   编写注释
 *************************************************/
 #include "InfraRed.h"
-static u8 infraRed_tim(InfraRedStruct* self);
+static uint8_t infraRed_tim(InfraRedStruct* self);
 
 /*************************************************
 Function: infraRed_InfraRed
@@ -41,8 +41,8 @@ Description: 信号计时
 Input: void
 Return: 20us的个数
 *************************************************/
-u8 infraRed_tim(InfraRedStruct* self){
-	u8 t=0;
+uint8_t infraRed_tim(InfraRedStruct* self){
+	uint8_t t=0;
 	while(*self->DQ->I){//高电平
 		t++;
 		delay_us(20);
@@ -58,8 +58,8 @@ Input: void
 Return: void
 *************************************************/
 void infraRed_get(InfraRedStruct* self){
-	u32 data=0;
-	u8 time=0,ok=0,d,num=0;
+	uint32_t data=0;
+	uint8_t time=0,ok=0,d,num=0;
 	
 	gpio_config(self->DQ, P_UIN,0,P_2MHz);
 	gpio_configExti(self->DQ, FTI);//下降沿中断

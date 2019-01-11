@@ -52,9 +52,9 @@ extern uint32_t rcc_clkAhb;
 extern uint32_t rcc_clkApb1;
 extern uint32_t rcc_clkApb2;
 
-void rcc_init(u8 PLL);//时钟初始化
-void rcc_cmd(u8 bus, u32 periph, FunctionalState state);
-void rcc_reset(u8 bus, u32 periph);
+void rcc_init(uint8_t PLL);//时钟初始化
+void rcc_cmd(uint8_t bus, uint32_t periph, FunctionalState state);
+void rcc_reset(uint8_t bus, uint32_t periph);
 
 
 #endif //__RCC_H

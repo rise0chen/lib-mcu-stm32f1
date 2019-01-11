@@ -9,7 +9,7 @@ typedef struct {
 
 Ds18b20Struct* ds18b20_new(GpioStruct *P_DQ);
 void ds18b20_setGPIO(Ds18b20Struct* self, GpioStruct *P_DQ);
-u8 ds18b20_getTemp(Ds18b20Struct* self);
+uint8_t ds18b20_getTemp(Ds18b20Struct* self);
 	
 
 #endif //__DS18B20_H

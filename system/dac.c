@@ -12,7 +12,7 @@ History:
 *************************************************/
 #include "dac.h"
 
-DacStruct* dac_new(u8 t){
+DacStruct* dac_new(uint8_t t){
   DacStruct* self = (DacStruct*)malloc(sizeof(DacStruct));
 	switch(t){
 		case 1:

@@ -55,19 +55,19 @@ typedef enum{
 }GpioModeStruct;
 
 typedef struct {
-  vu32* O;
-  vu32* I;
+  volatile uint32_t* O;
+  volatile uint32_t* I;
 
   GPIO_TypeDef* GPIOx;
-  u8    Px;//GPIO
-  u8    Pn;//Pin
+  uint8_t    Px;//GPIO
+  uint8_t    Pn;//Pin
 }GpioStruct;  //红外线结构
 
-GpioStruct* gpio_new(u8 x, u8 n);
+GpioStruct* gpio_new(uint8_t x, uint8_t n);
 void  gpio_config(GpioStruct* self, GpioModeStruct mode,s8 data,GpioSpeedStruct speed);
 void  gpio_output(GpioStruct* self, s8 data);
-u8    gpio_input(GpioStruct* self);
-void  gpio_configExti(GpioStruct* self, u8 TRIM);//外部中断
+uint8_t    gpio_input(GpioStruct* self);
+void  gpio_configExti(GpioStruct* self, uint8_t TRIM);//外部中断
 void  gpio_lock(GpioStruct* self);
 
 #endif //__GPIO_H

@@ -6,8 +6,8 @@ Version: 1.0
 Date: 2018.4.26
 Description: Dma 类
 Usage:
-	dma.configTx(DMA1_Channel4,(u32)&the->DR,(u32)&tx.buf,1);
-	dma.configRx(DMA1_Channel5,(u32)&the->DR,(u32)&rx.buf,LEN_MAX);
+	dma.configTx(DMA1_Channel4,(uint32_t)&the->DR,(uint32_t)&tx.buf,1);
+	dma.configRx(DMA1_Channel5,(uint32_t)&the->DR,(uint32_t)&rx.buf,LEN_MAX);
 	dma.configADC(&data, 1);
 History: 
 	rise0chen   2018.4.26   编写注释
@@ -47,7 +47,7 @@ Input:
 	cndtr DMA缓存大小
 Return: void
 *************************************************/
-void dma_configTx(DMA_Channel_TypeDef* ch, u32 cpar, u32 cmar, u16 cndtr){
+void dma_configTx(DMA_Channel_TypeDef* ch, uint32_t cpar, uint32_t cmar, uint16_t cndtr){
 	ch->CMAR = cmar;//内存基址
 	ch->CPAR = cpar;//外设基址
 	ch->CNDTR= cndtr;//DMA缓存大小
@@ -66,7 +66,7 @@ Input:
 	cndtr DMA缓存大小
 Return: void
 *************************************************/
-void dma_configRx(DMA_Channel_TypeDef* ch, u32 cpar, u32 cmar, u16 cndtr){
+void dma_configRx(DMA_Channel_TypeDef* ch, uint32_t cpar, uint32_t cmar, uint16_t cndtr){
 	ch->CMAR = cmar;//内存基址
 	ch->CPAR = cpar;//外设基址
 	ch->CNDTR= cndtr;//DMA缓存大小
@@ -83,9 +83,9 @@ Input:
 	cndtr DMA缓存大小
 Return: void
 *************************************************/
-void dma_configADC(u32 cmar, u8 cndtr){
+void dma_configADC(uint32_t cmar, uint8_t cndtr){
 	DMA1_Channel1->CMAR = cmar;//内存基址
-	DMA1_Channel1->CPAR = (u32)&ADC1->DR;//外设基址
+	DMA1_Channel1->CPAR = (uint32_t)&ADC1->DR;//外设基址
 	DMA1_Channel1->CNDTR= cndtr;//DMA缓存大小
 	DMA1_Channel1->CCR = 0x5A1;//低优先 数宽16 内增外不 循环 外到内 无中断
 }

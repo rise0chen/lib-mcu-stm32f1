@@ -4,12 +4,12 @@
 
 typedef struct {
 		ADC_TypeDef* the;
-		u32 RCC_The;
+		uint32_t RCC_The;
 } AdcStruct;  //ADC结构
 
-AdcStruct* adc_new(u8 t);
+AdcStruct* adc_new(uint8_t t);
 void adc_init(AdcStruct* self);
-u16  adc_get(AdcStruct* self, u8 ch,u8 times);
-float adc_getTemp(AdcStruct* self, u8 times);
+uint16_t  adc_get(AdcStruct* self, uint8_t ch,uint8_t times);
+float adc_getTemp(AdcStruct* self, uint8_t times);
 
 #endif //__ADC_H

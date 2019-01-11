@@ -20,7 +20,7 @@ Called By:
 Input: t ADC序号
 Return: Adc类
 *************************************************/
-AdcStruct* adc_new(u8 t){
+AdcStruct* adc_new(uint8_t t){
   AdcStruct* self = (AdcStruct*)malloc(sizeof(AdcStruct));
 	switch(t){
 		case 1:
@@ -78,9 +78,9 @@ Input:
 	times 采集次数(自动取平均值)
 Return: 12bit原始电压值
 *************************************************/
-u16 adc_get(AdcStruct* self, u8 ch, u8 times){
-	u32 temp_val=0;
-	u8 t;
+uint16_t adc_get(AdcStruct* self, uint8_t ch, uint8_t times){
+	uint32_t temp_val=0;
+	uint8_t t;
 	for(t=0;t<times;t++){
 		setMem(&self->the->SQR3, 0x1F<<0, ch<<0);//规则序列1 通道ch
 		self->the->CR2|=1<<22;//启动规则转换通道
@@ -98,8 +98,8 @@ Called By:
 Input: times 采集次数(自动取平均值)
 Return: 摄氏度
 *************************************************/
-float adc_getTemp(AdcStruct* self, u8 times){
-	u16 value;
+float adc_getTemp(AdcStruct* self, uint8_t times){
+	uint16_t value;
 	float temperate;
 	if(self->the!=ADC1){
     return 0;

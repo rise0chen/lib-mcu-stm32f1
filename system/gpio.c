@@ -24,7 +24,7 @@ Input:
 	n    IO口号
 Return: Gpio类
 *************************************************/
-GpioStruct* gpio_new(u8 x, u8 n){
+GpioStruct* gpio_new(uint8_t x, uint8_t n){
   GpioStruct* self = (GpioStruct*)malloc(sizeof(GpioStruct));
 	self->Px = x;
 	self->GPIOx = (GPIO_TypeDef*)(GPIOA_BASE+(x<<10));
@@ -74,7 +74,7 @@ void gpio_config(GpioStruct* self, GpioModeStruct mode,s8 data,GpioSpeedStruct s
 		if((mode & 0x10) != 0)//输出模式
 			*self->O = data;//电平
 	}else{
-		switch((u8)mode){
+		switch((uint8_t)mode){
 			case 0x80:
 				AFIO->EVCR =(1<<7) | (self->Px << 0x04) | self->Pn;
 			break;
@@ -111,7 +111,7 @@ Called By:
 Input: void
 Return: 1高电平  0低电平
 *************************************************/
-u8 gpio_input(GpioStruct* self){
+uint8_t gpio_input(GpioStruct* self){
 	return (self->GPIOx->IDR & (1<<self->Pn)) ? 1 : 0;
 }
 
@@ -127,8 +127,8 @@ Input:
 	TRIM  触发模式 1下升沿  2上降沿  3任意电平触发
 Return: void
 *************************************************/
-void gpio_configExti(GpioStruct* self, u8 TRIM){
-	u8 EXTADDR, EXTOFFSET, IRQn;
+void gpio_configExti(GpioStruct* self, uint8_t TRIM){
+	uint8_t EXTADDR, EXTOFFSET, IRQn;
 
 	EXTADDR  = (self->Pn>>2);//得到中断寄存器组的编号
 	EXTOFFSET = (self->Pn%4)<<2;
@@ -159,7 +159,7 @@ Input:
 Return: void
 *************************************************/
 void gpio_lock(GpioStruct* self){
-	u32 tmp = 0x00010000;
+	uint32_t tmp = 0x00010000;
 	tmp |= (1<<self->Pn);
 	self->GPIOx->LCKR = tmp;//1
 	self->GPIOx->LCKR = (1<<self->Pn);//0

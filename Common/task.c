@@ -19,8 +19,8 @@ History:
 #define fac_us (9)  //us倍乘数 (rcc_clkSys/8 000 000)
 #define fac_ms (fac_us*1000)  //ms倍乘数
 
-u16 timeOneSysTick = 0;//1次系统心跳的时间(ms)
-u32 timeSysTick = 0;//系统心跳次数
+uint16_t timeOneSysTick = 0;//1次系统心跳的时间(ms)
+uint32_t timeSysTick = 0;//系统心跳次数
 
 TaskStruct* tasks[TASK_NUM_MAX];//任务列表
 
@@ -30,7 +30,7 @@ Description: 初始化SysTick心跳定时器
 Input: void
 Return: void
 *************************************************/
-void task_init(u16 nms){
+void task_init(uint16_t nms){
 	timeOneSysTick = nms;
 	SysTick->CTRL = 0;//复位
 	SysTick->VAL  = 0x00;//清空
@@ -50,7 +50,7 @@ Input:
 	et   几次系统心跳后结束执行 0永不执行 0xFFFF永不停止
 Return: void
 *************************************************/
-void task_add(u8 uid, void (*func)(void), u16 in, u16 ts, u16 st, u16 et){
+void task_add(uint8_t uid, void (*func)(void), uint16_t in, uint16_t ts, uint16_t st, uint16_t et){
 	tasks[uid]=(TaskStruct*)malloc(sizeof(TaskStruct));
 	tasks[uid]->uid = uid;
 	tasks[uid]->status = taskStatus_ready;
@@ -78,7 +78,7 @@ Input:
 	et   几次系统心跳后结束执行 0永不执行 0xFFFF永不停止
 Return: void
 *************************************************/
-void task_update(u8 uid, void (*func)(void), u16 in, u16 ts, u16 st, u16 et){
+void task_update(uint8_t uid, void (*func)(void), uint16_t in, uint16_t ts, uint16_t st, uint16_t et){
 	tasks[uid]->status = taskStatus_ready;
 	tasks[uid]->startTime=timeSysTick+st;
 	if(et==0xFFFF){
@@ -99,7 +99,7 @@ Input:
 	status 状态
 Return: void
 *************************************************/
-void task_cmd(u8 uid, TaskStatusEnum status){
+void task_cmd(uint8_t uid, TaskStatusEnum status){
 	tasks[uid]->status = status;
 }
 
@@ -110,7 +110,7 @@ Input: void
 Return: void
 *************************************************/
 void task_run(void){
-	for(u16 i=0; i<TASK_NUM_MAX; i++){
+	for(uint16_t i=0; i<TASK_NUM_MAX; i++){
 		if(tasks[i]->status == taskStatus_run){
 			if(tasks[i]->interval == 0){
 				if((timeSysTick >= tasks[i]->startTime) && (timeSysTick < tasks[i]->endTime)){
@@ -136,7 +136,7 @@ Return: void
 *************************************************/
 void SysTick_Handler(void){
 	timeSysTick++;
-	for(u16 i=0; i<TASK_NUM_MAX; i++){
+	for(uint16_t i=0; i<TASK_NUM_MAX; i++){
 		if(tasks[i]->status == taskStatus_ready || tasks[i]->status == taskStatus_finish){
 			if((timeSysTick >= tasks[i]->startTime) && (timeSysTick < tasks[i]->endTime)){
 				if(tasks[i]->times==0xFFFF || tasks[i]->timesRun < tasks[i]->times){

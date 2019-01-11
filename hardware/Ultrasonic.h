@@ -4,13 +4,13 @@
 #include "gpio.h"
 
 typedef struct {
-  u16 distance;//单位毫米mm
+  uint16_t distance;//单位毫米mm
 
   GpioStruct *TRIG;
   GpioStruct *ECHO;
 } UltrasonicStruct;  //红外线结构
 
 UltrasonicStruct* ultrasonic_new(GpioStruct *TRIG, GpioStruct *ECHO);
-u16  ultrasonic_get(UltrasonicStruct* self, u8 num);
+uint16_t  ultrasonic_get(UltrasonicStruct* self, uint8_t num);
 	
 #endif //__TEMPLATE_H

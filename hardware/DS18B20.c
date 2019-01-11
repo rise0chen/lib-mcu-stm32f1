@@ -14,8 +14,8 @@ History:
 *************************************************/
 #include "DS18B20.h"
 static void ds18b20_init(Ds18b20Struct* self);
-static void ds18b20_write(Ds18b20Struct* self, u8 dat);
-static u8 ds18b20_read(Ds18b20Struct* self);
+static void ds18b20_write(Ds18b20Struct* self, uint8_t dat);
+static uint8_t ds18b20_read(Ds18b20Struct* self);
 
 /*************************************************
 Function: ds18b20_DS18B20
@@ -65,8 +65,8 @@ Description: 写单字节数据
 Input: data 单字节数据
 Return: void
 *************************************************/
-void ds18b20_write(Ds18b20Struct*self, u8 data){
-	u8 i;
+void ds18b20_write(Ds18b20Struct*self, uint8_t data){
+	uint8_t i;
 	gpio_config(self->DQ, P_PPO ,0 ,P_2MHz);
 	*self->DQ->O=1;
 	delay_us(10);
@@ -91,8 +91,8 @@ Description: 读单字节数据
 Input: void
 Return: 单字节数据
 *************************************************/
-u8 ds18b20_read(Ds18b20Struct*self){
-	u8 i,value=0;//一定要给value附初值否则显示会错误
+uint8_t ds18b20_read(Ds18b20Struct*self){
+	uint8_t i,value=0;//一定要给value附初值否则显示会错误
 	gpio_config(self->DQ, P_PPO ,0 ,P_2MHz);
 	*self->DQ->O=1;
 	for(i=0;i<8;i++){
@@ -119,8 +119,8 @@ Description: 读取温度
 Input: P_self->DQ  DS18B20的数据引脚
 Return: 摄氏温度(只保留整数部分)
 *************************************************/
-u8 ds18b20_getTemp(Ds18b20Struct*self){
-	u8 a,b;
+uint8_t ds18b20_getTemp(Ds18b20Struct*self){
+	uint8_t a,b;
 	
 	ds18b20_init(self);//初始化
 	ds18b20_write(self, 0xcc);//发送忽略ROM指令

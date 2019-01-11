@@ -27,7 +27,7 @@ Input:
 	rlr  重装载寄存器值:低11位有效.
 Return: void
 *************************************************/
-void iwdg_config(u8 prer,u16 rlr){
+void iwdg_config(uint8_t prer,uint16_t rlr){
 	IWDG->KR=0X5555; //使能对IWDG->PR和IWDG->RLR的写
 	IWDG->PR=prer; //设置分频系数
 	IWDG->RLR=rlr; //重装载寄存器 IWDG->RLR
@@ -57,7 +57,7 @@ Input:
 		Fwwdg=PCLK1/(4096*2^fprer).
 Return: void
 *************************************************/
-void wwdg_config(u8 tr,u8 wr,u8 prer){
+void wwdg_config(uint8_t tr,uint8_t wr,uint8_t prer){
 	rcc_cmd(1, APB1_WWDG, ENABLE);//使能wwdg时钟
 	WWDG->CFR|=prer<<7;//PCLK1/4096再除2^prer
 	WWDG->CFR&=0XFF80;

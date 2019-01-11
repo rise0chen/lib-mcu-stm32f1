@@ -22,7 +22,7 @@ Called By:
 Input: t 定时器序号
 Return: Tim类
 *************************************************/
-TimStruct* tim_new(u8 t){
+TimStruct* tim_new(uint8_t t){
   TimStruct* self = (TimStruct*)malloc(sizeof(TimStruct));
 	switch(t){
 		case 1://high
@@ -74,7 +74,7 @@ Input:
 	TI     1设置溢出中断
 Return: void
 *************************************************/
-void tim_config(TimStruct* self, u16 div, u16 period, u8 TI){
+void tim_config(TimStruct* self, uint16_t div, uint16_t period, uint8_t TI){
 	self->the->PSC = div -1;//分频
 	self->the->ARR = period -1;//周期
 	self->the->CR1 = 0x0004;//向上计数等...
@@ -100,7 +100,7 @@ Input:
 	dTime      死区时间
 Return: void
 *************************************************/
-void tim_configOC(TimStruct* self, u8 channel, u16 dutyFactor, u8 dTime){
+void tim_configOC(TimStruct* self, uint8_t channel, uint16_t dutyFactor, uint8_t dTime){
 	uint16_t tmpccmrx = 0, tmpccer = 0, tmpcr2 = 0;
 
 	self->the->CCER &= (~(uint16_t)(1<<(4*(channel-1))));//禁止引脚输出
@@ -135,10 +135,10 @@ void tim_configOC(TimStruct* self, u8 channel, u16 dutyFactor, u8 dTime){
 		self->the->CCMR2 = tmpccmrx;
 	}
 	switch(channel){//占空比
-		case 1:self->the->CCR1 = (u16)((self->the->ARR + 1)/100*dutyFactor);break;
-		case 2:self->the->CCR2 = (u16)((self->the->ARR + 1)/100*dutyFactor);break;
-		case 3:self->the->CCR3 = (u16)((self->the->ARR + 1)/100*dutyFactor);break;
-		case 4:self->the->CCR4 = (u16)((self->the->ARR + 1)/100*dutyFactor);break;
+		case 1:self->the->CCR1 = (uint16_t)((self->the->ARR + 1)/100*dutyFactor);break;
+		case 2:self->the->CCR2 = (uint16_t)((self->the->ARR + 1)/100*dutyFactor);break;
+		case 3:self->the->CCR3 = (uint16_t)((self->the->ARR + 1)/100*dutyFactor);break;
+		case 4:self->the->CCR4 = (uint16_t)((self->the->ARR + 1)/100*dutyFactor);break;
 	}
 }
 
@@ -153,7 +153,7 @@ Input:
 	dTime   死区时间
 Return: void
 *************************************************/
-void tim_configIC(TimStruct* self, u16 channel, u16 div){
+void tim_configIC(TimStruct* self, uint16_t channel, uint16_t div){
 
 }
 

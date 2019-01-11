@@ -30,7 +30,7 @@ Input:
 	i2c_self->addr I2C地址
 Return: DS18B20类
 *************************************************/
-Mpu6050Struct* mpu6050_new(I2cStruct* i2c_com, u8 i2c_addr){
+Mpu6050Struct* mpu6050_new(I2cStruct* i2c_com, uint8_t i2c_addr){
   Mpu6050Struct* self = (Mpu6050Struct*)malloc(sizeof(Mpu6050Struct));
 	self->com  = i2c_com;
 	self->addr = i2c_addr;
@@ -71,7 +71,7 @@ Input: void
 Return: void
 *************************************************/
 void mpu6050_getGYRO(Mpu6050Struct* self){
-	u8 buf[2];
+	uint8_t buf[2];
 	buf[0]=mpu6050_readByte(self, MPU_GYRO_XOUTH_REG);
 	buf[1]=mpu6050_readByte(self, MPU_GYRO_XOUTL_REG);
 	self->GYRO[0]= (buf[0]<<8)|buf[1];
@@ -90,7 +90,7 @@ Input: void
 Return: void
 *************************************************/
 void mpu6050_getACCEL(Mpu6050Struct* self){
-	u8 buf[2];
+	uint8_t buf[2];
 	buf[0]=mpu6050_readByte(self, MPU_ACCEL_XOUTH_REG);
 	buf[1]=mpu6050_readByte(self, MPU_ACCEL_XOUTL_REG);
 	self->ACCEL[0]= (buf[0]<<8)|buf[1];
@@ -110,7 +110,7 @@ Input:
 	data  单字节数据
 Return: void
 *************************************************/
-void mpu6050_writeByte(Mpu6050Struct* self, u8 reg,u8 data){
+void mpu6050_writeByte(Mpu6050Struct* self, uint8_t reg,uint8_t data){
 	i2c_start(self->com);
 	i2c_write(self->com, (self->addr<<1)|0);//发送器件地址+写命令
 	i2c_write(self->com, reg);//写寄存器地址
@@ -125,8 +125,8 @@ Input:
 	reg   寄存器地址
 Return: 单字节数据
 *************************************************/
-u8 mpu6050_readByte(Mpu6050Struct* self, u8 reg){
-	u8 res;
+uint8_t mpu6050_readByte(Mpu6050Struct* self, uint8_t reg){
+	uint8_t res;
 	i2c_start(self->com); 
 	i2c_write(self->com, (self->addr<<1)|0);//发送器件地址+写命令
 	i2c_write(self->com, reg);//写寄存器地址

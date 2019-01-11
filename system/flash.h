@@ -11,9 +11,9 @@
 #define FLASH_ADDR_START 0x0800C000
 #define FLASH_ADDR_END   0x08010000
 
-void flash_read(u32 addr, void* buf, u16 num);
-void flash_write(u32 addr, void* buf, u16 num);
-void flash_lock(u8 en);
-void flash_erasePage(u32 paddr);
+void flash_read(uint32_t addr, void* buf, uint16_t num);
+void flash_write(uint32_t addr, void* buf, uint16_t num);
+void flash_lock(uint8_t en);
+void flash_erasePage(uint32_t paddr);
 
 #endif //__FLASH_H

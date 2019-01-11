@@ -25,7 +25,7 @@ Called By:
 Input: t I2C序号
 Return: I2c类
 *************************************************/
-I2cStruct* i2c_new(u8 t){
+I2cStruct* i2c_new(uint8_t t){
   I2cStruct* self=(I2cStruct*)malloc(sizeof(I2cStruct));
 	if(t==1){
 		self->the = I2C1;
@@ -130,7 +130,7 @@ Called By:
 Input: en 1应当 0不应答
 Return: void
 *************************************************/
-void i2c_ack(I2cStruct* self, u8 en){
+void i2c_ack(I2cStruct* self, uint8_t en){
 	#if I2C_SOFE//软件I2C
 	*self->SCL->O=0;
 	gpio_config(self->SDA, P_ODO,0,P_2MHz);
@@ -183,8 +183,8 @@ Called By:
 Input: data 单字节数据
 Return: void
 *************************************************/
-ErrorStatus i2c_write(I2cStruct* self, u8 data){
-	u8 i;
+ErrorStatus i2c_write(I2cStruct* self, uint8_t data){
+	uint8_t i;
 
 	gpio_config(self->SDA, P_ODO,0,P_2MHz);
 	*self->SCL->O=0;
@@ -211,8 +211,8 @@ Called By:
 Input: isAck 0不应答  1应答
 Return: 单字节数据
 *************************************************/
-u8 i2c_read(I2cStruct* self, u8 isAck){
-	u8 i,receive = 0;
+uint8_t i2c_read(I2cStruct* self, uint8_t isAck){
+	uint8_t i,receive = 0;
 
 	gpio_config(self->SDA, P_UIN,0,P_2MHz);
 	for(i=0;i<8;i++){

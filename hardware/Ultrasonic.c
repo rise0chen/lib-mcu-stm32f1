@@ -35,13 +35,13 @@ Description: HC-SR04超声波测距
 Input: num   测num次,取平均值
 Return: 距离,毫米数
 *************************************************/
-u16  ultrasonic_get(UltrasonicStruct* self, u8 num){
-	u16 t=0;
-	u16 tSum=0;
+uint16_t  ultrasonic_get(UltrasonicStruct* self, uint8_t num){
+	uint16_t t=0;
+	uint16_t tSum=0;
 	
 	gpio_config(self->TRIG, P_PPO,0,P_2MHz);
 	gpio_config(self->ECHO, P_UIN,0,P_2MHz);
-	for(u8 i=0;i<num;i++){
+	for(uint8_t i=0;i<num;i++){
 		*self->TRIG->O=1;
 		delay_ms(10);
 		*self->TRIG->O=0;

@@ -21,7 +21,7 @@ Called By:
 Input: t Spi序号
 Return: Spi类
 *************************************************/
-SpiStruct* spi_new(u8 t){
+SpiStruct* spi_new(uint8_t t){
   SpiStruct* self = (SpiStruct*)malloc(sizeof(SpiStruct));
 	if(t==1){
 		self->the = SPI1;
@@ -92,7 +92,7 @@ Called By:
 Input: div   0~7越小越快
 Return: void
 *************************************************/
-void spi_setSpeed(SpiStruct* self, u8 div){
+void spi_setSpeed(SpiStruct* self, uint8_t div){
 	self->the->CR1&=0XFF87;//失能、清速度
 	self->the->CR1 |= (div&0X07)<<3;//设置速度
 	self->the->CR1 |= 1<<6;//SPI设备使能
@@ -106,7 +106,7 @@ Called By:
 Input: data 要写入的字节
 Return: 读取到的字节
 *************************************************/
-u8 spi_rwByte(SpiStruct* self, u8 data){
+uint8_t spi_rwByte(SpiStruct* self, uint8_t data){
 	reTry = 0XFFFE;
 	while((self->the->SR&1<<1)==0){//等待发送区空
 		if(reTry-- <= 0)return 0xFF;//超时退出

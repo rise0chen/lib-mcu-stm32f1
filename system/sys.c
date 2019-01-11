@@ -23,8 +23,8 @@ Input:
 	content 需要设置的内容(<where)如0b0101代表第1、2位置1
 Return: void
 *************************************************/
-void setMem(volatile void* p,u32 where,u32 content){
-	u32* p0=(u32*)p;
+void setMem(volatile void* p,uint32_t where,uint32_t content){
+	uint32_t* p0=(uint32_t*)p;
 	*p0 &= ~where;//清零
 	*p0 |= content;//置数
 }
@@ -37,8 +37,8 @@ Input:
 	where   需要置1的位置 0~31
 Return: void
 *************************************************/
-void setBit(volatile void* p,u8 where){
-	u32* p0=(u32*)p;
+void setBit(volatile void* p,uint8_t where){
+	uint32_t* p0=(uint32_t*)p;
 	*p0 |= (1<<where);
 }
 
@@ -50,8 +50,8 @@ Input:
 	where   需要置0的位置 0~31
 Return: void
 *************************************************/
-void clearBit(volatile void* p,u8 where){
-	u32* p0=(u32*)p;
+void clearBit(volatile void* p,uint8_t where){
+	uint32_t* p0=(uint32_t*)p;
 	*p0 &= ~(1<<where);
 }
 
@@ -62,9 +62,9 @@ Input:
 	p       需要设置的寄存器的地址
 	where   需要置0的位置 0~31
 Return: void
-Other: auto a = [](u8 b){return b;};//定义局部函数
+Other: auto a = [](uint8_t b){return b;};//定义局部函数
 *************************************************/
-ErrorStatus run(u8 (*func)(), u32 times){
+ErrorStatus run(uint8_t (*func)(), uint32_t times){
 	reTry = times;
 	while((*func)()){//判断条件
 		if(reTry-- <= 0){return OVERTIME;}
@@ -81,8 +81,8 @@ Input:
 	s      等待时间 0~25秒
 Return: 通用错误码
 *************************************************/
-ErrorStatus waitBuf(char* where, char* req, u8 s){
-	u8 time;
+ErrorStatus waitBuf(char* where, char* req, uint8_t s){
+	uint8_t time;
 	if(req[0]!='\0'){
 		while(!strstr(where, req)){
 			delay_ms(100);
@@ -92,20 +92,4 @@ ErrorStatus waitBuf(char* where, char* req, u8 s){
 	}else{
 		return ERROR;
 	}
-}
-
-/********************************汇编部分********************************/
-/********************************汇编部分********************************/
-/********************************汇编部分********************************/
-
-/*************************************************
-Function: MSR_MSP
-Description: 设置栈顶地址
-Input: 
-	addr  栈顶地址
-Return: void
-*************************************************/
-__ASM void MSR_MSP(u32 addr){
-	MSR MSP, r0//set Main Stack value
-	BX r14
 }

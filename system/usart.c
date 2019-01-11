@@ -24,7 +24,7 @@ Called By:
 Input: t Usart序号
 Return: Usart类
 *************************************************/
-UsartStruct* usart_new(u8 t){
+UsartStruct* usart_new(uint8_t t){
     UsartStruct* self = (UsartStruct*)malloc(sizeof(UsartStruct));
 	if(t==1){
 		self->the = USART1;
@@ -76,9 +76,9 @@ Input:
 	e     终止标识 0x0D为\r\n  0x0A为\n
 Return: void
 *************************************************/
-void usart_init(UsartStruct* self, u32 bound){
-	u32 clk, temp;
-	u16 integer, fraction;
+void usart_init(UsartStruct* self, uint32_t bound){
+	uint32_t clk, temp;
+	uint16_t integer, fraction;
 	
 	RCC->APB2ENR |= self->RCC_GPIO;//使能PORT口时钟
 	//使能串口时钟
@@ -106,7 +106,7 @@ void usart_init(UsartStruct* self, u32 bound){
 	self->the->CR1 |= 1<<5;//RXNE(1<<6:IDLE)中断使能
 	nvic_config(self->IRQn,0,0);
 	//DMA设置
-	dma_configTx(self->TX_DMA,(u32)&self->the->DR,(u32)&self->txBuf,1);
+	dma_configTx(self->TX_DMA,(uint32_t)&self->the->DR,(uint32_t)&self->txBuf,1);
 	self->the->CR3 |= 0xC0;//DMA使能
 	self->the->CR1 |= 0X200C;//使能,8位数据,无校验位,1位停止,收发
 }
@@ -140,7 +140,7 @@ Input:
 	len   要发送的字节长度
 Return: void
 *************************************************/
-void usart_send(UsartStruct* self, uint8_t *buf, u16 len){
+void usart_send(UsartStruct* self, uint8_t *buf, uint16_t len){
 	if(len==0){len=strlen((char*)buf);}
 	while((DMA1->ISR & self->FLAG_TC)==0);//等待上次结束
 	self->TX_DMA->CCR &= ~1;//关DMA

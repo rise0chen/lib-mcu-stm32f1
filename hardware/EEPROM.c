@@ -14,7 +14,7 @@ History:
 	rise0chen   2018.4.26   初步完成
 *************************************************/
 #include "Eeprom.h"
-static ErrorStatus  eeprom_writePage(EepromStruct* self, u16 addr, char* pBuf, u8 num);
+static ErrorStatus  eeprom_writePage(EepromStruct* self, uint16_t addr, char* pBuf, uint8_t num);
 
 /*************************************************
 Function: eeprom_Eeprom
@@ -25,7 +25,7 @@ Input:
 	typ  芯片大小
 Return: Eeprom类
 *************************************************/
-EepromStruct* Eeprom_new(I2cStruct *com, u8 addr, u8 typ){
+EepromStruct* Eeprom_new(I2cStruct *com, uint8_t addr, uint8_t typ){
   EepromStruct* self = (EepromStruct*)malloc(sizeof(EepromStruct));
   self->com=com;
   self->type=typ;
@@ -53,13 +53,13 @@ Input:
 	num  字节长度
 Return: 通用错误码
 *************************************************/
-ErrorStatus eeprom_writePage(EepromStruct* self, u16 addr, char* pBuf, u8 num){
+ErrorStatus eeprom_writePage(EepromStruct* self, uint16_t addr, char* pBuf, uint8_t num){
 	i2c_start(self->com);
 	if(self->type>16){
 		i2c_write(self->com, self->deviceAddr);//发送写命令
 		i2c_write(self->com, addr>>8);//发送高地址
 	}else{i2c_write(self->com, self->deviceAddr+((addr>>8)<<1));}//发送器件地址0XA0,写数据
-	i2c_write(self->com, (u8)addr);//发送低地址
+	i2c_write(self->com, (uint8_t)addr);//发送低地址
 	while(num--){
 		if(i2c_write(self->com, *(pBuf++))){
 			i2c_stop(self->com);
@@ -80,9 +80,9 @@ Input:
 	num  字节长度
 Return: 通用错误码
 *************************************************/
-ErrorStatus  eeprom_write(EepromStruct* self, u16 addr,void* buf,u16 num){
+ErrorStatus  eeprom_write(EepromStruct* self, uint16_t addr,void* buf,uint16_t num){
 	char* pBuf=(char*)buf;
-	u8 count = 0, NumOfPage = 0, NumOfEnd = 0;
+	uint8_t count = 0, NumOfPage = 0, NumOfEnd = 0;
 
 	count = self->pageSize - (addr % self->pageSize);
 	if(num<count){
@@ -124,14 +124,14 @@ Input:
 	num  字节长度
 Return: 通用错误码
 *************************************************/
-ErrorStatus  eeprom_read(EepromStruct* self, u16 addr,void* buf,u16 num){
+ErrorStatus  eeprom_read(EepromStruct* self, uint16_t addr,void* buf,uint16_t num){
 	char* pBuf=(char*)buf;
 	i2c_start(self->com);
 	if(self->type>16){
 		i2c_write(self->com, self->deviceAddr);//发送写命令
 		i2c_write(self->com, addr>>8);//发送高地址
 	}else{i2c_write(self->com, self->deviceAddr+((addr>>8)<<1));}//发送器件地址0XA0,写数据
-	i2c_write(self->com, (u8)addr);//发送低地址
+	i2c_write(self->com, (uint8_t)addr);//发送低地址
 	
 	i2c_start(self->com);
 	if(i2c_write(self->com, self->deviceAddr+1)){

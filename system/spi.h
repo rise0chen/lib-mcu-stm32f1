@@ -5,23 +5,23 @@
 
 typedef struct {
   SPI_TypeDef* the;
-  u32 RCC_The;
-  u8  Px;
-  u8  PSCK;
-  u8  PMISO;
-  u8  PMOSI;
+  uint32_t RCC_The;
+  uint8_t  Px;
+  uint8_t  PSCK;
+  uint8_t  PMISO;
+  uint8_t  PMOSI;
   GpioStruct* P_PSCK ;
   GpioStruct* P_PMISO;
   GpioStruct* P_PMOSI;
-  u8  IRQn;
+  uint8_t  IRQn;
   DMA_Channel_TypeDef* TX_DMA;
   DMA_Channel_TypeDef* RX_DMA;
-  u32 FLAG_TC;
+  uint32_t FLAG_TC;
 } SpiStruct;  //Spi结构
 
-SpiStruct* spi_new(u8 t);
+SpiStruct* spi_new(uint8_t t);
 void spi_init(SpiStruct* self);
-void spi_setSpeed(SpiStruct* self, u8 div);
-u8   spi_rwByte(SpiStruct* self, u8 data);
+void spi_setSpeed(SpiStruct* self, uint8_t div);
+uint8_t   spi_rwByte(SpiStruct* self, uint8_t data);
 
 #endif //__SPI_H

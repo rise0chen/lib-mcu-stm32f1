@@ -4,8 +4,8 @@
 #include "gpio.h"
 
 typedef struct {
-  u32 DATA;//定义一个32位数据变量，保存接收码
-  u8  IRQ; //定义一个8位数据的变量，用于指示接收标志
+  uint32_t DATA;//定义一个32位数据变量，保存接收码
+  uint8_t  IRQ; //定义一个8位数据的变量，用于指示接收标志
 
   GpioStruct *DQ;
 } InfraRedStruct;  //红外线结构
