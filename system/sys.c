@@ -12,7 +12,7 @@ History:
 *************************************************/
 #include "sys.h"
 
-s32 reTry=0x00FFFFFF;
+int32_t reTry=0x00FFFFFF;
 
 /*************************************************
 Function: setMem
@@ -82,7 +82,7 @@ Input:
 Return: 通用错误码
 *************************************************/
 ErrorStatus waitBuf(char* where, char* req, uint8_t s){
-	uint8_t time;
+	uint8_t time = 0;;
 	if(req[0]!='\0'){
 		while(!strstr(where, req)){
 			delay_ms(100);

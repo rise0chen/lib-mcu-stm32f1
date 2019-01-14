@@ -145,8 +145,8 @@ Input:
 	pOutLenBit 返回数据的位长度
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_PcdComMF522(RfidStruct* self, uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit){
-	s8 status = MI_ERR;
+int8_t rfid_PcdComMF522(RfidStruct* self, uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit){
+	int8_t status = MI_ERR;
 	uint8_t irqEn = 0x00;
 	uint8_t waitFor = 0x00;
 	uint8_t lastBits;
@@ -223,7 +223,7 @@ Description: 复位RC522
 Input: void
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_PcdReset(RfidStruct* self){
+int8_t rfid_PcdReset(RfidStruct* self){
 	//外部复位
 	*self->RST->O=1;
 	delay_us(1);
@@ -279,8 +279,8 @@ Description: 命令卡片进入休眠状态
 Input: void
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_PcdHalt(RfidStruct* self){
-	s8 status = MI_ERR;
+int8_t rfid_PcdHalt(RfidStruct* self){
+	int8_t status = MI_ERR;
 	uint16_t unLen;
 	uint8_t ucComMF522Buf[MAXRLEN];
 
@@ -308,8 +308,8 @@ Input:
 		0x4403 Mifare_DESFire
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_PcdRequest(RfidStruct* self, uint8_t req_code, uint8_t* pTagType){
-	s8 status = MI_ERR;
+int8_t rfid_PcdRequest(RfidStruct* self, uint8_t req_code, uint8_t* pTagType){
+	int8_t status = MI_ERR;
 	uint16_t unLen;
 	uint8_t ucComMF522Buf[MAXRLEN];
 
@@ -335,8 +335,8 @@ Description: 防冲撞
 Input: pSnr  卡片序列号，4字节
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_PcdAnticoll(RfidStruct* self, uint8_t* pSnr){
-	s8 status;
+int8_t rfid_PcdAnticoll(RfidStruct* self, uint8_t* pSnr){
+	int8_t status;
 	uint8_t i, snr_check = 0;
 	uint16_t unLen;
 	uint8_t ucComMF522Buf[MAXRLEN];
@@ -368,8 +368,8 @@ Description: 选择卡片
 Input: pSnr  卡片序列号，4字节
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_PcdSelect(RfidStruct* self, uint8_t* pSnr){
-	s8 status;
+int8_t rfid_PcdSelect(RfidStruct* self, uint8_t* pSnr){
+	int8_t status;
 	uint8_t i;
 	uint16_t unLen;
 	uint8_t ucComMF522Buf[MAXRLEN];
@@ -406,8 +406,8 @@ Input:
 		0x4403 Mifare_DESFire
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_GetCard(RfidStruct* self, uint8_t Reqcode,uint8_t* pSnr,uint8_t* type){
-	s8 status = MI_OK;
+int8_t rfid_GetCard(RfidStruct* self, uint8_t Reqcode,uint8_t* pSnr,uint8_t* type){
+	int8_t status = MI_OK;
 	
 	if(pSnr == 0){pSnr = self->cardSN;}
 	if(type == 0){type = self->cardType;}
@@ -438,8 +438,8 @@ Input:
 	pSnr  卡片序列号，4字节
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_S50Auth(RfidStruct* self, uint8_t mode,uint8_t addr,uint8_t* pKey,uint8_t* pSnr){
-	s8  status;
+int8_t rfid_S50Auth(RfidStruct* self, uint8_t mode,uint8_t addr,uint8_t* pKey,uint8_t* pSnr){
+	int8_t  status;
 	uint16_t unLen;
 	uint8_t  ucComMF522Buf[MAXRLEN]; 
 
@@ -466,8 +466,8 @@ Input:
 	len    数据长度
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_S50Read(RfidStruct* self, uint8_t addr,uint8_t *pData,uint8_t len){
-	s8 status;
+int8_t rfid_S50Read(RfidStruct* self, uint8_t addr,uint8_t *pData,uint8_t len){
+	int8_t status;
 	uint16_t unLen;
 	uint8_t i,ucComMF522Buf[MAXRLEN]; 
 
@@ -495,8 +495,8 @@ Input:
 	pData  写入的数据，16字节
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_S50Write(RfidStruct* self, uint8_t addr,uint8_t *pData){
-	s8 status;
+int8_t rfid_S50Write(RfidStruct* self, uint8_t addr,uint8_t *pData){
+	int8_t status;
 	uint16_t unLen;
 	uint8_t i,ucComMF522Buf[MAXRLEN]; 
 	
@@ -529,8 +529,8 @@ Input:
 	pValue 4字节增(减)值，低位在前
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_S50Value(RfidStruct* self, uint8_t dd_mode,uint8_t addr,uint8_t *pValue){
-	s8 status;
+int8_t rfid_S50Value(RfidStruct* self, uint8_t dd_mode,uint8_t addr,uint8_t *pValue){
+	int8_t status;
 	uint16_t unLen;
 	uint8_t ucComMF522Buf[MAXRLEN]; 
 	
@@ -574,8 +574,8 @@ Input:
 	goaladdr   目标地址
 Return: 错误码 0成功
 *************************************************/
-s8 rfid_S50BakValue(RfidStruct* self, uint8_t sourceaddr, uint8_t goaladdr){
-	s8 status;
+int8_t rfid_S50BakValue(RfidStruct* self, uint8_t sourceaddr, uint8_t goaladdr){
+	int8_t status;
 	uint16_t unLen;
 	uint8_t ucComMF522Buf[MAXRLEN]; 
 

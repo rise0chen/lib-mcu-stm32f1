@@ -17,7 +17,7 @@ typedef enum {//状态码
 } ErrorStatus;
 
 
-extern s32 reTry;
+extern int32_t reTry;
 
 //位操作
 #define MEM(addr)      (*addr)

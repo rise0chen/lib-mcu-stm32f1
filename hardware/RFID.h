@@ -125,18 +125,18 @@ RfidStruct* rfid_new(SpiStruct *spi_com, GpioStruct *spi_CS, GpioStruct *pin_RST
 void rfid_init(RfidStruct* self);
 void rfid_closeAntenna(RfidStruct* self);
 void rfid_openAntenna(RfidStruct* self);
-s8 rfid_PcdComMF522(RfidStruct* self, uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit);
-s8 rfid_PcdReset(RfidStruct* self);
+int8_t rfid_PcdComMF522(RfidStruct* self, uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit);
+int8_t rfid_PcdReset(RfidStruct* self);
 void rfid_CalulateCRC(RfidStruct* self, uint8_t* pIndata, uint8_t len, uint8_t* pDataOut);
-s8 rfid_PcdHalt(RfidStruct* self);
-s8 rfid_PcdRequest(RfidStruct* self, uint8_t req_code, uint8_t* pTagType);
-s8 rfid_PcdAnticoll(RfidStruct* self, uint8_t* pSnr);
-s8 rfid_PcdSelect(RfidStruct* self, uint8_t* pSnr);
-s8 rfid_GetCard(RfidStruct* self, uint8_t Reqcode,uint8_t* pSnr,uint8_t* type);
-s8 rfid_S50Auth(RfidStruct* self, uint8_t auth_mode,uint8_t addr,uint8_t *pKey,uint8_t* pSnr);
-s8 rfid_S50Read(RfidStruct* self, uint8_t addr,uint8_t *pData,uint8_t len);
-s8 rfid_S50Write(RfidStruct* self, uint8_t addr,uint8_t *pData);
-s8 rfid_S50Value(RfidStruct* self, uint8_t dd_mode,uint8_t addr,uint8_t *pValue);
-s8 rfid_S50BakValue(RfidStruct* self, uint8_t sourceaddr, uint8_t goaladdr);
+int8_t rfid_PcdHalt(RfidStruct* self);
+int8_t rfid_PcdRequest(RfidStruct* self, uint8_t req_code, uint8_t* pTagType);
+int8_t rfid_PcdAnticoll(RfidStruct* self, uint8_t* pSnr);
+int8_t rfid_PcdSelect(RfidStruct* self, uint8_t* pSnr);
+int8_t rfid_GetCard(RfidStruct* self, uint8_t Reqcode,uint8_t* pSnr,uint8_t* type);
+int8_t rfid_S50Auth(RfidStruct* self, uint8_t auth_mode,uint8_t addr,uint8_t *pKey,uint8_t* pSnr);
+int8_t rfid_S50Read(RfidStruct* self, uint8_t addr,uint8_t *pData,uint8_t len);
+int8_t rfid_S50Write(RfidStruct* self, uint8_t addr,uint8_t *pData);
+int8_t rfid_S50Value(RfidStruct* self, uint8_t dd_mode,uint8_t addr,uint8_t *pValue);
+int8_t rfid_S50BakValue(RfidStruct* self, uint8_t sourceaddr, uint8_t goaladdr);
 
 #endif //__RFID_H

@@ -64,8 +64,8 @@ typedef struct {
 }GpioStruct;  //红外线结构
 
 GpioStruct* gpio_new(uint8_t x, uint8_t n);
-void  gpio_config(GpioStruct* self, GpioModeStruct mode,s8 data,GpioSpeedStruct speed);
-void  gpio_output(GpioStruct* self, s8 data);
+void  gpio_config(GpioStruct* self, GpioModeStruct mode,int8_t data,GpioSpeedStruct speed);
+void  gpio_output(GpioStruct* self, int8_t data);
 uint8_t    gpio_input(GpioStruct* self);
 void  gpio_configExti(GpioStruct* self, uint8_t TRIM);//外部中断
 void  gpio_lock(GpioStruct* self);

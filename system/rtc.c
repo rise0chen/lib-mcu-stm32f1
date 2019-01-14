@@ -43,7 +43,7 @@ void RTC_SetClock(RTC_TimeTypeDef *time){
 * Return         : 0：初始化成功；0xFF：初始化失败
 ****************************************************************************/
 int8_t RTC_Config(RTC_TimeTypeDef *time){
-	uint32_t timeCount;
+	uint32_t timeCount = 0;
 	uint32_t i;
 
 	if(BKP->DR1 != 0x5050){

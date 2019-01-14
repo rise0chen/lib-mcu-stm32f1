@@ -45,7 +45,7 @@ Input:
 	speed IO口开关速率(仅输出模式有效)
 Return: void
 *************************************************/
-void gpio_config(GpioStruct* self, GpioModeStruct mode,s8 data,GpioSpeedStruct speed){
+void gpio_config(GpioStruct* self, GpioModeStruct mode,int8_t data,GpioSpeedStruct speed){
 	uint32_t currentmode = 0x00, pos = 0x00;
 	uint32_t tmpreg = 0x00;
 
@@ -95,7 +95,7 @@ Input:
 	data  1高电平  0低电平  -1反转
 Return: void
 *************************************************/
-void gpio_output(GpioStruct* self, s8 data){
+void gpio_output(GpioStruct* self, int8_t data){
 	switch(data){
 		case 1 :self->GPIOx->BSRR = (1<<self->Pn);break;//置1
 		case 0 :self->GPIOx->BRR  = (1<<self->Pn);break;//置0
