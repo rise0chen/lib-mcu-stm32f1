@@ -44,7 +44,7 @@ __initial_sp
 ; </h>
 
 ;未用到编译器自带的内存管理(malloc,free等)，设置Heap_Szie为0,默认是512字节.
-Heap_Size       EQU     0x00000800
+Heap_Size       EQU     0x00002000 ;8k,共48/64k
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -149,7 +149,7 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
                 IMPORT  __main
-                ;IMPORT  SystemInit;屏蔽system_stm32f10x.c中的SystemInit
+                ;IMPORT  SystemInit ;屏蔽system_stm32f10x.c中的SystemInit
                 ;LDR     R0, =SystemInit
                 ;BLX     R0
                 LDR     R0, =__main

@@ -129,7 +129,7 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
                 IMPORT  __main
-                ;IMPORT  SystemInit;屏蔽system_stm32f10x.c中的SystemInit
+                ;IMPORT  SystemInit ;屏蔽system_stm32f10x.c中的SystemInit
                 ;LDR     R0, =SystemInit
                 ;BLX     R0
                 LDR     R0, =__main
