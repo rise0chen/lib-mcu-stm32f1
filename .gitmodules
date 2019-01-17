@@ -1,0 +1,8 @@
+[submodule "fiip-base"]
+	path = fiip-base
+	url = https://gitee.com/cnCrise/fiip-base.git
+	branch = master
+[submodule "fiip-protocol"]
+	path = fiip-protocol
+	url = https://gitee.com/cnCrise/fiip-protocol.git
+	branch = master
