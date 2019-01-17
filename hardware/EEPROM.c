@@ -13,7 +13,7 @@ Usage:
 History: 
 	rise0chen   2018.4.26   初步完成
 *************************************************/
-#include "Eeprom.h"
+#include "EEPROM.h"
 static ErrorStatus  eeprom_writePage(EepromStruct* self, uint16_t addr, char* pBuf, uint8_t num);
 
 /*************************************************

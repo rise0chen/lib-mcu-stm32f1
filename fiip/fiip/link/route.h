@@ -7,7 +7,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Link.h"
+#include "./link.h"
 
 #define LINKS_NUM_MAX 64
 
