@@ -165,11 +165,11 @@ ErrorStatus i2c_waitAck(I2cStruct* self){
 	while(*self->SDA->I){
 		if(reTry-- <= 0){
       i2c_stop(self);
-      return OVERTIME;
+      return error_overtime;
     }
 	}
 	*self->SCL->O=0;
-	return SUCCESS;
+	return error_success;
 	#else//硬件I2C外设
 
 	#endif

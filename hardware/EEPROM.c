@@ -63,12 +63,12 @@ ErrorStatus eeprom_writePage(EepromStruct* self, uint16_t addr, char* pBuf, uint
 	while(num--){
 		if(i2c_write(self->com, *(pBuf++))){
 			i2c_stop(self->com);
-			return ERROR;
+			return error_other;
 		}
 	}
 	i2c_stop(self->com);
 	delay_ms(10);//EEPROM的写入速度比较慢，加入延迟
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************
@@ -96,23 +96,23 @@ ErrorStatus  eeprom_write(EepromStruct* self, uint16_t addr,void* buf,uint16_t n
 	if(count != 0){//首页
 		reTry=0x10;
 		while(eeprom_writePage(self, addr, pBuf, count) & reTry--);
-		if(reTry<=0){return OVERTIME;}
+		if(reTry<=0){return error_overtime;}
 		addr += count;
 		pBuf += count;
 	}
 	while(NumOfPage--){//中间页
 		reTry=0x10;
 		while(eeprom_writePage(self, addr, pBuf, self->pageSize) & reTry--);
-		if(reTry<=0){return OVERTIME;}
+		if(reTry<=0){return error_overtime;}
 		addr += self->pageSize;
 		pBuf += self->pageSize;
 	}
 	if(NumOfEnd != 0){//尾页
 		reTry=0x10;
 		while(eeprom_writePage(self, addr, pBuf, NumOfEnd) & reTry--);
-		if(reTry<=0){return OVERTIME;}
+		if(reTry<=0){return error_overtime;}
 	}
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************
@@ -136,7 +136,7 @@ ErrorStatus  eeprom_read(EepromStruct* self, uint16_t addr,void* buf,uint16_t nu
 	i2c_start(self->com);
 	if(i2c_write(self->com, self->deviceAddr+1)){
 		i2c_stop(self->com);
-		return ERROR;
+		return error_other;
 	}
 	while(num--){//Rrad Data
 		if(num){
@@ -146,5 +146,5 @@ ErrorStatus  eeprom_read(EepromStruct* self, uint16_t addr,void* buf,uint16_t nu
 		}
 	}
 	i2c_stop(self->com);
-	return SUCCESS;
+	return error_success;
 }

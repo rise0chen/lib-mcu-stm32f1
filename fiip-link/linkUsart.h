@@ -11,8 +11,6 @@ extern "C" {
 #include "fiip-base/link/link.h"
 #include "function.h"
 
-#define linkType_usart 0x31
-
 void startUsart(uint8_t* dev, uint32_t speed);
 
 #ifdef __cplusplus

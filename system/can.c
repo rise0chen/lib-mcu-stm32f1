@@ -50,7 +50,7 @@ ErrorStatus can_init(void){
 	CAN1->MCR |= CAN_MCR_INRQ ; //请求进入初始化模式
 	reTry = 0xFFFF;
 	while ((CAN1->MSR & CAN_MSR_INAK) != CAN_MSR_INAK){//等待同意
-		if(reTry-- <= 0) return ERROR;
+		if(reTry-- <= 0) return error_other;
 	}
 	CAN1->MCR &= ~(uint32_t)CAN_MCR_TTCM; //关闭时间触发通信模式使能
 	CAN1->MCR |= CAN_MCR_ABOM; //自动离线管理
@@ -64,9 +64,9 @@ ErrorStatus can_init(void){
 	CAN1->MCR &= ~(uint32_t)CAN_MCR_INRQ; //请求退出初始化模式
 	reTry = 0xFFFF;
 	while ((CAN1->MSR & CAN_MSR_INAK) == CAN_MSR_INAK){
-		if(reTry-- <= 0) return ERROR;
+		if(reTry-- <= 0) return error_other;
 	}
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************

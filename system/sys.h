@@ -5,17 +5,11 @@
 #include "rcc.h"
 #include "std.h"
 #include "delay.h"
+#include "riselib/debug.h"
 // #define _C extern "C"//汇编语言中调用的函数,需要使用
 
 #define LEN_MAX 512 //最大字节数
 #define LEN_MID 128 //中等字节数
-
-typedef enum {//状态码
-	SUCCESS  = 0x00,//成功
-	OVERTIME = 0x01,//超时
-	ERROR    = 0xFF,//未知错误
-} ErrorStatus;
-
 
 extern int32_t reTry;
 

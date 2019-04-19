@@ -67,9 +67,9 @@ Other: auto a = [](uint8_t b){return b;};//定义局部函数
 ErrorStatus run(uint8_t (*func)(), uint32_t times){
 	reTry = times;
 	while((*func)()){//判断条件
-		if(reTry-- <= 0){return OVERTIME;}
+		if(reTry-- <= 0){return error_overtime;}
 	}
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************
@@ -86,10 +86,10 @@ ErrorStatus waitBuf(char* where, char* req, uint8_t s){
 	if(req[0]!='\0'){
 		while(!strstr(where, req)){
 			delay_ms(100);
-			if(time++ > 10*s){return OVERTIME;}
+			if(time++ > 10*s){return error_overtime;}
 		}
-		return SUCCESS;
+		return error_success;
 	}else{
-		return ERROR;
+		return error_other;
 	}
 }
