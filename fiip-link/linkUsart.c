@@ -37,12 +37,12 @@ void linkUsart_send(LinkServerStruct* self,
   }
 }
 
-void USART1_IRQHandler(void) {
+void USART2_IRQHandler(void) {
   uint8_t recvBuf[1];
   int recvNum = 1;
 
-  if (USART1->SR & (1 << 5)) {
-    recvBuf[0] = USART1->DR;
+  if (USART2->SR & (1 << 5)) {
+    recvBuf[0] = USART2->DR;
     // to do something
     LinkCfgStruct* srcLink = (LinkCfgStruct*)malloc(sizeof(LinkCfgStruct));
     srcLink->type = linkType_usart;
