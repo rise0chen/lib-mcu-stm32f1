@@ -27,7 +27,7 @@ Called By:
 Input: t Spi序号
 Return: Spi类
 *************************************************/
-Spi::Spi(u8 t){
+Spi::Spi(uint8_t t){
 	if(t==1){
 		the = SPI1;
 		RCC_The = APB2_SPI1;
@@ -95,7 +95,7 @@ Called By:
 Input: div   0~7越小越快
 Return: void
 *************************************************/
-void Spi::setSpeed(u8 div){
+void Spi::setSpeed(uint8_t div){
 	the->CR1&=0XFF87;//失能、清速度
 	the->CR1 |= (div&0X07)<<3;//设置速度
 	the->CR1 |= 1<<6;//SPI设备使能
@@ -109,7 +109,7 @@ Called By:
 Input: data 要写入的字节
 Return: 读取到的字节
 *************************************************/
-u8 Spi::rwByte(u8 data){
+uint8_t Spi::rwByte(uint8_t data){
 	reTry = 0XFFFE;
 	while((the->SR&1<<1)==0){//等待发送区空
 		if(reTry-- <= 0)return 0xFF;//超时退出

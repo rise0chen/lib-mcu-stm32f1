@@ -27,7 +27,7 @@ Input:
 	offset  偏移量
 Return: void
 *************************************************/
-void Nvic::setVectorTable(u32 vectTab,u32 offset){
+void Nvic::setVectorTable(uint32_t vectTab,uint32_t offset){
 	SCB->VTOR = vectTab|offset;//设置NVIC的向量表偏移寄存器
 	                           //用于标识向量表是在CODE区还是在RAM区
 }
@@ -46,9 +46,9 @@ Input: group 0~4总共5组
 	组4:4位抢占优先级,0位响应优先级
 Return: void
 *************************************************/
-void Nvic::configGroup(u8 group){
+void Nvic::configGroup(uint8_t group){
 	cfgGroup=group;
-	u32 temp,temp1;
+	uint32_t temp,temp1;
 	temp1=(~cfgGroup)&0x07;//取后三位
 	temp1<<=8;
 	temp=SCB->AIRCR;//读取先前的设置
@@ -69,8 +69,8 @@ Input:
 	sub        响应优先级,数值越小,越优先
 Return: void
 *************************************************/
-void Nvic::config(u8 channel, u8 preemption, u8 sub){
-	u32 temp;
+void Nvic::config(uint8_t channel, uint8_t preemption, uint8_t sub){
+	uint32_t temp;
 	temp=preemption<<(4-cfgGroup);
 	temp|=sub&(0x0f>>cfgGroup);
 	temp&=0xf;//取低四位

@@ -10,22 +10,22 @@ class I2c{
 		//BufRcv tx;
 		//BufRcv rx;
 		
-		I2c(u8 t);
+		I2c(uint8_t t);
 		void setGPIO(Gpio *P_SCL, Gpio *P_SDA);
 		void init(void);
 		void start(void);
 		void stop(void);
-		void ack(u8 en=1);
+		void ack(uint8_t en=1);
 		ErrorStatus waitAck(void);
-		ErrorStatus write(u8 data);
-		u8 read(u8 isAck);
+		ErrorStatus write(uint8_t data);
+		uint8_t read(uint8_t isAck);
 	
 	private:
 		I2C_TypeDef* the;
-		u32 RCC_The;
+		uint32_t RCC_The;
 		Gpio *SCL;
 		Gpio *SDA;
-		u8  IRQn;
+		uint8_t  IRQn;
 };
 extern I2c i2c1;
 extern I2c i2c2;

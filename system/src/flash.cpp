@@ -41,7 +41,7 @@ Called By:
 Input: en 0解锁 1锁定
 Return: void
 *************************************************/
-void Flash::lock(u8 en){
+void Flash::lock(uint8_t en){
 	if(en){
 		FLASH->CR |= 0x00000080;
 	}else{
@@ -58,7 +58,7 @@ Called By:
 Input: en 0解锁 1锁定
 Return: void
 *************************************************/
-void Flash::erasePage(u32 paddr){
+void Flash::erasePage(uint32_t paddr){
 	while(FLASH->SR & (1<<0));//忙
 	FLASH->CR|=1<<1;//页擦除
 	FLASH->AR=paddr;//设置页地址
@@ -78,11 +78,11 @@ Input:
 	num   需要读取的字节数Byte
 Return: void
 *************************************************/
-void Flash::read(u32 addr, void* buf, u16 num){
-	u16* p = (u16*)buf;
+void Flash::read(uint32_t addr, void* buf, uint16_t num){
+	uint16_t* p = (uint16_t*)buf;
 	
-	for(u16 i=0; i<num; i=i+2){
-		*(p++) = *(u16*)(addr+i);
+	for(uint16_t i=0; i<num; i=i+2){
+		*(p++) = *(uint16_t*)(addr+i);
 	}
 }
 
@@ -97,18 +97,18 @@ Input:
 	num   需要写入的字节数Byte
 Return: void
 *************************************************/
-void Flash::write(u32 addr, void* buf, u16 num){
-	u16* p = (u16*)buf;
-	u8 numErase = num/sizePage + 1;
+void Flash::write(uint32_t addr, void* buf, uint16_t num){
+	uint16_t* p = (uint16_t*)buf;
+	uint8_t numErase = num/sizePage + 1;
 	
 	lock(0);
-	for(u8 i=0; i<numErase; i++){
+	for(uint8_t i=0; i<numErase; i++){
 		erasePage(addr + (sizePage * i));
 	}
-	for(u16 i=0; i<num; i=i+2){
+	for(uint16_t i=0; i<num; i=i+2){
 		while(FLASH->SR & (1<<0));//忙
 		FLASH->CR|=1<<0;//编程使能
-		*(u16*)(addr+i) = *(p++);
+		*(uint16_t*)(addr+i) = *(p++);
 		while(FLASH->SR & (1<<0));//忙
 		FLASH->CR&=~(1<<0);//清除PG位.
 	}

@@ -73,15 +73,15 @@ class Mpu6050{
 		short GYRO[3]; //倾斜角
 		short ACCEL[3];//加速度
 		
-		Mpu6050(I2c *com, u8 addr);
+		Mpu6050(I2c *com, uint8_t addr);
 		void init(void);//初始化MPU6050
 		void getGYRO(void);//读取陀螺仪值
 		void getACCEL(void);//读取加速度值
-		void writeByte(u8 reg,u8 data);
-		u8 readByte(u8 reg);
+		void writeByte(uint8_t reg,uint8_t data);
+		uint8_t readByte(uint8_t reg);
 	
 	private:
-		u8  addr; //I2C设备地址
+		uint8_t  addr; //I2C设备地址
 		I2c *com;
 };
 

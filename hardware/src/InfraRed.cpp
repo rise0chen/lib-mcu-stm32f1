@@ -38,8 +38,8 @@ Description: 信号计时
 Input: void
 Return: 20us的个数
 *************************************************/
-u8 InfraRed::tim(void){
-	u8 t=0;
+uint8_t InfraRed::tim(void){
+	uint8_t t=0;
 	while(*DQ->I){//高电平
 		t++;
 		delay_us(20);
@@ -55,8 +55,8 @@ Input: void
 Return: void
 *************************************************/
 void InfraRed::get(void){
-	u32 data=0;
-	u8 time=0,ok=0,d,num=0;
+	uint32_t data=0;
+	uint8_t time=0,ok=0,d,num=0;
 	
 	DQ->config(P_UIN);
 	DQ->configExti(FTI);//下降沿中断

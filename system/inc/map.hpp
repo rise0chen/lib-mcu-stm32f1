@@ -4,6 +4,6 @@
 
 namespace map{
 
-	void JTAG(u8 mode);
+	void JTAG(uint8_t mode);
 }
 #endif //__MAP_H

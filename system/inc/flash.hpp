@@ -8,14 +8,14 @@
 class Flash{
 	public:
 		Flash();
-		void read(u32 addr, void* buf, u16 num);
-		void write(u32 addr, void* buf, u16 num);
+		void read(uint32_t addr, void* buf, uint16_t num);
+		void write(uint32_t addr, void* buf, uint16_t num);
 	
 	private:
 		uint16_t sizePage;
 	
-		void lock(u8 en);
-		void erasePage(u32 paddr);
+		void lock(uint8_t en);
+		void erasePage(uint32_t paddr);
 };
 extern Flash flash;
 

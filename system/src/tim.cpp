@@ -34,7 +34,7 @@ Called By:
 Input: t 定时器序号
 Return: Tim类
 *************************************************/
-Tim::Tim(u8 t){
+Tim::Tim(uint8_t t){
 	switch(t){
 		case 1:
 			the=TIM1;
@@ -84,7 +84,7 @@ Input:
 	TI     1设置溢出中断
 Return: void
 *************************************************/
-void Tim::config(u16 div, u16 period, u8 TI){
+void Tim::config(uint16_t div, uint16_t period, uint8_t TI){
 	the->PSC = div -1;//分频
 	the->ARR = period -1;//周期
 	the->CR1 = 0x0004;//向上计数等...
@@ -110,7 +110,7 @@ Input:
 	dTime      死区时间
 Return: void
 *************************************************/
-void Tim::configOC(u8 channel, u16 dutyFactor, u8 dTime){
+void Tim::configOC(uint8_t channel, uint16_t dutyFactor, uint8_t dTime){
 	uint16_t tmpccmrx = 0, tmpccer = 0, tmpcr2 = 0;
 
 	the->CCER &= (~(uint16_t)(1<<(4*(channel-1))));//禁止引脚输出
@@ -145,10 +145,10 @@ void Tim::configOC(u8 channel, u16 dutyFactor, u8 dTime){
 		the->CCMR2 = tmpccmrx;
 	}
 	switch(channel){//占空比
-		case 1:the->CCR1 = (u16)((the->ARR + 1)/100*dutyFactor);break;
-		case 2:the->CCR2 = (u16)((the->ARR + 1)/100*dutyFactor);break;
-		case 3:the->CCR3 = (u16)((the->ARR + 1)/100*dutyFactor);break;
-		case 4:the->CCR4 = (u16)((the->ARR + 1)/100*dutyFactor);break;
+		case 1:the->CCR1 = (uint16_t)((the->ARR + 1)/100*dutyFactor);break;
+		case 2:the->CCR2 = (uint16_t)((the->ARR + 1)/100*dutyFactor);break;
+		case 3:the->CCR3 = (uint16_t)((the->ARR + 1)/100*dutyFactor);break;
+		case 4:the->CCR4 = (uint16_t)((the->ARR + 1)/100*dutyFactor);break;
 	}
 }
 
@@ -163,7 +163,7 @@ Input:
 	dTime   死区时间
 Return: void
 *************************************************/
-void Tim::configIC(u16 channel, u16 div){
+void Tim::configIC(uint16_t channel, uint16_t div){
 
 }
 

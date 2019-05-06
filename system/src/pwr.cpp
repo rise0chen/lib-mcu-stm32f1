@@ -40,7 +40,7 @@ Called By:
 Input: next  1处理完中断后,继续休眠  0处理完中断后,返回主函数
 Return: void
 *************************************************/
-void pwr::sleep(u8 next){
+void pwr::sleep(uint8_t next){
 	SCB->SCR &= ~(1<<2);//清除SLEEPDEEP位
 	if(next==1){
 		SCB->SCR |= 1<<1;//使能SLEEPONEXIT位(中断执行后,继续休眠)

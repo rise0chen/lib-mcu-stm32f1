@@ -25,7 +25,7 @@ Called By:
 Input: t ADC序号
 Return: Adc类
 *************************************************/
-Adc::Adc(u8 t){
+Adc::Adc(uint8_t t){
 	switch(t){
 		case 1:
 			the=ADC1;
@@ -81,9 +81,9 @@ Input:
 	times 采集次数(自动取平均值)
 Return: 12bit原始电压值
 *************************************************/
-u16 Adc::get(u8 ch, u8 times){
-	u32 temp_val=0;
-	u8 t;
+uint16_t Adc::get(uint8_t ch, uint8_t times){
+	uint32_t temp_val=0;
+	uint8_t t;
 	for(t=0;t<times;t++){
 		setMem(&the->SQR3, 0x1F<<0, ch<<0);//规则序列1 通道ch
 		the->CR2|=1<<22;//启动规则转换通道
@@ -101,8 +101,8 @@ Called By:
 Input: times 采集次数(自动取平均值)
 Return: 摄氏度
 *************************************************/
-float Adc::getTemp(u8 times){
-	u16 value;
+float Adc::getTemp(uint8_t times){
+	uint16_t value;
 	float temperate;
 	
 	setBit(&adc1.the->CR2,23);

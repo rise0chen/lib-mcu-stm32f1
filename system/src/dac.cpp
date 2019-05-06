@@ -14,7 +14,7 @@ History:
 
 Dac dac1(1);
 
-Dac::Dac(u8 t){
+Dac::Dac(uint8_t t){
 	switch(t){
 		case 1:
 			//the=DAC1;

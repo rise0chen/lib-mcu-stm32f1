@@ -7,14 +7,14 @@ class DS18B20{
 	public:
 		DS18B20(Gpio *P_DQ);
 		void setGPIO(Gpio *P_DQ);
-		u8 getTemp(void);
+		uint8_t getTemp(void);
 	
 	private:
 		Gpio *DQ;
 	
 		void init(void);
-		void write(u8 dat);
-		u8 read(void);
+		void write(uint8_t dat);
+		uint8_t read(void);
 };
 
 #endif //__DS18B20_H

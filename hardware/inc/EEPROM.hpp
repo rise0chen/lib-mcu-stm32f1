@@ -4,18 +4,18 @@
 
 class Eeprom{
 	public:
-		u8  pageSize;
-		u16 pageMax;
+		uint8_t  pageSize;
+		uint16_t pageMax;
 	
-		Eeprom(I2c *com, u8 addr, u8 type);
-		ErrorStatus  write(u16 addr,void* buf,u16 num);
-		ErrorStatus  read(u16 addr,void* buf,u16 num);
+		Eeprom(I2c *com, uint8_t addr, uint8_t type);
+		ErrorStatus  write(uint16_t addr,void* buf,uint16_t num);
+		ErrorStatus  read(uint16_t addr,void* buf,uint16_t num);
 	private:
 		I2c *com;
-		u8  deviceAddr;
-		u8  type;
+		uint8_t  deviceAddr;
+		uint8_t  type;
 		
-		ErrorStatus  writePage(u16 addr, char* pBuf, u8 num);
+		ErrorStatus  writePage(uint16_t addr, char* pBuf, uint8_t num);
 };
 
 #endif //__EEPROM_H

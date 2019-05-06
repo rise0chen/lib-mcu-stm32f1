@@ -29,7 +29,7 @@ Called By:
 Input: t I2C序号
 Return: I2c类
 *************************************************/
-I2c::I2c(u8 t){
+I2c::I2c(uint8_t t){
 	if(t==1){
 		the = I2C1;
 		RCC_The = APB1_I2C1;
@@ -132,7 +132,7 @@ Called By:
 Input: en 1应当 0不应答
 Return: void
 *************************************************/
-void I2c::ack(u8 en){
+void I2c::ack(uint8_t en){
 	#if I2C_SOFE//软件I2C
 	*SCL->O=0;
 	SDA->config(P_ODO);
@@ -182,8 +182,8 @@ Called By:
 Input: data 单字节数据
 Return: void
 *************************************************/
-ErrorStatus I2c::write(u8 data){
-	u8 i;
+ErrorStatus I2c::write(uint8_t data){
+	uint8_t i;
 
 	SDA->config(P_ODO);
 	*SCL->O=0;
@@ -210,8 +210,8 @@ Called By:
 Input: isAck 0不应答  1应答
 Return: 单字节数据
 *************************************************/
-u8 I2c::read(u8 isAck){
-	u8 i,receive = 0;
+uint8_t I2c::read(uint8_t isAck){
+	uint8_t i,receive = 0;
 
 	SDA->config(P_UIN);
 	for(i=0;i<8;i++){

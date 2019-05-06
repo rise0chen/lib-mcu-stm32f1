@@ -60,8 +60,8 @@ Description: 写单字节数据
 Input: data 单字节数据
 Return: void
 *************************************************/
-void DS18B20::write(u8 data){
-	u8 i;
+void DS18B20::write(uint8_t data){
+	uint8_t i;
 	DQ->config(P_PPO);
 	*DQ->O=1;
 	delay_us(10);
@@ -86,8 +86,8 @@ Description: 读单字节数据
 Input: void
 Return: 单字节数据
 *************************************************/
-u8 DS18B20::read(void){
-	u8 i,value=0;//一定要给value附初值否则显示会错误
+uint8_t DS18B20::read(void){
+	uint8_t i,value=0;//一定要给value附初值否则显示会错误
 	DQ->config(P_PPO);
 	*DQ->O=1;
 	for(i=0;i<8;i++){
@@ -114,8 +114,8 @@ Description: 读取温度
 Input: P_DQ  DS18B20的数据引脚
 Return: 摄氏温度(只保留整数部分)
 *************************************************/
-u8 DS18B20::getTemp(void){
-	u8 a,b;
+uint8_t DS18B20::getTemp(void){
+	uint8_t a,b;
 	
 	init();//初始化
 	write(0xcc);//发送忽略ROM指令

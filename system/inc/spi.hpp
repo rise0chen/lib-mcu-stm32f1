@@ -9,22 +9,22 @@ class Spi{
 		//BufRcv rx;
 		void (*funRx)();
 		
-		Spi(u8 t);
+		Spi(uint8_t t);
 		void init();
-		void setSpeed(u8 div);
-		u8   rwByte(u8 data);
+		void setSpeed(uint8_t div);
+		uint8_t   rwByte(uint8_t data);
 	
 	private:
 		SPI_TypeDef* the;
-		u32 RCC_The;
-		u8  Px;
-		u8  PSCK;
-		u8  PMISO;
-		u8  PMOSI;
-		u8  IRQn;
+		uint32_t RCC_The;
+		uint8_t  Px;
+		uint8_t  PSCK;
+		uint8_t  PMISO;
+		uint8_t  PMOSI;
+		uint8_t  IRQn;
 		DMA_Channel_TypeDef* TX_DMA;
 		DMA_Channel_TypeDef* RX_DMA;
-		u32 FLAG_TC;
+		uint32_t FLAG_TC;
 };
 extern Spi spi1;
 extern Spi spi2;

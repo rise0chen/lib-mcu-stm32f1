@@ -51,7 +51,7 @@ Input:
 	value 写入数值
 Return: void
 *************************************************/
-void RFID::writeRawRC(u8 addr, u8 value){
+void RFID::writeRawRC(uint8_t addr, uint8_t value){
 	*CS->O=0;//选中
 	//寄存器地址格式:0XXXXXX0
 	com->rwByte((addr << 1) &0x7E);
@@ -66,8 +66,8 @@ Input:
 	addr  寄存器地址
 Return: 读出的值
 *************************************************/
-u8 RFID::readRawRC(u8 addr){
-	u8 data;
+uint8_t RFID::readRawRC(uint8_t addr){
+	uint8_t data;
 
 	*CS->O=0;//选中
 	//寄存器地址格式:1XXXXXX0
@@ -85,8 +85,8 @@ Input:
 	mask  置位值
 Return: void
 *************************************************/
-void RFID::setBitMask(u8 reg, u8 mask){
-	u8 tmp = 0x0;
+void RFID::setBitMask(uint8_t reg, uint8_t mask){
+	uint8_t tmp = 0x0;
 	tmp = readRawRC(reg);
 	writeRawRC(reg, tmp | mask);// set bit mask
 }
@@ -99,8 +99,8 @@ Input:
 	mask  置位值
 Return: void
 *************************************************/
-void RFID::clearBitMask(u8 reg, u8 mask){
-	u8 tmp = 0x00;
+void RFID::clearBitMask(uint8_t reg, uint8_t mask){
+	uint8_t tmp = 0x00;
 	tmp = readRawRC(reg);
 	writeRawRC(reg, tmp &~mask);// clear bit mask
 }
@@ -122,7 +122,7 @@ Input: void
 Return: void
 *************************************************/
 void RFID::openAntenna(void){
-	u8 i;
+	uint8_t i;
 	i = readRawRC(TxControlReg);//读取出发送控制寄存器
 	if(!(i &0x03)){//如果未开启,则
 		setBitMask(TxControlReg, 0x03);//开启Tx1RFEn,Tx2RFEn
@@ -140,13 +140,13 @@ Input:
 	pOutLenBit 返回数据的位长度
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::PcdComMF522(u8 Command, u8* pDataIn, u8 InLenByte, u8* pDataOut, u16 *pOutLenBit){
-	s8 status = MI_ERR;
-	u8 irqEn = 0x00;
-	u8 waitFor = 0x00;
-	u8 lastBits;
-	u8 n;
-	u16 i;
+int8_t RFID::PcdComMF522(uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit){
+	int8_t status = MI_ERR;
+	uint8_t irqEn = 0x00;
+	uint8_t waitFor = 0x00;
+	uint8_t lastBits;
+	uint8_t n;
+	uint16_t i;
 	switch(Command){
 	case PCD_AUTHENT:
 		irqEn = 0x12;
@@ -218,7 +218,7 @@ Description: 复位RC522
 Input: void
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::PcdReset(void){
+int8_t RFID::PcdReset(void){
 	//外部复位
 	*RST->O=1;
 	delay_us(1);
@@ -250,8 +250,8 @@ Input:
 	pDataOut 输出crc16的两个字节数组
 Return: void
 *************************************************/
-void RFID::CalulateCRC(u8* pIndata, u8 len, u8* pDataOut){
-	u8 i, n;
+void RFID::CalulateCRC(uint8_t* pIndata, uint8_t len, uint8_t* pDataOut){
+	uint8_t i, n;
 	clearBitMask(DivIrqReg, 0x04);
 	writeRawRC(CommandReg, PCD_IDLE);//取消当前命令
 	setBitMask(FIFOLevelReg, 0x80);//FlushBuffer 清除ErrReg 的标志位
@@ -274,10 +274,10 @@ Description: 命令卡片进入休眠状态
 Input: void
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::PcdHalt(void){
-	s8 status = MI_ERR;
-	u16 unLen;
-	u8 ucComMF522Buf[MAXRLEN];
+int8_t RFID::PcdHalt(void){
+	int8_t status = MI_ERR;
+	uint16_t unLen;
+	uint8_t ucComMF522Buf[MAXRLEN];
 
 	ucComMF522Buf[0] = PICC_HALT;
 	ucComMF522Buf[1] = 0;
@@ -303,10 +303,10 @@ Input:
 		0x4403 Mifare_DESFire
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::PcdRequest(u8 req_code, u8* pTagType){
-	s8 status = MI_ERR;
-	u16 unLen;
-	u8 ucComMF522Buf[MAXRLEN];
+int8_t RFID::PcdRequest(uint8_t req_code, uint8_t* pTagType){
+	int8_t status = MI_ERR;
+	uint16_t unLen;
+	uint8_t ucComMF522Buf[MAXRLEN];
 
 	/*清空，做准备工作*/
 	PcdReset();
@@ -330,11 +330,11 @@ Description: 防冲撞
 Input: pSnr  卡片序列号，4字节
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::PcdAnticoll(u8* pSnr){
-	s8 status;
-	u8 i, snr_check = 0;
-	u16 unLen;
-	u8 ucComMF522Buf[MAXRLEN];
+int8_t RFID::PcdAnticoll(uint8_t* pSnr){
+	int8_t status;
+	uint8_t i, snr_check = 0;
+	uint16_t unLen;
+	uint8_t ucComMF522Buf[MAXRLEN];
 
 	clearBitMask(Status2Reg, 0x08);// 清空校验成功标志
 	writeRawRC(BitFramingReg, 0x00);// 最后一个字节发送所有数据
@@ -363,11 +363,11 @@ Description: 选择卡片
 Input: pSnr  卡片序列号，4字节
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::PcdSelect(u8* pSnr){
-	s8 status;
-	u8 i;
-	u16 unLen;
-	u8 ucComMF522Buf[MAXRLEN];
+int8_t RFID::PcdSelect(uint8_t* pSnr){
+	int8_t status;
+	uint8_t i;
+	uint16_t unLen;
+	uint8_t ucComMF522Buf[MAXRLEN];
 
 	clearBitMask(Status2Reg, 0x08);// 清空校验成功标志
 	ucComMF522Buf[0] = PICC_ANTICOLL1;// 防冲突
@@ -401,8 +401,8 @@ Input:
 		0x4403 Mifare_DESFire
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::GetCard(u8 Reqcode,u8* pSnr,u8* type){
-	s8 status = MI_OK;
+int8_t RFID::GetCard(uint8_t Reqcode,uint8_t* pSnr,uint8_t* type){
+	int8_t status = MI_OK;
 	
 	if(pSnr == 0){pSnr = cardSN;}
 	if(type == 0){type = cardType;}
@@ -433,10 +433,10 @@ Input:
 	pSnr  卡片序列号，4字节
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::S50Auth(u8 mode,u8 addr,u8* pKey,u8* pSnr){
-	s8  status;
-	u16 unLen;
-	u8  ucComMF522Buf[MAXRLEN]; 
+int8_t RFID::S50Auth(uint8_t mode,uint8_t addr,uint8_t* pKey,uint8_t* pSnr){
+	int8_t  status;
+	uint16_t unLen;
+	uint8_t  ucComMF522Buf[MAXRLEN]; 
 
 	if(pSnr == 0){pSnr = cardSN;}
 	ucComMF522Buf[0] = mode;
@@ -461,10 +461,10 @@ Input:
 	len    数据长度
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::S50Read(u8 addr,u8 *pData,u8 len){
-	s8 status;
-	u16 unLen;
-	u8 i,ucComMF522Buf[MAXRLEN]; 
+int8_t RFID::S50Read(uint8_t addr,uint8_t *pData,uint8_t len){
+	int8_t status;
+	uint16_t unLen;
+	uint8_t i,ucComMF522Buf[MAXRLEN]; 
 
 	mem_set(pData, 0x00, len);
 	ucComMF522Buf[0] = PICC_READ;
@@ -490,10 +490,10 @@ Input:
 	pData  写入的数据，16字节
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::S50Write(u8 addr,u8 *pData){
-	s8 status;
-	u16 unLen;
-	u8 i,ucComMF522Buf[MAXRLEN]; 
+int8_t RFID::S50Write(uint8_t addr,uint8_t *pData){
+	int8_t status;
+	uint16_t unLen;
+	uint8_t i,ucComMF522Buf[MAXRLEN]; 
 	
 	ucComMF522Buf[0] = PICC_WRITE;
 	ucComMF522Buf[1] = addr;
@@ -524,10 +524,10 @@ Input:
 	pValue 4字节增(减)值，低位在前
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::S50Value(u8 dd_mode,u8 addr,u8 *pValue){
-	s8 status;
-	u16 unLen;
-	u8 ucComMF522Buf[MAXRLEN]; 
+int8_t RFID::S50Value(uint8_t dd_mode,uint8_t addr,uint8_t *pValue){
+	int8_t status;
+	uint16_t unLen;
+	uint8_t ucComMF522Buf[MAXRLEN]; 
 	
 	ucComMF522Buf[0] = dd_mode;
 	ucComMF522Buf[1] = addr;
@@ -569,10 +569,10 @@ Input:
 	goaladdr   目标地址
 Return: 错误码 0成功
 *************************************************/
-s8 RFID::S50BakValue(u8 sourceaddr, u8 goaladdr){
-	s8 status;
-	u16 unLen;
-	u8 ucComMF522Buf[MAXRLEN]; 
+int8_t RFID::S50BakValue(uint8_t sourceaddr, uint8_t goaladdr){
+	int8_t status;
+	uint16_t unLen;
+	uint8_t ucComMF522Buf[MAXRLEN]; 
 
 	ucComMF522Buf[0] = PICC_RESTORE;
 	ucComMF522Buf[1] = sourceaddr;

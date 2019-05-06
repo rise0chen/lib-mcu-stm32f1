@@ -4,13 +4,13 @@
 
 class Adc{
 	public:
-		Adc(u8 t);
+		Adc(uint8_t t);
 		void init(void);
-		u16  get(u8 ch,u8 times=10);
-		float getTemp(u8 times=10);
+		uint16_t  get(uint8_t ch,uint8_t times=10);
+		float getTemp(uint8_t times=10);
 	private:
 		ADC_TypeDef* the;
-		u32 RCC_The;
+		uint32_t RCC_The;
 		
 };
 extern Adc adc1;

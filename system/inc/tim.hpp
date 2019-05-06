@@ -4,17 +4,17 @@
 
 class Tim{
 	public:
-		Tim(u8 t);
-		void config(u16 div, u16 period, u8 TI=0);
-		void configOC(u8 channel, u16 dutyFactor, u8 dTime=0);
-		void configIC(u16 channel, u16 div);
-		void configBD(u8 dTime);
+		Tim(uint8_t t);
+		void config(uint16_t div, uint16_t period, uint8_t TI=0);
+		void configOC(uint8_t channel, uint16_t dutyFactor, uint8_t dTime=0);
+		void configIC(uint16_t channel, uint16_t div);
+		void configBD(uint8_t dTime);
 		void cmd(FunctionalState state);
 		void clear();
 		
 	private:
 		TIM_TypeDef* the;
-		u8 IRQn;
+		uint8_t IRQn;
 };
 extern Tim tim1;//high
 extern Tim tim2;

@@ -26,8 +26,8 @@ Description: 粗略延时1ms
 Input: time 毫秒数
 Return: void
 *************************************************/
-void delay(u16 time){
-	u16 i, j;
+void delay(uint16_t time){
+	uint16_t i, j;
 	for(i=0; i<time; i++)
 		for(j=0; j<9000; j++);//1ms
 }
@@ -38,8 +38,8 @@ Description: 精确毫秒级延时
 Input: nus  毫秒数 0~59652323us
 Return: void
 *************************************************/
-void delay_us(u32 nus){
-	u32 start,end;
+void delay_us(uint32_t nus){
+	uint32_t start,end;
 	DEM_CR |= (1<<24);
 	DWT_CR |= (1<<0);
 	start = DWT_CYCCNT;
@@ -53,7 +53,7 @@ void delay_us(u32 nus){
 }
 
 
-static u32 startTime; //tic开始时间
+static uint32_t startTime; //tic开始时间
 /*************************************************
 Function: tic
 Description: 开始调试计时
@@ -72,8 +72,8 @@ Description: 结束调试计时
 Input: way  0时钟数 1微秒数 2毫秒数
 Return: void
 *************************************************/
-u32 toc(u8 way){
-	u32 dt;
+uint32_t toc(uint8_t way){
+	uint32_t dt;
 	dt=DWT_CYCCNT-startTime;
 	if(way==1){
 		dt=dt/fac_us;

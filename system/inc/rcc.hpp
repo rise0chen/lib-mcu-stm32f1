@@ -55,9 +55,9 @@ class Rcc{
 		uint32_t clkApb1;
 		uint32_t clkApb2;
 		
-		void init(u8 PLL);//时钟初始化
-		void cmd(u8 bus, u32 periph, FunctionalState state);
-		void reset(u8 bus, u32 periph);
+		void init(uint8_t PLL);//时钟初始化
+		void cmd(uint8_t bus, uint32_t periph, FunctionalState state);
+		void reset(uint8_t bus, uint32_t periph);
 	
 	private:
 		void deInit(void);

@@ -20,9 +20,9 @@ History:
 Usart usart1(1);
 Usart usart2(2);
 Usart usart3(3);
-extern void USART1_Do(char* msg, u16 len);
-extern void USART2_Do(char* msg, u16 len);
-extern void USART3_Do(char* msg, u16 len);
+extern void USART1_Do(char* msg, uint16_t len);
+extern void USART2_Do(char* msg, uint16_t len);
+extern void USART3_Do(char* msg, uint16_t len);
 
 /*************************************************
 Function: Usart::Usart
@@ -32,7 +32,7 @@ Called By:
 Input: t Usart序号
 Return: Usart类
 *************************************************/
-Usart::Usart(u8 t){
+Usart::Usart(uint8_t t){
 	if(t==1){
 		the = USART1;
 		RCC_GPIO = APB2_GPIOA;
@@ -85,9 +85,9 @@ Input:
 	e     终止标识 0x0D为\r\n  0x0A为\n
 Return: void
 *************************************************/
-void Usart::init(u32 bound,u8 s,u8 e){
-	u32 clk, temp;
-	u16 integer, fraction;
+void Usart::init(uint32_t bound,uint8_t s,uint8_t e){
+	uint32_t clk, temp;
+	uint16_t integer, fraction;
 
 	rx = BufRcv(s, e, funRx);
 	
@@ -115,8 +115,8 @@ void Usart::init(u32 bound,u8 s,u8 e){
 	the->CR1 |= 1<<5;//RXNE(1<<6:IDLE)中断使能
 	nvic.config(IRQn,0,0);
 	//DMA设置
-	dma.configTx(TX_DMA,(u32)&the->DR,(u32)&tx.buf,1);
-	//dma.configRx(RX_DMA,(u32)&the->DR,(u32)&rx.buf,LEN_MAX);
+	dma.configTx(TX_DMA,(uint32_t)&the->DR,(uint32_t)&tx.buf,1);
+	//dma.configRx(RX_DMA,(uint32_t)&the->DR,(uint32_t)&rx.buf,LEN_MAX);
 	the->CR3 |= 0xC0;//DMA使能
 	the->CR1 |= 0X200C;//使能,8位数据,无校验位,1位停止,收发
 }
@@ -150,7 +150,7 @@ Input:
 	len   要发送的字节长度
 Return: void
 *************************************************/
-void Usart::send(char *buf, u16 len){
+void Usart::send(char *buf, uint16_t len){
 	if(len==0){len=std::strlen(buf);}
 	while((DMA1->ISR & FLAG_TC)==0);//等待上次结束
 	TX_DMA->CCR &= ~1;//关DMA
@@ -169,7 +169,7 @@ Input: void
 Return: void
 *************************************************/
 void Usart::rcv(){
-	u8 res;
+	uint8_t res;
 
 	if(the->SR&(1<<5)){
 		res=the->DR;

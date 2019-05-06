@@ -113,36 +113,36 @@ class RFID{
 	#define RFU3F             0x3F //保留
 
 	public:
-		u8 cardType[2];//类型
-		u8 cardSN[4];  //序列号
+		uint8_t cardType[2];//类型
+		uint8_t cardSN[4];  //序列号
 	
 		RFID(Spi *spi_com, Gpio *spi_CS, Gpio *pin_RST);
 		void init(void);
 		void closeAntenna(void);
 		void openAntenna(void);
-		s8 PcdComMF522(u8 Command, u8* pDataIn, u8 InLenByte, u8* pDataOut, u16 *pOutLenBit);
-		s8 PcdReset(void);
-		void CalulateCRC(u8* pIndata, u8 len, u8* pDataOut);
-		s8 PcdHalt(void);
-		s8 PcdRequest(u8 req_code, u8* pTagType);
-		s8 PcdAnticoll(u8* pSnr);
-		s8 PcdSelect(u8* pSnr);
-		s8 GetCard(u8 Reqcode,u8* pSnr=0,u8* type=0);
-		s8 S50Auth(u8 auth_mode,u8 addr,u8 *pKey,u8* pSnr=0);
-		s8 S50Read(u8 addr,u8 *pData,u8 len=16);
-		s8 S50Write(u8 addr,u8 *pData);
-		s8 S50Value(u8 dd_mode,u8 addr,u8 *pValue);
-		s8 S50BakValue(u8 sourceaddr, u8 goaladdr);
+		int8_t PcdComMF522(uint8_t Command, uint8_t* pDataIn, uint8_t InLenByte, uint8_t* pDataOut, uint16_t *pOutLenBit);
+		int8_t PcdReset(void);
+		void CalulateCRC(uint8_t* pIndata, uint8_t len, uint8_t* pDataOut);
+		int8_t PcdHalt(void);
+		int8_t PcdRequest(uint8_t req_code, uint8_t* pTagType);
+		int8_t PcdAnticoll(uint8_t* pSnr);
+		int8_t PcdSelect(uint8_t* pSnr);
+		int8_t GetCard(uint8_t Reqcode,uint8_t* pSnr=0,uint8_t* type=0);
+		int8_t S50Auth(uint8_t auth_mode,uint8_t addr,uint8_t *pKey,uint8_t* pSnr=0);
+		int8_t S50Read(uint8_t addr,uint8_t *pData,uint8_t len=16);
+		int8_t S50Write(uint8_t addr,uint8_t *pData);
+		int8_t S50Value(uint8_t dd_mode,uint8_t addr,uint8_t *pValue);
+		int8_t S50BakValue(uint8_t sourceaddr, uint8_t goaladdr);
 	
 	private:
 		Spi *com;
 		Gpio *CS;
 		Gpio *RST;
 		
-		void writeRawRC(u8 addr, u8 value);
-		u8 readRawRC(u8 addr);
-		void setBitMask(u8 reg, u8 mask);
-		void clearBitMask(u8 reg, u8 mask);
+		void writeRawRC(uint8_t addr, uint8_t value);
+		uint8_t readRawRC(uint8_t addr);
+		void setBitMask(uint8_t reg, uint8_t mask);
+		void clearBitMask(uint8_t reg, uint8_t mask);
 };
 
 #endif //__RFID_H

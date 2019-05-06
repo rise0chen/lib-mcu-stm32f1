@@ -30,7 +30,7 @@ Input:
 	i2c_addr I2C地址
 Return: DS18B20类
 *************************************************/
-Mpu6050::Mpu6050(I2c *i2c_com, u8 i2c_addr){
+Mpu6050::Mpu6050(I2c *i2c_com, uint8_t i2c_addr){
 	com  = i2c_com;
 	addr = i2c_addr;
 }
@@ -69,7 +69,7 @@ Input: void
 Return: void
 *************************************************/
 void Mpu6050::getGYRO(void){
-	u8 buf[2];
+	uint8_t buf[2];
 	buf[0]=readByte(MPU_GYRO_XOUTH_REG);
 	buf[1]=readByte(MPU_GYRO_XOUTL_REG);
 	GYRO[0]= (buf[0]<<8)|buf[1];
@@ -88,7 +88,7 @@ Input: void
 Return: void
 *************************************************/
 void Mpu6050::getACCEL(void){
-	u8 buf[2];
+	uint8_t buf[2];
 	buf[0]=readByte(MPU_ACCEL_XOUTH_REG);
 	buf[1]=readByte(MPU_ACCEL_XOUTL_REG);
 	ACCEL[0]= (buf[0]<<8)|buf[1];
@@ -108,7 +108,7 @@ Input:
 	data  单字节数据
 Return: void
 *************************************************/
-void Mpu6050::writeByte(u8 reg,u8 data){
+void Mpu6050::writeByte(uint8_t reg,uint8_t data){
 	com->start();
 	com->write((addr<<1)|0);//发送器件地址+写命令
 	com->write(reg);//写寄存器地址
@@ -123,8 +123,8 @@ Input:
 	reg   寄存器地址
 Return: 单字节数据
 *************************************************/
-u8 Mpu6050::readByte(u8 reg){
-	u8 res;
+uint8_t Mpu6050::readByte(uint8_t reg){
+	uint8_t res;
 	com->start(); 
 	com->write((addr<<1)|0);//发送器件地址+写命令
 	com->write(reg);//写寄存器地址

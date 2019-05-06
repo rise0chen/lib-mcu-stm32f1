@@ -27,7 +27,7 @@ Input:
 	n    IO口号
 Return: Gpio类
 *************************************************/
-Gpio::Gpio(u8 x, u8 n){
+Gpio::Gpio(uint8_t x, uint8_t n){
 	Px = x;
 	GPIOx = (GPIO_TypeDef*)(GPIOA_BASE+(x<<10));
 	Pn = n;
@@ -46,7 +46,7 @@ Input:
 	speed IO口开关速率(仅输出模式有效)
 Return: void
 *************************************************/
-void Gpio::config(GPIOMode_TypeDef mode, s8 data, GPIOSpeed_TypeDef speed){
+void Gpio::config(GPIOMode_TypeDef mode, int8_t data, GPIOSpeed_TypeDef speed){
 	uint32_t currentmode = 0x00, pos = 0x00;
 	uint32_t tmpreg = 0x00;
 
@@ -75,7 +75,7 @@ void Gpio::config(GPIOMode_TypeDef mode, s8 data, GPIOSpeed_TypeDef speed){
 		if((mode & 0x10) != 0)
 			*this->O = data;
 	}else{
-		switch((u8)mode){
+		switch((uint8_t)mode){
 			case 0x80:
 				AFIO->EVCR =(1<<7) | (Px << 0x04) | Pn;
 			break;
@@ -92,7 +92,7 @@ Input:
 	data  1高电平  0低电平  -1反转
 Return: void
 *************************************************/
-void Gpio::output(s8 data){
+void Gpio::output(int8_t data){
 	switch(data){
 		case 1 :GPIOx->BSRR = (1<<Pn);break;//置1
 		case 0 :GPIOx->BRR  = (1<<Pn);break;//置0
@@ -108,7 +108,7 @@ Called By:
 Input: void
 Return: 1高电平  0低电平
 *************************************************/
-u8 Gpio::input(void){
+uint8_t Gpio::input(void){
 	return (GPIOx->IDR & (1<<Pn)) ? 1 : 0;
 }
 
@@ -124,8 +124,8 @@ Input:
 	TRIM  触发模式 1下升沿  2上降沿  3任意电平触发
 Return: void
 *************************************************/
-void Gpio::configExti(u8 TRIM){
-	u8 EXTADDR, EXTOFFSET, IRQn;
+void Gpio::configExti(uint8_t TRIM){
+	uint8_t EXTADDR, EXTOFFSET, IRQn;
 
 	EXTADDR  = (Pn>>2);//得到中断寄存器组的编号
 	EXTOFFSET = (Pn%4)<<2;
@@ -156,7 +156,7 @@ Input:
 Return: void
 *************************************************/
 void Gpio::lock(){
-	u32 tmp = 0x00010000;
+	uint32_t tmp = 0x00010000;
 	tmp |= (1<<Pn);
 	GPIOx->LCKR = tmp;//1
 	GPIOx->LCKR = (1<<Pn);//0

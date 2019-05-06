@@ -55,21 +55,21 @@ typedef enum{
 
 class Gpio{
 	public:
-		vu32* O;
-		vu32* I;
+		volatile uint32_t* O;
+		volatile uint32_t* I;
 		
 		Gpio(){};
-		Gpio(u8 x, u8 n);
-		void  config(GPIOMode_TypeDef mode,s8 data=0,GPIOSpeed_TypeDef speed=P_2MHz);
-		void  output(s8 data);
-		u8    input(void);
-		void  configExti(u8 TRIM);//外部中断
+		Gpio(uint8_t x, uint8_t n);
+		void  config(GPIOMode_TypeDef mode,int8_t data=0,GPIOSpeed_TypeDef speed=P_2MHz);
+		void  output(int8_t data);
+		uint8_t    input(void);
+		void  configExti(uint8_t TRIM);//外部中断
 		void  lock(void);
 
 	private:
 		GPIO_TypeDef* GPIOx;
-		u8    Px;//GPIO
-		u8    Pn;//Pin
+		uint8_t    Px;//GPIO
+		uint8_t    Pn;//Pin
 };
 extern Gpio gpio_default;
 
