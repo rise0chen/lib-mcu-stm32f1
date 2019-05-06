@@ -125,7 +125,7 @@ Input:
 Return: void
 *************************************************/
 void Gpio::configExti(uint8_t TRIM){
-	uint8_t EXTADDR, EXTOFFSET, IRQn;
+	uint8_t EXTADDR, EXTOFFSET, IRQn = 0;
 
 	EXTADDR  = (Pn>>2);//得到中断寄存器组的编号
 	EXTOFFSET = (Pn%4)<<2;

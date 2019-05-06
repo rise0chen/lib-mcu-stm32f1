@@ -16,7 +16,7 @@ History:
 #include "pwr.hpp"
 
 static void pwr::WFI_SET(void){
-	__wfi();
+	__WFI();
 	__ASM volatile("wfi");
 }
 
