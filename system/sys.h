@@ -5,8 +5,7 @@
 #include "rcc.h"
 #include "std.h"
 #include "delay.h"
-#include "riselib/debug.h"
-// #define _C extern "C"//汇编语言中调用的函数,需要使用
+#include "riselib/riselib.h"
 
 #define LEN_MAX 512 //最大字节数
 #define LEN_MID 128 //中等字节数

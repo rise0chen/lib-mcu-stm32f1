@@ -37,7 +37,7 @@ void linkUsart_send(LinkServerStruct* self,
   }
 }
 
-void USART2_IRQHandler(void) {
+_C void USART2_IRQHandler(void) {
   uint8_t recvBuf[1];
   int recvNum = 1;
 
@@ -46,7 +46,7 @@ void USART2_IRQHandler(void) {
     // to do something
     LinkCfgStruct* srcLink = (LinkCfgStruct*)malloc(sizeof(LinkCfgStruct));
     srcLink->type = linkType_usart;
-    srcLink->address = malloc(8);
+    srcLink->address = (uint8_t*)malloc(8);
     srcLink->address[0] = linkServer->link->address[0];
     srcLink->port = linkServer->link->port;
     linkServer->recv(recvBuf, recvNum, srcLink);

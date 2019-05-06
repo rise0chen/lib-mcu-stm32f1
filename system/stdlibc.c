@@ -6,7 +6,7 @@
 *param2:	文件指针
 *return:	输出字符的ASCII码
 ******************************************************/
-int fputc(int ch, FILE *f) {
+_C int fputc(int ch, FILE *f) {
   while((USART1->SR & 0x0040) == 0);
   USART1->DR = (ch & (uint16_t)0x01FF);
 	return ch;

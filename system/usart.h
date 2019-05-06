@@ -4,6 +4,10 @@
 #include "gpio.h"
 #include "dma.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define BUF_LEN 256
 
 typedef struct {
@@ -27,4 +31,7 @@ void usart_init(UsartStruct* self, uint32_t bound);
 void usart_printf(UsartStruct* self, char* format, ...);
 void usart_send(UsartStruct* self, uint8_t *buf, uint16_t len);
 
+#ifdef __cplusplus
+}
+#endif
 #endif //__USART_H
