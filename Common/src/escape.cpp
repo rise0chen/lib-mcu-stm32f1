@@ -52,6 +52,6 @@ unsigned short escape(char* bufin, unsigned short lenin, ESC_TypeDef* type, unsi
 		}
 		if(j==typelen){bufout[outi++]=bufin[i];}
 	}
-	std::memcpy(bufin, bufout, outi);
+	mem_cpy(bufin, bufout, outi);
 	return outi;
 }

@@ -406,8 +406,8 @@ s8 RFID::GetCard(u8 Reqcode,u8* pSnr,u8* type){
 	
 	if(pSnr == 0){pSnr = cardSN;}
 	if(type == 0){type = cardType;}
-	std::memset(pSnr, 0x00, 4);
-	std::memset(type, 0x00, 2);
+	mem_set(pSnr, 0x00, 4);
+	mem_set(type, 0x00, 2);
 	status = PcdRequest(Reqcode, type);//寻卡
 	if(status){
 		return MI_NOCARD;
@@ -441,8 +441,8 @@ s8 RFID::S50Auth(u8 mode,u8 addr,u8* pKey,u8* pSnr){
 	if(pSnr == 0){pSnr = cardSN;}
 	ucComMF522Buf[0] = mode;
 	ucComMF522Buf[1] = addr;
-	std::memcpy(&ucComMF522Buf[2], pKey, 6);
-	std::memcpy(&ucComMF522Buf[8], pSnr, 4);
+	mem_cpy(&ucComMF522Buf[2], pKey, 6);
+	mem_cpy(&ucComMF522Buf[8], pSnr, 4);
 
 	status = PcdComMF522(PCD_AUTHENT,ucComMF522Buf,12,ucComMF522Buf,&unLen);
 	if((status != MI_OK) ||(!(readRawRC(Status2Reg) & 0x08))){
@@ -466,7 +466,7 @@ s8 RFID::S50Read(u8 addr,u8 *pData,u8 len){
 	u16 unLen;
 	u8 i,ucComMF522Buf[MAXRLEN]; 
 
-	std::memset(pData, 0x00, len);
+	mem_set(pData, 0x00, len);
 	ucComMF522Buf[0] = PICC_READ;
 	ucComMF522Buf[1] = addr;
 	CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]);
@@ -538,7 +538,7 @@ s8 RFID::S50Value(u8 dd_mode,u8 addr,u8 *pValue){
 		status = MI_ERR;
 	}
 	if(status == MI_OK){
-		std::memcpy(ucComMF522Buf, pValue, 4);
+		mem_cpy(ucComMF522Buf, pValue, 4);
 		CalulateCRC(ucComMF522Buf,4,&ucComMF522Buf[4]);
 		unLen = 0;
 		status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,6,ucComMF522Buf,&unLen);

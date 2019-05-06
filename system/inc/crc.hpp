@@ -3,7 +3,6 @@
 #include "sys.hpp"
 
 namespace crc{
-	uint16_t get16(char *pBuffer, uint32_t BufferLength);
 	uint32_t get32(uint32_t *pBuffer, uint32_t BufferLength);
 }
 

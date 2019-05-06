@@ -1,6 +1,6 @@
 #ifndef __ESCAPE_H
 #define __ESCAPE_H
-#include "std.hpp"
+#include "riselib/memory.h"
 
 typedef struct{
 	unsigned char len[2];

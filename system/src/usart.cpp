@@ -14,6 +14,8 @@ History:
 	rise0chen   2018.4.26   编写注释
 *************************************************/
 #include "Usart.hpp"
+#include <string.h>
+#include <stdarg.h>
 
 Usart usart1(1);
 Usart usart2(2);

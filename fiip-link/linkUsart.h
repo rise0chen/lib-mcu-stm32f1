@@ -9,7 +9,7 @@ extern "C" {
 #include <stdlib.h>
 #include "fiip-base/fiip.h"
 #include "fiip-base/link/link.h"
-#include "function.h"
+#include "function.hpp"
 
 void startUsart(uint8_t* dev, uint32_t speed);
 

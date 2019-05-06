@@ -58,12 +58,12 @@ ErrorStatus Eeprom::writePage(u16 addr, char* pBuf, u8 num){
 	while(num--){
 		if(com->write(*(pBuf++))){
 			com->stop();
-			return ERROR;
+			return error_other;
 		}
 	}
 	com->stop();
 	delay_ms(10);//EEPROM的写入速度比较慢，加入延迟
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************
@@ -91,23 +91,23 @@ ErrorStatus  Eeprom::write(u16 addr,void* buf,u16 num){
 	if(count != 0){//首页
 		reTry=0x10;
 		while(writePage(addr, pBuf, count) & reTry--);
-		if(reTry<=0){return OVERTIME;}
+		if(reTry<=0){return error_overtime;}
 		addr += count;
 		pBuf += count;
 	}
 	while(NumOfPage--){//中间页
 		reTry=0x10;
 		while(writePage(addr, pBuf, pageSize) & reTry--);
-		if(reTry<=0){return OVERTIME;}
+		if(reTry<=0){return error_overtime;}
 		addr += pageSize;
 		pBuf += pageSize;
 	}
 	if(NumOfEnd != 0){//尾页
 		reTry=0x10;
 		while(writePage(addr, pBuf, NumOfEnd) & reTry--);
-		if(reTry<=0){return OVERTIME;}
+		if(reTry<=0){return error_overtime;}
 	}
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************
@@ -131,7 +131,7 @@ ErrorStatus  Eeprom::read(u16 addr,void* buf,u16 num){
 	com->start();
 	if(com->write(deviceAddr+1)){
 		com->stop();
-		return ERROR;
+		return error_other;
 	}
 	while(num--){//Rrad Data
 		if(num){
@@ -141,5 +141,5 @@ ErrorStatus  Eeprom::read(u16 addr,void* buf,u16 num){
 		}
 	}
 	com->stop();
-	return SUCCESS;
+	return error_success;
 }

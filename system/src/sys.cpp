@@ -11,6 +11,7 @@ History:
 	rise0chen   2018.4.26   编写注释
 *************************************************/
 #include "sys.hpp"
+#include <string.h>
 
 s32 reTry=0x00FFFFFF;
 
@@ -67,9 +68,9 @@ Other: auto a = [](u8 b){return b;};//定义局部函数
 ErrorStatus run(u8 (*func)(), u32 times){
 	reTry = times;
 	while((*func)()){//判断条件
-		if(reTry-- <= 0){return OVERTIME;}
+		if(reTry-- <= 0){return error_overtime;}
 	}
-	return SUCCESS;
+	return error_success;
 }
 
 /*************************************************
@@ -86,11 +87,11 @@ ErrorStatus waitBuf(char* where, char* req, u8 s){
 	if(req[0]!='\0'){
 		while(!std::strstr(where, req)){
 			delay_ms(100);
-			if(time++ > 10*s){return OVERTIME;}
+			if(time++ > 10*s){return error_overtime;}
 		}
-		return SUCCESS;
+		return error_success;
 	}else{
-		return ERROR;
+		return error_other;
 	}
 }
 

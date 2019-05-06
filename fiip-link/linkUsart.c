@@ -29,14 +29,14 @@ void linkUsart_send(LinkServerStruct* self,
                     uint16_t dataLen,
                     LinkCfgStruct* dstLink) {
   if (dstLink->address[0] == '1') {
-    usart_send(usart1, data, dataLen);
+    usart1.send((char*)data, dataLen);
   } else if (dstLink->address[0] == '2') {
-    usart_send(usart2, data, dataLen);
+    usart2.send((char*)data, dataLen);
   } else if (dstLink->address[0] == '3') {
-    usart_send(usart3, data, dataLen);
+    usart3.send((char*)data, dataLen);
   }
 }
-
+/*
 _C void USART2_IRQHandler(void) {
   uint8_t recvBuf[1];
   int recvNum = 1;
@@ -52,3 +52,4 @@ _C void USART2_IRQHandler(void) {
     linkServer->recv(recvBuf, recvNum, srcLink);
   }
 };
+*/
