@@ -1,4 +1,4 @@
-#include "font.hpp"
+#include "font.h"
 
 #ifdef ASCII8x16
 const uint8_t AsciiTable8x16[]={//粗体8x16点阵的ASCII码的点阵数据，从"JLX-GB2312"型号的字库IC中读出来的国标的。
