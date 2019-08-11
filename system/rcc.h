@@ -1,6 +1,6 @@
 #ifndef __RCC_H
 #define __RCC_H
-#include "Nvic.h"
+#include "nvic.h"
 #include "sys.h"
 
 #define AHB_DMA1 0x00000001

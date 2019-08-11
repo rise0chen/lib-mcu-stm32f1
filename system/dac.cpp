@@ -10,7 +10,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "Dac.h"
+#include "dac.h"
 
 Dac dac1(1);
 

@@ -16,7 +16,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "I2c.h"
+#include "i2c.h"
 
 I2c i2c1(1);
 I2c i2c2(2);

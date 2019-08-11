@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "fiip-base/fiip.h"
 #include "fiip-base/link/link.h"
-#include "function/function.h"
+#include "function.h"
 
 LinkCfgStruct* linkUsart_start(uint8_t* dev, uint32_t speed);
 

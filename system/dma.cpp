@@ -12,7 +12,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "Dma.h"
+#include "dma.h"
 
 Dma dma;
 

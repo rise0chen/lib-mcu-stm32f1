@@ -11,7 +11,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "Adc.h"
+#include "adc.h"
 
 Adc adc1(1);
 Adc adc2(2);

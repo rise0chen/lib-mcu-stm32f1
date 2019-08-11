@@ -14,7 +14,7 @@ Usage:
 History:
         rise0chen   2018.4.26   初步完成
 *************************************************/
-#include "Can.h"
+#include "can.h"
 
 Can can;
 

@@ -1,19 +1,20 @@
 /*************************************************
 Copyright (C), 2018-2028, Crise Tech. Co., Ltd.
-File name: Can.cpp
+File name: task.cpp
 Author: rise0chen
 Version: 1.0
 Date: 2018.4.26
-Description: Task定时任务 类
+Description: task定时任务 类
 Usage:
-        #include "Task.h"
-        task.init(100); //依赖SysTick
-        task.add(0x01, myTest, 10000/timeOneSysTick, 0xff); //新建任务
-10000ms执行1次 task.update(0x01, myTest, 10000/timeOneSysTick, 0xff, 0, 0xff);
-//更新任务 task.run(); //执行任务(必须放在loop大循环里) History: rise0chen
-2018.4.26   改为Class; 编写注释
+  #include "task.h"
+  task.init(100); //依赖SysTick
+  task.add(0x01, myTest, 10000/timeOneSysTick, 0xff); //新建任务 10000ms执行1次
+  task.update(0x01, myTest, 10000/timeOneSysTick, 0xff, 0, 0xff); //更新任务
+  task.run(); //执行任务(必须放在loop大循环里)
+History:
+  rise0chen 2018.4.26   改为Class; 编写注释
 *************************************************/
-#include "Task.h"
+#include "task.h"
 
 Task task;
 #define fac_us (9)              // us倍乘数 (rcc.clkSys/8 000 000)

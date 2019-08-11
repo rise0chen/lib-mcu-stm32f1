@@ -13,7 +13,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "Flash.h"
+#include "flash.h"
 
 Flash flash;
 

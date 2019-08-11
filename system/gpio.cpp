@@ -13,7 +13,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "Gpio.h"
+#include "gpio.h"
 
 Gpio gpio_default(PC, 13);
 

@@ -1,7 +1,7 @@
 #ifndef __USART_H
 #define __USART_H
-#include "Dma.h"
-#include "Gpio.h"
+#include "dma.h"
+#include "gpio.h"
 #include "sys.h"
 
 class Usart {

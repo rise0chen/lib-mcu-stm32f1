@@ -22,7 +22,7 @@ Usart usart2(2);
 Usart usart3(3);
 
 static void usart_funIt(uint8_t IRQn, uint32_t status) {
-  Usart* fd;
+  Usart* fd = NULL;
   if (IRQn == usart1.IRQn) {
     fd = &usart1;
   } else if (IRQn == usart2.IRQn) {

@@ -1,6 +1,6 @@
 #ifndef __CAN_H
 #define __CAN_H
-#include "Usart.h"
+#include "usart.h"
 #include "riselib/riselib.h"
 #include "sys.h"
 

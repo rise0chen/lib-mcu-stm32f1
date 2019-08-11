@@ -12,7 +12,7 @@ Usage:
 History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
-#include "Spi.h"
+#include "spi.h"
 
 Spi spi1(1);
 Spi spi2(2);

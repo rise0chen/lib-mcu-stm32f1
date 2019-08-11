@@ -10,7 +10,7 @@ History:
         rise0chen   2018.4.26   编写注释
 *************************************************/
 #include "it.h"
-#include "function/function.h"
+
 uint32_t tmp;
 static VarArrayStruct* Listeners[60];
 
