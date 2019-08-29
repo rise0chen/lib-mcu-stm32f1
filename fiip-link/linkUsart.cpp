@@ -45,6 +45,7 @@ void linkUsart_send(uint8_t* data, uint16_t dataLen, LinkCfgStruct* rlink) {
   Usart* fd = (Usart*)rlink->fd;
 
   fd->send((char*)data, dataLen);
+  delay_ms(1200);
 }
 
 void linkUsart_recv(uint8_t IRQn, uint32_t status) {
