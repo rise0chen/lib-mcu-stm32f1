@@ -1,7 +1,9 @@
-#ifndef __IT_H
-#define __IT_H
+#ifndef IT_H
+#define IT_H
+#include "riselib/flagHandle.h"
 #include "sys.h"
 
+void it_init(void);
 void it_addListener(uint8_t IRQn, void* fun);
 
 #ifdef __cplusplus
