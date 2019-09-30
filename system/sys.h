@@ -1,12 +1,13 @@
 #ifndef __SYS_H
 #define __SYS_H
 #include <stm32f10x.h>
-#include "gpio.h"
-#include "nvic.h"
-#include "rcc.h"
+#include "./gpio.h"
+#include "./it.h"
+#include "./map.h"
+#include "./nvic.h"
+#include "./randomSeed.h"
+#include "./rcc.h"
 #include "delay.h"
-#include "it.h"
-#include "map.h"
 #include "riselib/riselib.h"
 
 #define LEN_MAX 512  //最大字节数
